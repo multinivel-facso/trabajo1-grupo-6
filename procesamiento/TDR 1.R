@@ -1,26 +1,25 @@
 # Librerías
 library(pacman)
-pacman::p_load(lme4,
+
+pacman::p_load(tidyverse,   # manipulacion datos
+               sjPlot,      # tablas
+               confintr,    # IC
+               gginference, # visualizacion 
+               rempsyc,     # reporte
+               broom,       # varios
+               sjmisc,      # para descriptivos
+               lme4,
                reghelper,
                haven,
                stargazer,
                ggplot2, #gráficos
                texreg, #tabla de regresión
-               dplyr) #manipulación de datos
-
-p_load(tidyverse,   # manipulacion datos
-       sjPlot,      # tablas
-       confintr,    # IC
-       gginference, # visualizacion 
-       rempsyc,     # reporte
-       broom,       # varios
-       sjmisc,      # para descriptivos
-       knitr,
-       summarytools,
-       ggplot2,
-       Publish,
-       corrplot,
-       readxl) 
+               dplyr, #manipulación de datos
+               knitr,
+               summarytools,
+               Publish,
+               corrplot,
+               readxl) 
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls())       # para limpar el entonrno de trabajo
@@ -51,6 +50,7 @@ datos_proc <- datos %>%
          nedu=m01,
          ess=d01_01,
          ess_f=d01_02,
+         ingreso=m13,
          t06_01, #variables nivel 2: Seguridad
          seg_ins=t10,
          rinas=t09_01,
@@ -74,54 +74,41 @@ datos_proc <- datos_proc %>% filter(region_cod==13)
 
 
 ## Remover NA's ----------------------------------------------------------------
-datos_na <- datos_proc %>% 
+datos_proc <- datos_proc %>% 
   set_na(., na = c(-888, -999)) %>% 
   na.omit()
 
 # Explorar varaibles ------------------------------------------------------
 
-view(dfSummary(datos_na, headings=FALSE, graph.col = FALSE))
-
-cormat=datos_na %>% select(ess,seguridad, frec_seguridad, t06_01, seg_ins) %>% cor()
-round(cormat, digits=2)
-
-corrplot.mixed(cormat)
-
-cormat=datos_na %>% select(ess,cohesion, sociabilidad, apego,conf_vecinos) %>% cor()
-round(cormat, digits=2)
-
-corrplot.mixed(cormat)
-
-cormat=datos_na %>% select(ess,cohesion, seguridad, pob_multi) %>% cor()
-round(cormat, digits=2)
+view(dfSummary(datos_proc, headings=FALSE, graph.col = FALSE))
 
 # Seguridad ---------------------------------------------------------------
 
-
-datos_na = datos_na %>% 
+datos_proc = datos_proc %>% 
   rowwise() %>%
   mutate(frec_seguridad = mean(c(rinas,asalto,trafico)),
          seguridad = mean(c(t06_01, seg_ins))) %>% 
   ungroup()
 
 
-datos_na %>% select(seguridad) %>% head(10) # Primeros 10 casos
+datos_proc %>% select(seguridad) %>% head(10) # Primeros 10 casos
 
-datos_na = datos_na %>%  
+# Promedio
+datos_proc = datos_proc %>%  
   group_by(comuna_cod) %>% 
-  mutate(meanseg = mean(seguridad, na.rm = TRUE))
+  mutate(meanseg = mean(frec_seguridad, na.rm = TRUE))
 
 # Desviación estándar
-datos_na = datos_na %>%  
+datos_proc = datos_proc %>%  
   group_by(comuna_cod) %>% 
   mutate(sdseg = sd(seguridad, na.rm = TRUE))
 
 # Tamaño (cantidad de casos por país)
-datos_na = datos_na %>%  
+datos_proc = datos_proc %>%  
   group_by(comuna_cod) %>% 
   mutate(count = length(comuna_cod))
 
-datos_na %>% 
+datos_proc %>% 
   group_by(Comuna=to_label(comuna_cod)) %>% 
   summarise("Mean Seguridad"=mean(meanseg), 
             "SD Seguridad"=mean(sdseg), 
@@ -131,42 +118,49 @@ datos_na %>%
 
 # Cohesión ----------------------------------------------------------------
 
-datos_na = datos_na %>% 
+datos_proc = datos_proc %>% 
   rowwise() %>%
   mutate(sociabilidad = mean(c(amigos,gen_soc,gen_cord,gen_colab)),
          apego = mean(c(barr_ideal, barr_integr,barr_iden,barr_parte)),
          cohesion = mean (c(sociabilidad,apego,conf_vecinos))) %>% 
   ungroup()
 
-datos_na %>% select(cohesion) %>% head(10) # Primeros 10 casos
+datos_proc %>% select(cohesion) %>% head(10) # Primeros 10 casos
 
 # Promedio
-datos_na = datos_na %>%  
+datos_proc = datos_proc %>%  
   group_by(comuna_cod) %>% 
   mutate(meancoe = mean(cohesion, na.rm = TRUE))
 
 # Desviación estándar
-datos_na = datos_na %>%  
+datos_proc = datos_proc %>%  
   group_by(comuna_cod) %>% 
   mutate(sdcoe = sd(cohesion, na.rm = TRUE))
 
 # Tamaño (cantidad de casos por país)
-datos_na = datos_na %>%  
+datos_proc = datos_proc %>%  
   group_by(comuna_cod) %>% 
   mutate(count = length(comuna_cod))
 
-datos_na %>% 
+datos_proc %>% 
   group_by(Comuna=to_label(comuna_cod)) %>% 
   summarise("Mean Cohesion"=mean(meancoe), 
             "SD Cohesion"=mean(sdcoe), 
             N=mean(count)) %>% 
   print(n = nrow(.))
 
+
+# Matriz Corr -------------------------------------------------------------
+
+cormat=datos_proc %>% select(ess,seguridad, frec_seguridad, t06_01, seg_ins) %>% cor()
+round(cormat, digits=2)
+
+corrplot.mixed(cormat)
 # Corr Intraclase ---------------------------------------------------------
 
-agg_data=datos_na %>% group_by(comuna_cod) %>% summarise_all(funs(mean)) %>% as.data.frame()
+agg_data=datos_proc %>% group_by(comuna_cod) %>% summarise_all(funs(mean)) %>% as.data.frame()
 
-results_0 = lmer(ess ~ 1 + (1 | comuna), data = datos_na)
+results_0 = lmer(ess ~ 1 + (1 | comuna), data = datos_proc)
 summary(results_0)
 
 x<- reghelper::ICC(results_0)
@@ -177,57 +171,57 @@ x*100
 
 #Modelo 1: Predictores de nivel individual -------------------------------
 
-results_1 = lmer(ess ~ 1 + ess_f + nedu  + t06_01 + seg_ins + frec_seguridad + sociabilidad + apego + conf_vecinos + (1 | comuna_cod), data = datos_na)
+results_1 = lmer(ess ~ 1 + ingreso + ess_f + nedu  + t06_01 + seg_ins + frec_seguridad + sociabilidad + apego + conf_vecinos + (1 | comuna_cod), data = datos_proc)
 screenreg(results_1, naive=TRUE)
 
-results_11 = lmer(ess ~ 1 + ess_f + nedu + (1 | comuna_cod), data = datos_na)
+results_11 = lmer(ess ~ 1 + ess_f + nedu + (1 | comuna_cod), data = datos_proc)
 screenreg(results_11, naive=TRUE)
 
 
 # Modelo 1 IND Seguridad --------------------------------------------------
 
-results_12 = lmer(ess ~ 1 + t06_01 + seg_ins + frec_seguridad + (1 | comuna_cod), data = datos_na)
+results_12 = lmer(ess ~ 1 + t06_01 + seg_ins + frec_seguridad + (1 | comuna_cod), data = datos_proc)
 screenreg(results_12, naive=TRUE)
 
-results_13 = lmer(ess ~ 1 + frec_seguridad + (1 | comuna_cod), data = datos_na)
+results_13 = lmer(ess ~ 1 + frec_seguridad + (1 | comuna_cod), data = datos_proc)
 screenreg(results_13, naive=TRUE)
 
-results_14 = lmer(ess ~ 1 + t06_01 + seg_ins + (1 | comuna_cod), data = datos_na)
+results_14 = lmer(ess ~ 1 + t06_01 + seg_ins + (1 | comuna_cod), data = datos_proc)
 screenreg(results_14, naive=TRUE)
 
-results_15 = lmer(ess ~ 1 + frec_seguridad + seg_ins + (1 | comuna_cod), data = datos_na)
+results_15 = lmer(ess ~ 1 + frec_seguridad + seg_ins + (1 | comuna_cod), data = datos_proc)
 screenreg(results_15, naive=TRUE)
 
 
 # Modelo 1 IND Cohe -------------------------------------------------------
 
-results_16 = lmer(ess ~ 1 + sociabilidad + apego + conf_vecinos + (1 | comuna_cod), data = datos_na)
+results_16 = lmer(ess ~ 1 + sociabilidad + apego + conf_vecinos + (1 | comuna_cod), data = datos_proc)
 screenreg(results_16, naive=TRUE)
 
-results_17 = lmer(ess ~ 1 + conf_vecinos + (1 | comuna_cod), data = datos_na)
+results_17 = lmer(ess ~ 1 + conf_vecinos + (1 | comuna_cod), data = datos_proc)
 screenreg(results_17, naive=TRUE)
 
-results_18 = lmer(ess ~ 1 + sociabilidad + apego + (1 | comuna_cod), data = datos_na)
+results_18 = lmer(ess ~ 1 + sociabilidad + apego + (1 | comuna_cod), data = datos_proc)
 screenreg(results_18, naive=TRUE)
 
 # Modelo 2: Predictores nivel 2 -------------------------------------------
 
-results_2 = lmer(ess ~ 1 + meancoe + meanseg  + (1 | comuna_cod), data = datos_na)
+results_2 = lmer(ess ~ 1 + meancoe + meanseg  + pob_multi +(1 | comuna_cod), data = datos_proc)
 screenreg(results_2)
 
 
 
 # Modelo 3: Predictores individuales y grupales ---------------------------
 
-results_3 = lmer(ess ~ 1 + ess_f + nedu + meancoe + meanseg  + (1 | comuna_cod), data = datos_na)
+results_3 = lmer(ess ~ 1 + nedu + meancoe + meanseg  + pob_multi + (1 | comuna_cod), data = datos_proc)
 screenreg(results_3)
 
 
 # Comparación individual, agregado y multinivel ---------------------------
 
-reg_ind=lm(ess ~ ess_f + nedu + meancoe + meanseg, data=datos_na)
-agg_data=datos_na %>% group_by(comuna_cod) %>% summarise_all(funs(mean))
-reg_agg=lm(ess ~  ess_f + nedu + meancoe + meanseg, data=agg_data)
+reg_ind=lm(ess ~ nedu + meancoe + meanseg + pob_multi, data=datos_proc)
+agg_data=datos_proc %>% group_by(comuna_cod) %>% summarise_all(funs(mean))
+reg_agg=lm(ess ~ nedu + meancoe + meanseg + pob_multi, data=datos_proc)
 
 # Observar: ¿Qué sucede con los coeficientes y errores estándar cuando se comparan los coeficientes y los errores estándar?
 screenreg(list(reg_ind, reg_agg, results_3))
