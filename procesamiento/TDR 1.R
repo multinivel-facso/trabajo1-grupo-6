@@ -9,7 +9,8 @@ library(pacman)
 
 pacman::p_load(tidyverse,sjPlot,confintr,gginference,rempsyc,broom,sjmisc,lme4,
                reghelper,haven,stargazer,ggplot2,texreg,dplyr,knitr,summarytools,Publish,
-               corrplot,readxl,dplyr,sjPlot,ggfortify,sjlabelled,lmtest,sandwich) 
+               corrplot,readxl,ggfortify,sjlabelled,lmtest,sandwich,
+               foreign, lattice, ggeffects) 
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls())       # para limpar el entonrno de trabajo
@@ -109,7 +110,7 @@ sjPlot::plot_scatter(dat_scat, ess,nedu,
 
 
 
-# Matriz Corr -------------------------------------------------------------
+0# Matriz Corr -------------------------------------------------------------
 
 cormat=datos_proc %>% select(ess,ess_f,nedu, meanseg, pob_multi) %>% cor()
 round(cormat, digits=2)
@@ -150,15 +151,29 @@ results_3 = lmer(ess ~ 1 + nedu + ess_f + pob_multi + meanseg + (1 | comuna_cod)
 screenreg(results_3)
 
 
+#Comparación Modelos 1, 2 y 3 
+
+screenreg(list(results_1, results_2, results_3))
+
 # Comparación individual, agregado y multinivel ---------------------------
 
 reg_ind=lm(ess ~ nedu + ess_f + pob_multi + meanseg, data=datos_proc)
 reg_agg=lm(ess ~ nedu + ess_f + pob_multi + meanseg, data=agg_data)
 
 # Observar: ¿Qué sucede con los coeficientes y errores estándar cuando se comparan los coeficientes y los errores estándar?
+
 screenreg(list(reg_ind, reg_agg, results_3))
 
-screenreg(list(results_1, results_2, results_3))
+# Sección Efecto aleatorios -----------------------------------------------
+
+reg_ess0=lmer(ess ~ 1 + ( 1 | comuna), data = datos_proc)
+
+gama_00= reg_ess0@beta
+gama_00
+
+reg_ess1=lmer(ess ~ 1 + nedu + ess_f + pob_multi + meanseg + ( 1 + ess_f | comuna), data = datos_proc)
+graf1=ggpredict(reg_ess1, terms = c("ess_f","comuna [sample=3]"), type="random")
+plot(graf1)
 
 
 # Guardar BBDD ------------------------------------------------------------
