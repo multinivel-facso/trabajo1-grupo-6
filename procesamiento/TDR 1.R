@@ -110,7 +110,7 @@ sjPlot::plot_scatter(dat_scat, ess,nedu,
 
 
 
-0# Matriz Corr -------------------------------------------------------------
+# Matriz Corr -------------------------------------------------------------
 
 cormat=datos_proc %>% select(ess,ess_f,nedu, meanseg, pob_multi) %>% cor()
 round(cormat, digits=2)
@@ -128,7 +128,7 @@ corrplot.mixed(cormat)
 agg_data=datos_proc %>% group_by(comuna_cod) %>% summarise_all(funs(mean)) %>% as.data.frame()
 
 results_0 = lmer(ess ~ 1 + (1 | comuna_cod), data = datos_proc)
-summary(results_0)
+screenreg(results_0)
 
 x<- reghelper::ICC(results_0)
 x*100
@@ -160,7 +160,7 @@ screenreg(list(results_1, results_2, results_3))
 reg_ind=lm(ess ~ nedu + ess_f + pob_multi + meanseg, data=datos_proc)
 reg_agg=lm(ess ~ nedu + ess_f + pob_multi + meanseg, data=agg_data)
 
-# Observar: ¿Qué sucede con los coeficientes y errores estándar cuando se comparan los coeficientes y los errores estándar?
+#Comparación regresión individual, grupal y modelo 3 
 
 screenreg(list(reg_ind, reg_agg, results_3))
 
@@ -171,9 +171,22 @@ reg_ess0=lmer(ess ~ 1 + ( 1 | comuna), data = datos_proc)
 gama_00= reg_ess0@beta
 gama_00
 
-reg_ess1=lmer(ess ~ 1 + nedu + ess_f + pob_multi + meanseg + ( 1 + ess_f | comuna), data = datos_proc)
-graf1=ggpredict(reg_ess1, terms = c("ess_f","comuna [sample=3]"), type="random")
+#Modelo con predictores fijos
+
+reg_ess1=lmer(ess ~ 1 + nedu + ess_f + pob_multi + meanseg + ( 1  | comuna), data = datos_proc)
+datos_proc$ess1 <- predict(reg_ess1)
+datos_proc %>%  
+  ggplot(aes(ess_f, ess1, color = comuna, group = comuna)) + 
+  geom_smooth(se = F, method = lm)
+
+graf1 <- ggpredict(reg_ess1, terms = c("ess_f","comuna [sample=4]"), type="random")
 plot(graf1)
+
+# Modelo con predictores aleatorios
+
+reg_ess2=lmer(ess ~ 1 + nedu + ess_f + pob_multi + meanseg + ( 1 + ess_f | comuna), data = datos_proc)
+graf2=ggpredict(reg_ess2, terms = c("ess_f","comuna [sample=4]"), type="random")
+plot(graf2)
 
 
 # Guardar BBDD ------------------------------------------------------------
