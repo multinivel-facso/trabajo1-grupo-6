@@ -10,7 +10,7 @@ library(pacman)
 pacman::p_load(tidyverse,sjPlot,confintr,gginference,rempsyc,broom,sjmisc,lme4,
                reghelper,haven,stargazer,ggplot2,texreg,dplyr,knitr,summarytools,Publish,
                corrplot,readxl,ggfortify,sjlabelled,lmtest,sandwich,
-               foreign, lattice, ggeffects) 
+               foreign, lattice, ggeffects, car) 
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls())       # para limpar el entonrno de trabajo
@@ -32,7 +32,8 @@ pobreza_proc <- pobrezamultidimensional %>%
                 pob_multi="Porcentaje de personas en situación de pobreza multidimensional 2022")
 
 # BBDD Matriz de Bienestar Humano Territorial
-mbht <- readRDS("output/mbht.Rdata")
+mbht <- read_excel("output/mbht.xlsx")
+
 
 
 # Juntas BBDD -------------------------------------------------------------
@@ -104,8 +105,38 @@ datos_proc <- datos %>%
          inghogar_t=m30,
          pob_multi, #Variable nivel 2
          dim_seg,
-         dim_amb)
-         
+         dim_amb,
+         t08)
+
+
+# -------------------------------------------------------------------------
+
+
+# Filtrar ola 6
+elsoc_ola6 <- elsoc %>% 
+  filter(ola == 6)
+
+# Seleccionar variables numéricas
+numericas <- elsoc_ola6 %>%
+  select(where(is.numeric))
+
+# Eliminar variables con desviación estándar cero o solo NA
+numericas <- numericas %>% 
+  select(where(~ sd(., na.rm = TRUE) != 0 & !all(is.na(.))))
+
+# Calcular correlaciones con d01_01
+correlaciones <- sapply(numericas, function(x) cor(x, numericas$d01_01, use = "complete.obs"))
+
+# Filtrar y ordenar correlaciones mayores a |0.18|
+cor_filtradas <- correlaciones[abs(correlaciones) > 0.18 & names(correlaciones) != "d01_01"]
+cor_filtradas <- sort(cor_filtradas, decreasing = TRUE)
+
+# Mostrar resultados
+print(cor_filtradas)
+
+
+
+
 
 
 # Respecto a comunas ------------------------------------------------------
@@ -317,7 +348,7 @@ datos_proc$quintil_inghogar <- ntile(datos_proc$inghogar_i, 5)
 
 #Opción 2
 datos_proc$quintil_inghogar2<- dplyr::ntile(x = datos_proc$inghogar_i,
-                                   n = 5) # n de categorias, para quintiles usamos 5
+                                            n = 5) # n de categorias, para quintiles usamos 5
 datos_proc$quintil_inghogar2 <- factor(datos_proc$quintil_inghogar2,c(1,2,3,4,5), c("Quintil 1","Quintil 2","Quintil 3","Quintil 4","Quintil 5"))
 datos_proc %>%
   group_by(quintil_inghogar2) %>%
@@ -329,6 +360,20 @@ datos_proc %>%
 #Opción 3
 datos_proc$log_ing_i <- log(datos_proc$inghogar_i + 1)
 
+
+# T08 ---------------------------------------------------------------------
+
+datos_proc <- mutate(datos_proc,
+                     t08 = na_if(t08, -999),
+                     t08 = na_if(t08, -888),
+                     t08 = na_if(t08, -777),
+                     t08 = na_if(t08, -666))
+
+colSums(is.na(datos_proc))
+
+datos_proc = datos_proc %>%  
+  group_by(cod_com) %>% 
+  mutate(meant08 = mean(t08, na.rm = TRUE))
 
 ## Remover NA's ----------------------------------------------------------------
 
@@ -344,19 +389,19 @@ descr(datos_proc$pob_multi,style = "rmarkdown",stats = "common", transpose = T,h
 datos_proc$pob_multi <- set_label(datos_proc$pob_multi,"Pobreza multidimensional")
 
 #Centrado:
-datos_proc <- datos_proc %>% 
-  mutate(pob.gmc = pob_multi-mean(pob_multi))
-         
-  #        #Centrar un predictor en la media general
-  #        pob.c.alt = scale(pob_multi, center=T, scale=F), #Otra forma de hacer el centrado en la media general (GMC)
-  #        pob_multi.gm = mean(pob_multi)) %>%  #Obtener la media general y agregarla a cada observación
-  # group_by(cod_com) %>% 
-  # mutate(pob.g.home = mean(pob_multi), #Obtener la media del grupo para el predictor
-  #        meanpob.gmc = pob.g.home - pob_multi.gm) %>% #Centrar el predictor de nivel 2 (L2)
-  # ungroup()
+# datos_proc <- datos_proc %>% 
+# mutate(pob.gmc = pob_multi-mean(pob_multi))
+
+#        #Centrar un predictor en la media general
+#        pob.c.alt = scale(pob_multi, center=T, scale=F), #Otra forma de hacer el centrado en la media general (GMC)
+#        pob_multi.gm = mean(pob_multi)) %>%  #Obtener la media general y agregarla a cada observación
+# group_by(cod_com) %>% 
+# mutate(pob.g.home = mean(pob_multi), #Obtener la media del grupo para el predictor
+#        meanpob.gmc = pob.g.home - pob_multi.gm) %>% #Centrar el predictor de nivel 2 (L2)
+# ungroup()
 
 datos_proc <- datos_proc %>%
-  mutate(pob_multidim.gmc = pob_multi - mean(pob_multi))
+  mutate(pob_multi.gmc = pob_multi - mean(pob_multi))
 
 # Variables MBHT ----------------------------------------------------------
 
@@ -389,13 +434,15 @@ descr(datos_proc$pob_multi,style = "rmarkdown",stats = "common", transpose = T,h
 
 # view(dfSummary(datos_proc, headings=FALSE, graph.col = FALSE))
 # 
-# dat_scat=datos_proc %>% group_by(comuna) %>% select(ess,nedu) %>% na.omit() %>% summarise_all(mean)
-# names(dat_scat)
-# 
-# sjPlot::plot_scatter(dat_scat, ess,nedu,
-#                      dot.labels = to_label(dat_scat$comuna),
-#                      fit.line = "lm",
-#                      show.ci = TRUE)
+dat_scat=datos_proc %>% group_by(comuna) %>% select(ess,pob_multidim.gmc) %>% na.omit() %>% summarise_all(mean)
+names(dat_scat)
+
+sjPlot::plot_scatter(dat_scat, ess,pob_multidim.gmc,
+                     dot.labels = to_label(dat_scat$comuna),
+                     fit.line = "lm",
+                     show.ci = TRUE)
+
+scatterplot(datos_proc$ess_f ~ datos_proc$pob_multi, data=datos_proc, xlab="ESS_f", ylab="Pobreza Multidimensional", main="Math on SES", smooth=FALSE)
 
 
 
@@ -405,7 +452,7 @@ datos_proc <- datos_proc %>%
   mutate(edu_num = as.numeric(edu))
 
 
-cormat=datos_proc %>% select(ess,ess_f_cmc, quintil_inghogar, pob_multi, dim_seg, dim_amb) %>% cor()
+cormat=datos_proc %>% select(ess,ess_f_cmc, quintil_inghogar, pob_multi, dim_seg, dim_amb, t08) %>% cor()
 round(cormat, digits=2)
 
 corrplot.mixed(cormat)
@@ -439,12 +486,12 @@ ICC*100
 
 # Modelo 1: Predictores de nivel individual -------------------------------
 
-model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + (1 | cod_com), data = datos_proc)
+model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 + (1 | cod_com), data = datos_proc)
 screenreg(model1, naive=TRUE)
 
 # Modelo 2: Predictores nivel 2 -------------------------------------------
 
-model2 = lmer(ess ~ 1 + pob_multidim.gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = datos_proc)
+model2 = lmer(ess ~ 1 + pob_multi.gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = datos_proc)
 screenreg(model2)
 
 model2b = lmer(ess ~ 1 + pob_multidim.gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = datos_proc)
@@ -452,13 +499,13 @@ screenreg(model2b)
 
 # Modelo 3: Predictores individuales y grupales ---------------------------
 
-model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multidim.gmc + dim_seg  + dim_amb + (1 | cod_com), data = datos_proc)
+model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 +  pob_multi.gmc + dim_seg  + dim_amb + (1 | cod_com), data = datos_proc)
 screenreg(model3)
 
 # Modelo 4: Pendiente aleatoria -------------------------------------------
 
 # Modelo con pendiente aleatoria
-model4= lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multidim.gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = datos_proc)
+model4= lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 + pob_multi.gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = datos_proc)
 screenreg(model4)
 
 
@@ -467,12 +514,12 @@ anova(model3,model4)
 
 # Modelo 5: Interacción entre niveles -------------------------------------
 
-model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + ess_f_cmc*pob_multidim.gmc  + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = datos_proc)
+model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 + ess_f_cmc*pob_multi.gmc  + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = datos_proc)
 screenreg(model5)
 
 # Comparación entre modelos -----------------------------------------------
 
-sjPlot::tab_model(model0, model1, model2, model3, model4, model5, dv.labels = c("Nulo ","Individual","Gruapal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"), show.ci = FALSE)
+sjPlot::tab_model(model0, model1, model2, model3, model4, model5, dv.labels = c("Nulo ","Individual","Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"), show.ci = FALSE)
 
 
 
@@ -481,7 +528,7 @@ sjPlot::tab_model(model0, model1, model2, model3, model4, model5, dv.labels = c(
 
 #Modelo con predictores fijos
 
-reg_fij=lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multidim.gmc + dim_seg  + dim_amb + (1 | comuna), data = datos_proc)
+reg_fij=lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multi.gmc + dim_seg  + dim_amb + (1 | comuna), data = datos_proc)
 
 datos_proc$ess_fijo <- predict(reg_fij)
 datos_proc %>%  
@@ -493,7 +540,7 @@ plot(graf_fij)
 
 # Modelo con predictores aleatorios
 
-reg_aleat=lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multidim.gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| comuna), data = datos_proc)
+reg_aleat=lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multi.gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| comuna), data = datos_proc)
 graf_aleat=ggpredict(reg_aleat, terms = c("ess_f_cmc","comuna [sample=3]"), type="random")
 plot(graf_aleat)
 
