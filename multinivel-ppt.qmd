@@ -1,0 +1,324 @@
+---
+format:
+  revealjs:
+    title-slide: false
+    theme: multinivel.scss
+    incremental: true 
+    slideNumber: true
+    auto-stretch: false
+    transition: fade
+    transition-speed: slow
+editor: source
+---
+
+# 
+
+```{r datos}
+pacman::p_load(lme4,
+               kableExtra,
+               haven,
+               car,
+               sjmisc,
+               sjPlot,
+               gt,
+               stargazer,
+               ggplot2, # gráficos
+               dplyr, # manipulacion de datos
+               equatiomatic) # paquetes a cargar
+
+mlm = read_dta("http://www.stata-press.com/data/mlmus3/hsb.dta")
+
+mlm = mlm %>% 
+  select(mathach, female,ses,sector,mnses,schoolid) %>%
+  as.data.frame()
+
+
+results_0 = lmer(mathach ~ 1 + (1 | schoolid), data = mlm)
+results_1 = lmer(mathach ~ 1 + ses + female + (1 | schoolid), data = mlm)
+results_2 = lmer(mathach ~ 1 + sector + mnses + (1 | schoolid), data = mlm)
+results_3 = lmer(mathach ~ 1 + ses + female + sector + mnses + (1 | schoolid), data = mlm)
+results_4 = lmer(mathach ~ 1 + ses + female + sector + mnses + ses*sector + (1 | schoolid), data = mlm)
+```
+
+:::::: columns
+::: {.column width="20%"}
+:::
+
+:::: {.column .column-right width="80%"}
+# **Análisis multinivel del estatus social subjetivo: el caso de la Región Metropolitana**
+
+------------------------------------------------------------------------
+
+**Victoria Arias y Cristóbal Mejías**
+
+::: {.red2 .medium}
+**Análisis de datos multinivel - 2025**
+
+**Departamento de Sociología, Universidad de Chile**
+:::
+
+Santiago, 19 de Junio de 2025
+::::
+
+<https://github.com/multinivel-facso/trabajo1-grupo-6>
+::::::
+
+::: notes
+Aquí mis notas
+:::
+
+# Introducción
+
+-   **Problema de investigación:** La autopercepción del estatus social no se configura únicamente por características individuales, sino también por el entorno en el que se vive. Considerando que los contextos urbanos actuales están marcados por la desigualdad, la Región Metropolitana —caracterizada por su heterogeneidad comunal y altos niveles de desigualdad socioespacial— constituye un escenario pertinente para analizar cómo inciden los factores individuales y comunales en el posicionamiento social subjetivo, a partir del estudio de 42 comunas.
+
+-   **Factores asociados nivel 1:** Nivel educacional, ingresos total del hogar y estatus social subjetivo familiar
+
+-   **Factores asociados nivel 2:** Índice de pobreza multidimensional y dimensión ambiental y de seguridad (MBT) en las comunas de la Región Metropolitana
+
+##  {data-background-color="#821018"}
+
+::: {.center .middle}
+[¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana?]{style="font-size: 250%;"}
+:::
+
+# Hipótesis:
+
+### Nivel 1:
+
+$H_1$: A mayor nivel educativo, mayor será el estatus social subjetivo
+
+$H_2$: A mayores ingresos, mayor es el estatus social subjetivo
+
+$H_3$: Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo
+
+### Nivel 2
+
+$H_4$: Las comunas con un mayor índice de pobreza multidimensional niveles más bajo de estatus social subjetivo
+
+$H_5$: Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo.
+
+$H_6$:Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles mas altos de estatus social subjetivo
+
+### Interacción
+
+$H_7$: El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional
+
+# Metodología {data-background-color="#5f5758"}
+
+## Datos
+
+-   La presente investigación utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) del año 2022. Para las variables de nivel 2, se incorporaron dos fuentes adicionales: la primera entrega información comunal sobre el índice de pobreza multidimensional, y la segunda aporta datos sobre las dimensiones ambiental y de seguridad incluidas en la Matriz de Bienestar Territorial.
+
+-   Análisis mediante modelo multinivel de dos niveles:
+
+    Nivel 1: Individuos (n=729)
+
+    Nivel 2: Comunas (n=42)
+    
+---    
+
+```{r mapa}
+library(dplyr)
+library(stringr)
+library(stringi)
+library(ggplot2)
+library(sf)
+
+mapa_rm <- st_read(
+  "https://raw.githubusercontent.com/caracena/chile-geojson/master/13.geojson",
+  quiet = TRUE)
+
+# Data frame de comunas faltantes
+comunas_faltantes <- data.frame(
+  comuna = c("Pirque", "San José de Maipo", "Tiltil", "Buin",
+             "Calera de Tango", "Melipilla", "Alhué", 
+             "María Pinto", "San Pedro", "Talagante")
+)
+
+# Normalizar (quitar tildes, pasar a mayúsculas)
+comunas_faltantes <- comunas_faltantes %>%
+  mutate(comuna_norm = str_to_upper(stri_trans_general(comuna, "Latin-ASCII")))
+
+mapa_rm <- mapa_rm %>%
+  mutate(Comuna_norm = str_to_upper(stri_trans_general(Comuna, "Latin-ASCII"))) %>%
+  mutate(
+    estado = if_else(Comuna_norm %in% comunas_faltantes$comuna_norm, "No incluida", "Incluida")
+  )
+
+# Mapa
+ggplot(mapa_rm) +
+  geom_sf(aes(fill = estado), color = "white") +
+  scale_fill_manual(
+    values = c("Incluida" = "#4CAF50", "No incluida" = "#FF5722"),
+    name = "Cobertura comuna"
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Mapa de las comunas de la Región Metropolitana consideradas en el analisis"
+  )
+
+```
+
+## Variables
+
+
+
+```{r tbl_var}
+
+tabla1 <- tibble::tribble(
+  ~Tipo, ~Variable, ~Operacionalización, 
+  
+  "Dependiente", 
+  "Estatus social subjetivo", 
+  "¿Dónde se ubicaría usted en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
+  
+  "Nivel 1", 
+  "Nivel educacional", 
+  "Educación básica incompleta\nEducación básica completa\nEducación media incompleta\nEducación media completa\nEducación superior no universitaria\nEducación universitaria completa",
+  
+  "",
+  "Ingreso total por hogar", "",
+  
+  "",
+  "Estatus social familiar", 
+  "¿Dónde ubicaría a la familia en que creció en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
+  
+  "Nivel 2", 
+  "Pobreza multidimensional", 
+  "Índice compuesto por las siguientes dimensiones: educación, salud, trabajo, vivienda y redes y cohesion social", 
+  
+  "",
+  "Ambiental",
+  "Dimensión basada en la amplitud térmica anual y la cobertura vegetal",
+  
+  "",
+  "Seguridad",
+  "Dimensión construida a partir de los indicadores de seguridad que miden la incidencia de delitos graves y leves contra personas y la propiedad",
+  
+)
+
+tabla1 %>%
+  gt() %>%
+  tab_header(
+    title = md("**Tabla 1: Variables del estudio**")
+  ) %>%
+  cols_label(
+    Tipo = "Nivel de análisis",
+    Variable = "Variable",
+    Operacionalización = "Operacionalización",
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(
+      columns = Tipo,
+      rows = Tipo != ""
+    )
+  ) %>%
+  tab_options(
+    table.font.size = px(13),
+    row.striping.include_table_body = TRUE
+  )
+
+```
+
+
+
+
+
+## Métodos
+
+Modelo nulo: modelo sin predictores
+
+$$
+ess_{ij} = \gamma_{00} + u_{0j} + r_{ij}
+$$
+
+Modelo 1 (individual)
+
+$$
+ess_{ij} = \gamma_{00} + \gamma_{10} \text{nivel_educ} + \gamma_{10} \text{estatus social familiar} +  \gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
+$$
+
+Modelo 2 (contextual)
+
+$$
+ess_{ij} = \gamma_{00} + \gamma_{01} \text{pob_multi} + \gamma_{01} \text{var_nivel2} + u_{0j} + r_{ij}
+$$
+
+Modelo 3 (Multinivel)
+
+$$
+ess_{ij} = \gamma_{00} + \gamma_{10} \text{nivel_educ} + \gamma_{10} \text{estatus social familiar} +  \gamma_{10} \text{ingresos} +\gamma_{01} \text{pob_multi} + \gamma_{01} \text{var_nivel2} + u_{0j} + r_{ij}
+$$
+
+Modelo con pendiente
+
+\$\$
+
+ess\_{ij} = \gamma*{00} +\* \gamma{01} \text{ses} + \gamma*{02}\* \text{female} + \gamma{03} \text{sector} + \gamma*{04}\* \text{mnses} + u{0j} + r\_{ij} \$\$
+
+Modelo de interaccion entre niveles
+
+# Resultados {data-background-color="#5f5758"}
+
+## Descriptivos
+
+```{r}
+scatterplot(mlm$mathach ~ mlm$ses, data=mlm, xlab="Ses", ylab="Math Score", main="Math on SES", smooth=FALSE)
+```
+
+## Modelos
+
+Los resultados de los modelos de regresión pueden ser presentados en un coefplot
+
+```{r}
+plot_model(results_3, 
+            title = "", #quitar titulo
+            show.values = TRUE, #mostrar valor de efectos
+            dot.size = 3, #tamaño circulos
+            line.size = 1, #tamaño CI
+            value.size = 4, #tamaño valor efectoss
+            spacing = 1, #espacio entre efectos
+            vline.color = "red", # linea roja en punto neutro (0)
+            axis.labels = rev(c("Ses",
+                              "Female", 
+                              "Sector", 
+                              "Mean sed")), #con rev porque automatico los tira en otro orden
+            show.legend = FALSE) + # variables dependientes
+  theme_bw()
+```
+
+## Resultados {.scrollable-x .smaller}
+
+o mediante tablas
+
+```{r}
+tab_model(results_0,results_1,results_2,results_3,results_4,
+          show.ci=FALSE,
+          show.icc=FALSE)
+```
+
+## Interacción
+
+::::: columns
+::: {.column width="70%"}
+```{r}
+plot_model(results_4, type="int") +
+  theme_bw()
+```
+:::
+
+::: {.column width="30%"}
+La interacción muestra que...
+:::
+:::::
+
+# Conclusiones {data-background-color="black"}
+
+::: incremental
+-   bla bla bla
+-   bla bla
+-   bla
+:::
+
+## Referencias
