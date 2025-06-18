@@ -11,7 +11,8 @@ library(pacman)
 pacman::p_load(tidyverse,sjPlot,confintr,gginference,rempsyc,broom,sjmisc,lme4,
                reghelper,haven,stargazer,ggplot2,texreg,dplyr,knitr,summarytools,Publish,
                corrplot,readxl,ggfortify,sjlabelled,lmtest,sandwich,
-               foreign, lattice, ggeffects, car) 
+               foreign, lattice, ggeffects, car, lme4, lmerTest, influence.ME, tidyr ) 
+
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls())       # para limpar el entonrno de trabajo
@@ -336,7 +337,7 @@ data %>%  select (pob_multi, pob_multi_gmc, dim_amb, dim_seg) %>% sjmisc::descr(
 # Bivariados --------------------------------------------------------------
 
 cormat1 = data %>% select(ess,ess_f, inghogar_i, pob_multi, dim_seg, dim_amb) %>% cor()
-round(cormat, digits=2)
+round(cormat1, digits=2)
 corrplot.mixed(cormat1)
 
 
