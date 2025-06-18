@@ -1,10 +1,11 @@
 # Análisis de datos multinivel
-# Entrega 1: Análisis multinivel del estatus social subjetivo: el caso de la Región Metropolitana
-# Integrantes: Victoria Arias, Cristóbal Mejías, Nicolas Outerbridge
-# Fecha: 28/05/2025
+# Entrega 2: Análisis multinivel del estatus social subjetivo: el caso de la Región Metropolitana
+# Integrantes: Victoria Arias y Cristóbal Mejías
+# Fecha: 01/07/2025
 
 
-#Librerías
+# Cargar Librerías --------------------------------------------------------
+
 library(pacman)
 
 pacman::p_load(tidyverse,sjPlot,confintr,gginference,rempsyc,broom,sjmisc,lme4,
@@ -14,7 +15,6 @@ pacman::p_load(tidyverse,sjPlot,confintr,gginference,rempsyc,broom,sjmisc,lme4,
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls())       # para limpar el entonrno de trabajo
-
 
 # Base de datos -----------------------------------------------------------
 
@@ -32,11 +32,9 @@ pobreza_proc <- pobrezamultidimensional %>%
                 pob_multi="Porcentaje de personas en situación de pobreza multidimensional 2022")
 
 # BBDD Matriz de Bienestar Humano Territorial
-mbht <- read_excel("output/mbht.xlsx")
+mbht <- read_excel("input/data/mbht.xlsx")
 
-
-
-# Juntas BBDD -------------------------------------------------------------
+#Juntas BBDD -------------------------------------------------------------
 
 elsoc <- elsoc %>%
   rename(cod_com = comuna_cod) %>%
@@ -49,105 +47,39 @@ mbht <- mbht %>%
   mutate(cod_com = as.character(cod_com))
 
 
-datos <- elsoc %>%
+base <- elsoc %>%
   left_join(pobreza_proc, by = "cod_com") %>%
   left_join(mbht, by = "cod_com")
 
-
-# Explorar BBDD -----------------------------------------------------------
-
-datos %>%
-  group_by(ola) %>%
-  summarise(N_valid = sum(!is.na(d01_01)))
-
-datos %>%
-  group_by(ola) %>%
-  summarise(N_valid = sum(!is.na(d01_02)))
-
-datos %>%
-  group_by(ola) %>%
-  summarise(N_valid = sum(!is.na(m29)))
-
-datos %>%
-  group_by(ola) %>%
-  summarise(N_valid = sum(!is.na(m30)))
-
-datos %>%
-  filter(region_cod == 13) %>%
-  group_by(ola) %>%
-  summarise(N_personas_RM = n())
-
-
-datos %>%
-  filter(region_cod == 13) %>%
-  group_by(ola) %>%
-  summarise(n_comunas_RM = n_distinct(cod_com)) %>%
-  arrange(desc(n_comunas_RM))
-
-#Tras la revisión de estos datos, se opta por la ola
-
-
 # Filtrar BBDD --------------------------------------------------
 
-datos_proc <- datos %>%
+data <- base %>%
   filter(ola==6) %>%
   select(idencuesta,
          region,
          region_cod,
          comuna,
          cod_com,
-         sexo=m0_sexo, #demográficos
+         sexo=m0_sexo, #contról
          edad=m0_edad,
          ess=d01_01, #variable dependiente
          ess_f=d01_02, #variables nivel 1
          edu=m01,
          inghogar=m29,
          inghogar_t=m30,
-         pob_multi, #Variable nivel 2
+         pob_multi, #Variables nivel 2
          dim_seg,
-         dim_amb,
-         t08)
+         dim_amb)
 
-
-# -------------------------------------------------------------------------
-
-
-# Filtrar ola 6
-elsoc_ola6 <- elsoc %>% 
-  filter(ola == 6)
-
-# Seleccionar variables numéricas
-numericas <- elsoc_ola6 %>%
-  select(where(is.numeric))
-
-# Eliminar variables con desviación estándar cero o solo NA
-numericas <- numericas %>% 
-  select(where(~ sd(., na.rm = TRUE) != 0 & !all(is.na(.))))
-
-# Calcular correlaciones con d01_01
-correlaciones <- sapply(numericas, function(x) cor(x, numericas$d01_01, use = "complete.obs"))
-
-# Filtrar y ordenar correlaciones mayores a |0.18|
-cor_filtradas <- correlaciones[abs(correlaciones) > 0.18 & names(correlaciones) != "d01_01"]
-cor_filtradas <- sort(cor_filtradas, decreasing = TRUE)
-
-# Mostrar resultados
-print(cor_filtradas)
-
-
-
-
-
-
-# Respecto a comunas ------------------------------------------------------
+# Análisis Cluster ------------------------------------------------------
 
 #Filtrar por Región Metropolitana 
-datos_proc <- datos_proc %>% filter(region_cod== 13,
-                                    cod_com != 2203) #se elimina dato aislado agregado por error
+data <- data %>% filter(region_cod== 13,
+                        cod_com != 2203) #se elimina dato aislado agregado por error
 
 
 #Visualizar comunas
-datos_proc %>%
+data %>%
   filter(region_cod == 13) %>%
   count(comuna, cod_com) %>%
   arrange(n)
@@ -210,311 +142,240 @@ codigos_rm <- tribble(
   "13605", "Peñaflor")
 
 
-# Comunas que faltan
-
 comunas_faltantes <- codigos_rm %>%
-  anti_join(datos_proc, by = "cod_com")
+  anti_join(data, by = "cod_com")
 
 print(comunas_faltantes)
 
-
-
 # Visualización BBDD ------------------------------------------------------
 
-view(dfSummary(datos_proc, headings = FALSE, method = "render"))
-view_df(datos_proc,max.len = 100)
-
-
-
-# Agregar Labels ----------------------------------------------------------
-
-datos_proc$cod_com <- set_label(datos_proc$cod_com,"Comuna (Codigo)")
-datos_proc$ess <- set_label(datos_proc$ess,"Estatus Social Subjetivo Individual")
-datos_proc$ess_f <- set_label(datos_proc$ess_f,"Estatus Social Subjetivo Familiar")
-
+view(dfSummary(data, headings = FALSE, method = "render"))
+view_df(data,max.len = 100)
 
 # Tratamiento variable sexo -----------------------------------------------
 
-datos_proc <- datos_proc %>%
+data <- data %>%
   mutate(
     sexo = car::recode(sexo, recodes = "'1' = 'Hombre'; '2' = 'Mujer'"),
     sexo = factor(sexo, levels = c("Hombre", "Mujer")))
 
-datos_proc$sexo <- set_label(datos_proc$sexo,"Sexo del entrevistado")
+data$sexo <- set_label(data$sexo,"Sexo del entrevistado")
 
 # Tratamiendo Variable ESS  ---------------------------------------
 
-datos_proc <- mutate(datos_proc,
-                     ess = na_if(ess, -999),
-                     ess = na_if(ess, -888),
-                     ess = na_if(ess, -777),
-                     ess = na_if(ess, -666))
+data <- mutate(data,
+               ess = na_if(ess, -999),
+               ess = na_if(ess, -888),
+               ess = na_if(ess, -777),
+               ess = na_if(ess, -666))
 
-colSums(is.na(datos_proc))
+colSums(is.na(data))
+
+data$ess <- set_label(data$ess,"Estatus Social Subjetivo Individual")
 
 # Tratamiendo Variable ESS Familiar ---------------------------------------
 
-datos_proc <- mutate(datos_proc,
-                     ess_f = na_if(ess_f, -999),
-                     ess_f = na_if(ess_f, -888),
-                     ess_f = na_if(ess_f, -777),
-                     ess_f = na_if(ess_f, -666))
+data <- mutate(data,
+               ess_f = na_if(ess_f, -999),
+               ess_f = na_if(ess_f, -888),
+               ess_f = na_if(ess_f, -777),
+               ess_f = na_if(ess_f, -666))
 
-colSums(is.na(datos_proc))
+colSums(is.na(data))
 
+data$ess_f <- set_label(data$ess_f,"Estatus Social Subjetivo Familiar")
 
 #Centrado ESS Familiar
-
-datos_proc <- datos_proc %>%
+data <- data %>%
   group_by(cod_com) %>%
   mutate(ess_f_cmc = ess_f - mean(ess_f, na.rm = TRUE)) %>%
   ungroup()
 
+data$ess_f_cmc <- set_label(data$ess_f_cmc,"Estatus Social Subjetivo Familiar Centrada")
+
+#Visualizar diferencias
+
+descr(data$ess_f,style = "rmarkdown",stats = "common", transpose = T,headings = F)
+descr(data$ess_f_cmc,style = "rmarkdown",stats = "common", transpose = T,headings = F)
+
+sjmisc::descr(data[,c("ess_f","ess_f_cmc")],
+              show =c("label", "n", "NA.prc", "mean", "md","sd")) %>% knitr::kable(digits = 2)
+
 
 # Tratamiento variable educación ------------------------------------------
 
-datos_proc <- datos_proc %>%
+data <- data %>%
+  mutate(edu = car::recode(edu,
+                           recodes = "-999 = NA;
+                           -888 = NA;
+                           -777 = NA;
+                           -666 = NA;
+                           1 = 'Sin estudios';
+                           2 = 'Educacion Basica o Preparatoria incompleta';
+                           3 = 'Educacion Basica o Preparatoria completa';
+                           4 = 'Educacion Media o Humanidades incompleta';
+                           5 = 'Educacion Media o Humanidades completa';
+                           6 = 'Tecnica Superior incompleta';
+                           7 = 'Tecnica Superior completa';
+                           8 = 'Universitaria incompleta';
+                           9 = 'Universitaria completa';
+                           10 = 'Estudios de posgrado (magister o doctorado)'",
+                           as.factor = TRUE,
+                           levels = c(
+                             "Sin estudios",
+                             "Educacion Basica o Preparatoria incompleta",
+                             "Educacion Basica o Preparatoria completa",
+                             "Educacion Media o Humanidades incompleta",
+                             "Educacion Media o Humanidades completa",
+                             "Tecnica Superior incompleta",
+                             "Tecnica Superior completa",
+                             "Universitaria incompleta",
+                             "Universitaria completa",
+                             "Estudios de posgrado (magister o doctorado)"))) 
+
+
+data <- data %>%
   mutate(
-    edu = case_when(
-      edu %in% c(-999, -888, -777, -666) ~ NA_character_,
-      edu == 1 ~ "Sin estudios",
-      edu == 2 ~ "Educacion Basica o Preparatoria incompleta",
-      edu == 3 ~ "Educacion Basica o Preparatoria completa",
-      edu == 4 ~ "Educacion Media o Humanidades incompleta",
-      edu == 5 ~ "Educacion Media o Humanidades completa",
-      edu == 6 ~ "Tecnica Superior incompleta",
-      edu == 7 ~ "Tecnica Superior completa",
-      edu == 8 ~ "Universitaria incompleta",
-      edu == 9 ~ "Universitaria completa",
-      edu == 10 ~ "Estudios de posgrado (magister o doctorado)",
-      TRUE ~ NA_character_
-    ),
-    edu = factor(edu, levels = c(
-      "Sin estudios",
-      "Educacion Basica o Preparatoria incompleta",
-      "Educacion Basica o Preparatoria completa",
-      "Educacion Media o Humanidades incompleta",
-      "Educacion Media o Humanidades completa",
-      "Tecnica Superior incompleta",
-      "Tecnica Superior completa",
-      "Universitaria incompleta",
-      "Universitaria completa",
-      "Estudios de posgrado (magister o doctorado)")))
+    edu_univ = case_when(
+      edu %in% c("Universitaria completa", "Estudios de posgrado (magister o doctorado)") ~ "Universitaria o más",
+      !is.na(edu) ~ "Menos que universitaria",
+      TRUE ~ NA_character_),
+    edu_univ = factor(edu_univ, levels = c("Menos que universitaria", "Universitaria o más")))
 
-datos_proc$edu <- set_label(datos_proc$edu,"Nivel Educativo")
 
-colSums(is.na(datos_proc))
-
+colSums(is.na(data))
 
 # Tratamiento variable ingresos -------------------------------------------
 
-datos_proc <- mutate(datos_proc,
-                     inghogar = na_if(inghogar, -999),
-                     inghogar = na_if(inghogar, -888),
-                     inghogar = na_if(inghogar, -777),
-                     inghogar = na_if(inghogar, -666))
+data <- mutate(data,
+               inghogar = na_if(inghogar, -999),
+               inghogar = na_if(inghogar, -888),
+               inghogar = na_if(inghogar, -777),
+               inghogar = na_if(inghogar, -666))
 
-colSums(is.na(datos_proc))
+colSums(is.na(data))
 
 
 
 #Creación de nueva variable de ingreso imputada
 
-datos_proc$inghogar_i <- ifelse(test = (is.na(datos_proc$inghogar)), #¿existen NA en ingresos?
-                                yes = datos_proc$inghogar_t,         #VERDADERO, remplazar con la media del tramo
-                                no = datos_proc$inghogar)            #FALSE, mantener la variable original.
+data$inghogar_i <- ifelse(test = (is.na(data$inghogar)), #¿existen NA en ingresos?
+                          yes = data$inghogar_t,         #VERDADERO, remplazar con la media del tramo
+                          no = data$inghogar)            #FALSE, mantener la variable original.
 
-datos_proc$inghogar_i <- set_label(datos_proc$inghogar_i,"Ingreso total del hogar (imputada)")
+data$inghogar_i <- set_label(data$inghogar_i,"Ingreso total del hogar (imputada)")
 
+data <- mutate(data,
+               inghogar_i = na_if(inghogar_i, -999),
+               inghogar_i = na_if(inghogar_i, -888),
+               inghogar_i = na_if(inghogar_i, -777),
+               inghogar_i = na_if(inghogar_i, -666))
 
-sjmisc::descr(datos_proc[,c("inghogar","inghogar_i")],
-              show =c("label", "n", "NA.prc", "mean", "md","sd")) %>% knitr::kable(digits = 2)
-
-
-datos_proc <- mutate(datos_proc,
-                     inghogar_i = na_if(inghogar_i, -999),
-                     inghogar_i = na_if(inghogar_i, -888),
-                     inghogar_i = na_if(inghogar_i, -777),
-                     inghogar_i = na_if(inghogar_i, -666))
-
-colSums(is.na(datos_proc))
-
+colSums(is.na(data))
 
 # Tratamiendo variable ingreso imputada
 
+# Escalar ingreso imputado dividiendo por 10.000
+data$inghogar_i_mil <- data$inghogar_i / 10000
 
-#Opción 1
-datos_proc$quintil_inghogar <- ntile(datos_proc$inghogar_i, 5)
-
-#Opción 2
-datos_proc$quintil_inghogar2<- dplyr::ntile(x = datos_proc$inghogar_i,
-                                            n = 5) # n de categorias, para quintiles usamos 5
-datos_proc$quintil_inghogar2 <- factor(datos_proc$quintil_inghogar2,c(1,2,3,4,5), c("Quintil 1","Quintil 2","Quintil 3","Quintil 4","Quintil 5"))
-datos_proc %>%
-  group_by(quintil_inghogar2) %>%
-  summarise(n=n(),
-            Media=mean(inghogar_i,na.rm = T),
-            Mediana=median(inghogar_i,na.rm = T)) %>%
-  knitr::kable()
-
-#Opción 3
-datos_proc$log_ing_i <- log(datos_proc$inghogar_i + 1)
+data$inghogar_i_mil <- set_label(data$inghogar_i_mil,"Ingreso total del hogar (en decenas de mil CLP)")
 
 
-# T08 ---------------------------------------------------------------------
+# Tratamiento variable pobreza multinivel ---------------------------------
 
-datos_proc <- mutate(datos_proc,
-                     t08 = na_if(t08, -999),
-                     t08 = na_if(t08, -888),
-                     t08 = na_if(t08, -777),
-                     t08 = na_if(t08, -666))
+#Centrado
+data <- data %>%
+  mutate(pob_multi_gm = mean(pob_multi),                 # Media general (nivel 2)
+         pob_multi_gmc = pob_multi - pob_multi_gm)       # Centrado a nivel 2 (GMC)
 
-colSums(is.na(datos_proc))
+#Visualizar diferencias
 
-datos_proc = datos_proc %>%  
-  group_by(cod_com) %>% 
-  mutate(meant08 = mean(t08, na.rm = TRUE))
+descr(data$pob_multi,style = "rmarkdown",stats = "common", transpose = T,headings = F)
+descr(data$pob_multi_gmc,style = "rmarkdown",stats = "common", transpose = T,headings = F)
 
-## Remover NA's ----------------------------------------------------------------
+sjmisc::descr(data[,c("pob_multi","pob_multi_gmc")],
+              show =c("label", "n", "NA.prc", "mean", "md","sd")) %>% knitr::kable(digits = 2)
 
-datos_proc <- datos_proc %>%
-  filter(if_all(-c(inghogar_t, inghogar), ~ !is.na(.)))
-
-
-
-# Variable Pobreza Multidimensional ---------------------------------------
-
-descr(datos_proc$pob_multi,style = "rmarkdown",stats = "common", transpose = T,headings = F)
-
-datos_proc$pob_multi <- set_label(datos_proc$pob_multi,"Pobreza multidimensional")
-
-#Centrado:
-# datos_proc <- datos_proc %>% 
-# mutate(pob.gmc = pob_multi-mean(pob_multi))
-
-#        #Centrar un predictor en la media general
-#        pob.c.alt = scale(pob_multi, center=T, scale=F), #Otra forma de hacer el centrado en la media general (GMC)
-#        pob_multi.gm = mean(pob_multi)) %>%  #Obtener la media general y agregarla a cada observación
-# group_by(cod_com) %>% 
-# mutate(pob.g.home = mean(pob_multi), #Obtener la media del grupo para el predictor
-#        meanpob.gmc = pob.g.home - pob_multi.gm) %>% #Centrar el predictor de nivel 2 (L2)
-# ungroup()
-
-datos_proc <- datos_proc %>%
-  mutate(pob_multi.gmc = pob_multi - mean(pob_multi))
+data$pob_multi <- set_label(data$pob_multi,"Pobreza multidimensional")
+data$pob_multi_gmc <- set_label(data$pob_multi_gmc,"Pobreza multidimensional Centrada")
 
 # Variables MBHT ----------------------------------------------------------
 
-sjmisc::descr(datos_proc[,c("dim_amb", "dim_seg" )],
+sjmisc::descr(data[,c("dim_amb", "dim_seg" )],
               show =c("label", "n", "NA.prc", "mean", "md","sd")) %>% knitr::kable(digits = 2)
 
 
 
-datos_proc$dim_amb <- set_label(datos_proc$dim_amb,"BHT-Dimension Ambiental")
+data$dim_amb <- set_label(data$dim_amb,"BHT-Dimension Ambiental")
+data$dim_seg <- set_label(data$dim_seg,"BHT-Dimension Seguridad")
 
-datos_proc$dim_seg <- set_label(datos_proc$dim_seg,"BHT-Dimension Seguridad")
 
+# Remover NA's ----------------------------------------------------------------
 
-# Visualización nuevamente ------------------------------------------------
+data <- data %>%
+  filter(if_all(-c(inghogar_t, inghogar), ~ !is.na(.)))
 
-view(dfSummary(datos_proc, headings = FALSE, method = "render"))
-view_df(datos_proc,max.len = 100)
+# Visualización  ------------------------------------------------
 
+view(dfSummary(data, headings = FALSE, method = "render"))
+view_df(data,max.len = 100)
 
 
 # Descriptivos ------------------------------------------------------------
 
-descr(datos_proc$pob_multi,style = "rmarkdown",stats = "common", transpose = T,headings = F)
+data %>%  select (ess, ess_f, ess_f_cmc, edu, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::descr(.,
+                                                                                                     show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
+  kable(., digits =2, "markdown", caption = "Variables nivel 1")
 
 
+data %>%  select (pob_multi, pob_multi_gmc, dim_amb, dim_seg) %>% sjmisc::descr(.,
+                                                                                show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
+  kable(., digits =2, "markdown", caption = "Variables nivel 2")
 
 
+# Bivariados --------------------------------------------------------------
 
-# Análisis bivariado ------------------------------------------------------
-
-# view(dfSummary(datos_proc, headings=FALSE, graph.col = FALSE))
-# 
-dat_scat=datos_proc %>% group_by(comuna) %>% select(ess,pob_multidim.gmc) %>% na.omit() %>% summarise_all(mean)
-names(dat_scat)
-
-sjPlot::plot_scatter(dat_scat, ess,pob_multidim.gmc,
-                     dot.labels = to_label(dat_scat$comuna),
-                     fit.line = "lm",
-                     show.ci = TRUE)
-
-scatterplot(datos_proc$ess_f ~ datos_proc$pob_multi, data=datos_proc, xlab="ESS_f", ylab="Pobreza Multidimensional", main="Math on SES", smooth=FALSE)
-
-
-
-# Matriz Corr -------------------------------------------------------------
-
-datos_proc <- datos_proc %>%
-  mutate(edu_num = as.numeric(edu))
-
-
-cormat=datos_proc %>% select(ess,ess_f_cmc, quintil_inghogar, pob_multi, dim_seg, dim_amb, t08) %>% cor()
+cormat1 = data %>% select(ess,ess_f, inghogar_i, pob_multi, dim_seg, dim_amb) %>% cor()
 round(cormat, digits=2)
-
-corrplot.mixed(cormat)
-
-
-datos_proc %>%
-  select(ess, ess_f_cmc, edu_num, quintil_inghogar2, pob_multi, dim_seg, dim_amb) %>%
-  summarise(across(everything(), class))
+corrplot.mixed(cormat1)
 
 
+# Modelo multinivel: Modelo nulo -------------------------------------------------------
 
-cor(select(datos_proc, ess_f_cmc, quintil_inghogar, pob_multi, dim_seg, dim_amb), use = "complete.obs")
+agg_data=data %>% group_by(cod_com) %>% summarise_all(funs(mean)) %>% as.data.frame()
 
-datos_proc <- datos_proc %>%
-  mutate(across(c(ess_f, pob_multi, dim_seg, dim_amb), scale))
-
-
-
-
-# Análisis multinivel -----------------------------------------------------
-
-
-# Modelo Nulo -------------------------------------------------------------
-agg_data=datos_proc %>% group_by(cod_com) %>% summarise_all(funs(mean)) %>% as.data.frame()
-
-model0 = lmer(ess ~ 1 + (1 | cod_com), data = datos_proc)
+model0 = lmer(ess ~ 1 + (1 | cod_com), data = data)
 screenreg(model0)
 
 ICC<-reghelper::ICC(model0)
 ICC*100
 
-# Modelo 1: Predictores de nivel individual -------------------------------
+#Modelo 1: Predictores de nivel individual -------------------------------
 
-model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 + (1 | cod_com), data = datos_proc)
+model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + (1 | cod_com), data = data)
 screenreg(model1, naive=TRUE)
 
 # Modelo 2: Predictores nivel 2 -------------------------------------------
 
-model2 = lmer(ess ~ 1 + pob_multi.gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = datos_proc)
+model2 = lmer(ess ~ 1 + pob_multi_gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = data)
 screenreg(model2)
-
-model2b = lmer(ess ~ 1 + pob_multidim.gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = datos_proc)
-screenreg(model2b)
 
 # Modelo 3: Predictores individuales y grupales ---------------------------
 
-model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 +  pob_multi.gmc + dim_seg  + dim_amb + (1 | cod_com), data = datos_proc)
+model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 | cod_com), data = data)
 screenreg(model3)
 
-# Modelo 4: Pendiente aleatoria -------------------------------------------
+#Modelo 4: Pendiente aleatoria -------------------------------------------
 
-# Modelo con pendiente aleatoria
-model4= lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 + pob_multi.gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = datos_proc)
+model4= lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = data)
 screenreg(model4)
-
 
 #Comparación pendiete fija y aleatoria con Anova
 anova(model3,model4)
 
 # Modelo 5: Interacción entre niveles -------------------------------------
 
-model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + t08 + ess_f_cmc*pob_multi.gmc  + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = datos_proc)
+model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_multi_gmc  + dim_seg  + dim_amb + edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
 screenreg(model5)
 
 # Comparación entre modelos -----------------------------------------------
@@ -522,36 +383,121 @@ screenreg(model5)
 sjPlot::tab_model(model0, model1, model2, model3, model4, model5, dv.labels = c("Nulo ","Individual","Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"), show.ci = FALSE)
 
 
+# Casos influyentes  -----------------------------------------------------
 
-# Gráficos ----------------------------------------------------------------
+estex.m3 <- influence(model3, "cod_com")
+estex.m4 <- influence(model4, "cod_com") 
+estex.m5 <- influence(model5, "cod_com") 
 
+cooks.distance(estex.m3, sort = TRUE)
+cooks.distance(estex.m4, sort = TRUE)
+cooks.distance(estex.m5, sort = TRUE)
+4/42 # cut point: 4/ 42 comunas
+
+plot(estex.m3, which="cook",
+     cutoff=.09, sort=TRUE,
+     xlab="Cooks Distance",
+     ylab="cod_com")
+
+plot(estex.m4, which="cook",
+     cutoff=.09, sort=TRUE,
+     xlab="Cooks Distance",
+     ylab="cod_com")
+
+plot(estex.m5, which="cook",
+     cutoff=.09, sort=TRUE,
+     xlab="Cooks Distance",
+     ylab="cod_com")
+
+sigtest(estex.m3, test=-1.96)$pob_multi_gmc[1:10,]
+sigtest(estex.m4, test=-1.96)$pob_multi_gmc[1:10,]
+sigtest(estex.m5, test=-1.96)$pob_multi_gmc[1:10,]
+#No existen casos influyentes
+
+# Gráficos fijos y aleatorias ----------------------------------------------------------------
 
 #Modelo con predictores fijos
 
-reg_fij=lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multi.gmc + dim_seg  + dim_amb + (1 | comuna), data = datos_proc)
+reg_fij=lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 | comuna), data = data)
 
-datos_proc$ess_fijo <- predict(reg_fij)
-datos_proc %>%  
+data$ess_fijo <- predict(reg_fij)
+data %>%  
   ggplot(aes(ess_f_cmc, ess_fijo, color = comuna, group = comuna)) + 
   geom_smooth(se = F, method = lm)
 
-graf_fij <- ggpredict(reg_fij, terms = c("ess_f_cmc","comuna [sample=5]"), type="random")
-plot(graf_fij)
+
+graf_fij <- ggpredict(reg_fij, terms = c("ess_f_cmc", "comuna [sample=5]"), type = "random")
+
+plot(graf_fij) +
+  labs(
+    title = "Predicciones del Estatus Social Subjetivo Individual",
+    subtitle = "Según el Estatus Familiar Centrado, por Comuna (efectos fijos)",
+    x = "Estatus Social Subjetivo Familiar Centrado",
+    y = "Estatus Social Subjetivo Individual",
+    color = "Comuna"
+  ) +
+  scale_color_brewer(palette = "Set1") + 
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12, margin = margin(b = 10)),
+    axis.title = element_text(size = 13),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 11),
+    panel.grid.minor = element_blank())
+
+ggsave("grafico_efecto_fijo.png", width = 8, height = 6, dpi = 300)
+
 
 # Modelo con predictores aleatorios
 
-reg_aleat=lmer(ess ~ 1 + ess_f_cmc  + edu_num + quintil_inghogar2 + pob_multi.gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| comuna), data = datos_proc)
+reg_aleat=lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| comuna), data = data)
+
 graf_aleat=ggpredict(reg_aleat, terms = c("ess_f_cmc","comuna [sample=3]"), type="random")
-plot(graf_aleat)
 
 
-# Sección interacción -----------------------------------------------------
+plot(graf_aleat) +
+  labs(
+    title = "Predicciones del Estatus Social Subjetivo Individual",
+    subtitle = "Según Estatus Familiar Centrado, por Comuna (efectos aleatorios)",
+    x = "Estatus Social Subjetivo Familiar Centrado",
+    y = "Estatus Social Subjetivo Individual",
+    color = "Comuna"
+  ) +
+  scale_color_brewer(palette = "Dark2") +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12, margin = margin(b = 10)),
+    axis.title = element_text(size = 13),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 11),
+    panel.grid.minor = element_blank())
 
-plot_model(model5, type = "int")
+ggsave("grafico_efecto_aleatorio.png", width = 8, height = 6, dpi = 300)
 
+
+# Gráfico de interacción entre ess_f_cmc y pob_multi_gmc
+plot_model(model5, type = "int", terms = c("ess_f_cmc", "pob_multi_gmc")) +
+  labs(
+    title = "Interacción entre ESS Familiar y Pobreza Multidimensional Comunal",
+    x = "ESS Familiar Centrado",
+    y = "ESS Individual",
+    color = "Pobreza Multidimensional"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.title = element_text(size = 12),
+    legend.position = "bottom")
+
+ggsave("grafico_interacción.png", width = 8, height = 6, dpi = 300)
 
 
 # Guardar BBDD ------------------------------------------------------------
 
-saveRDS(datos_proc, file = "output/base_proc.Rdata")
+saveRDS(data, file = "output/data_proc.Rdata")
+
 
