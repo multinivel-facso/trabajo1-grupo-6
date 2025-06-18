@@ -13,7 +13,7 @@ editor: source
 
 # 
 
-```{r datos, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+```{r datos}
 pacman::p_load(lme4,
                kableExtra,
                haven,
@@ -26,41 +26,7 @@ pacman::p_load(lme4,
                dplyr, # manipulacion de datos
                equatiomatic) # paquetes a cargar
 
-options(scipen = 999)
-
 data <- readRDS("output/data_proc.Rdata")
-
-# Modelo multinivel: Modelo nulo -------------------------------------------------------
-
-agg_data=data %>% group_by(cod_com) %>% summarise_all(funs(mean)) %>% as.data.frame()
-
-model0 = lmer(ess ~ 1 + (1 | cod_com), data = data)
-
-ICC<-reghelper::ICC(model0)
-ICC*100
-
-#Modelo 1: Predictores de nivel individual -------------------------------
-
-model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + (1 | cod_com), data = data)
-
-# Modelo 2: Predictores nivel 2 -------------------------------------------
-
-model2 = lmer(ess ~ 1 + pob_multi_gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = data)
-
-# Modelo 3: Predictores individuales y grupales ---------------------------
-
-model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 | cod_com), data = data)
-
-#Modelo 4: Pendiente aleatoria -------------------------------------------
-
-model4= lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = data)
-
-#Comparación pendiete fija y aleatoria con Anova
-anova(model3,model4)
-
-# Modelo 5: Interacción entre niveles -------------------------------------
-
-model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_multi_gmc  + dim_seg  + dim_amb + edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
 
 ```
 
@@ -105,9 +71,9 @@ Aquí mis notas
 [¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana?]{style="font-size: 250%;"}
 :::
 
-## Hipótesis {.small}
+# Hipótesis:
 
-**Nivel 1**
+### Nivel 1:
 
 $H_1$: A mayor nivel educativo, mayor será el estatus social subjetivo
 
@@ -115,7 +81,7 @@ $H_2$: A mayores ingresos, mayor es el estatus social subjetivo
 
 $H_3$: Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo
 
-**Nivel 2**
+### Nivel 2
 
 $H_4$: Las comunas con un mayor índice de pobreza multidimensional niveles más bajo de estatus social subjetivo
 
@@ -123,11 +89,11 @@ $H_5$: Las comunas con una mayor tasa en la dimensión ambiental tienen niveles 
 
 $H_6$:Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles mas altos de estatus social subjetivo
 
-**Interacción**
+### Interacción
 
 $H_7$: El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional
 
-# Metodología {data-background-color="#821018"}
+# Metodología {data-background-color="#5f5758"}
 
 ## Datos
 
@@ -138,10 +104,10 @@ $H_7$: El efecto positivo del estatus social familiar sobre la autopercepción d
     Nivel 1: Individuos (n=729)
 
     Nivel 2: Comunas (n=42)
+    
+---    
 
----
-
-```{r mapa,  fig.align="center", fig.width=12, fig.height=8}
+```{r mapa, fig.align="center"}
 library(dplyr)
 library(stringr)
 library(stringi)
@@ -184,6 +150,8 @@ ggplot(mapa_rm) +
 ```
 
 ## Variables
+
+
 
 ```{r tbl_var}
 
@@ -243,7 +211,7 @@ tabla1 %>%
 
 ```
 
-## Descriptivos Nivel 1 {.small}
+---
 
 ```{r descriptivos n1}
 
@@ -253,7 +221,7 @@ data %>%  select (ess, ess_f, ess_f_cmc, edu, edu_univ,inghogar_i, inghogar_i_mi
 
 ```
 
-## Descriptivos Nivel 2 {.small}
+---
 
 ```{r descriptivos n2}
 
@@ -263,7 +231,8 @@ data %>%  select (pob_multi, pob_multi_gmc, dim_amb, dim_seg) %>% sjmisc::descr(
 
 ```
 
-## Métodos {.small}
+
+## Métodos
 
 Modelo nulo: modelo sin predictores
 
@@ -274,75 +243,41 @@ $$
 Modelo 1 (individual)
 
 $$
-ess_{ij} = \gamma_{00} + 
-\gamma_{10} \text{educación universitaria} + 
-\gamma_{10} \text{estatus social familiar} +  
-\gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
+ess_{ij} = \gamma_{00} + \gamma_{10} \text{nivel_educ} + \gamma_{10} \text{estatus social familiar} +  \gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
 $$
 
 Modelo 2 (contextual)
 
 $$
-ess_{ij} = \gamma_{00} + 
-\gamma_{01} \text{pobreza mutidimensional} + 
-\gamma_{01} \text{dimension ambiental} + 
-\gamma_{01} \text{dimension seeguridad} + u_{0j} + r_{ij}
+ess_{ij} = \gamma_{00} + \gamma_{01} \text{pob_multi} + \gamma_{01} \text{var_nivel2} + u_{0j} + r_{ij}
 $$
 
 Modelo 3 (Multinivel)
 
 $$
-\begin{align*}
-ess_{ij} &= \gamma_{00} 
-+ \gamma_{10} \text{educación universitaria}_{ij} 
-+ \gamma_{10} \text{estatus social familiar}_{ij} 
-+ \gamma_{10} \text{ingresos}_{ij} \\
-&+ \gamma_{01} \text{pobreza multidimensional}_{j} 
-+ \gamma_{01} \text{dimensión ambiental}_{j} 
-+ \gamma_{01} \text{dimensión seguridad}_{j} 
-+ u_{0j} + r_{ij}
-\end{align*}
-$$
----
-
-Modelo con pendiente aleatoria
-
-$$
-\begin{align*}
-ess_{ij} &= \gamma_{00} \\
-&+ \gamma_{10} \text{estatus social familiar}_{ij} + \gamma_{10} \text{educación universitaria}_{ij} \\
-&+ \gamma_{10} \text{ingreso}_{ij} + \gamma_{01} \text{pobreza multidimensional}_{j} \\
-&+ \gamma_{01} \text{dimensión seguridad}_{j} + \gamma_{01} \text{dimensión ambiental}_{j} \\
-&+ u_{0j} + u_{1j} \text{estatus social familiar}_{ij} + r_{ij}
-\end{align*}
+ess_{ij} = \gamma_{00} + \gamma_{10} \text{nivel_educ} + \gamma_{10} \text{estatus social familiar} +  \gamma_{10} \text{ingresos} +\gamma_{01} \text{pob_multi} + \gamma_{01} \text{var_nivel2} + u_{0j} + r_{ij}
 $$
 
-Modelo de interacción entre niveles
+Modelo con pendiente
 
-$$
-\begin{align*}
-ess_{ij} &= \gamma_{00} \\
-&+ \gamma_{10} \, \text{estatus social familiar}_{ij} + \gamma_{10} \, \text{educación universitaria}_{ij} \\
-&+ \gamma_{10} \, \text{ingreso}_{ij} + \gamma_{01} \, \text{pobreza multidimensional}_{j} \\
-&+ \gamma_{01} \, \text{dimensión seguridad}_{j} + \gamma_{01} \, \text{dimensión ambiental}_{j} \\
-&+ \gamma_{11} \, \text{estatus social familiar}_{ij} \, \text{pobreza multidimensional}_{j} + u_{0j} \\
-&+ u_{1j} \, \text{estatus social familiar}_{ij} + r_{ij}
-\end{align*}
-$$
+\$\$
 
-# Resultados {data-background-color="#821018"}
+ess\_{ij} = \gamma*{00} +\* \gamma{01} \text{ses} + \gamma*{02}\* \text{female} + \gamma{03} \text{sector} + \gamma*{04}\* \text{mnses} + u{0j} + r\_{ij} \$\$
+
+Modelo de interaccion entre niveles
+
+# Resultados {data-background-color="#5f5758"}
 
 ## Descriptivos
 
-## Modelos {.small}
+
+
+## Modelos
 
 Los resultados de los modelos de regresión pueden ser presentados en un coefplot
 
-```{r tbl modelo}
+```{r}
 
-tab_model(model0,model1,model2,model4,model5,
-          show.ci=FALSE,
-          show.icc=FALSE)
 
 ```
 
