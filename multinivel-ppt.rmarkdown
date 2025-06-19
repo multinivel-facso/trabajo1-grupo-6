@@ -11,7 +11,11 @@ format:
 editor: source
 ---
 
+
+
 # 
+
+
 
 ```{r datos, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 pacman::p_load(lme4,
@@ -64,6 +68,8 @@ anova(model3,model4)
 model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_multi_gmc  + dim_seg  + dim_amb + edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
 
 ```
+
+
 
 :::::: columns
 ::: {.column width="20%"}
@@ -142,6 +148,8 @@ $H_7$: El efecto positivo del estatus social familiar sobre la autopercepción d
 
 ------------------------------------------------------------------------
 
+
+
 ```{r mapa,  fig.align="center", fig.width=12, fig.height=8}
 library(dplyr)
 library(stringr)
@@ -184,7 +192,11 @@ ggplot(mapa_rm) +
 
 ```
 
+
+
 ## Variables
+
+
 
 ```{r tbl_var}
 
@@ -244,7 +256,11 @@ tabla1 %>%
 
 ```
 
+
+
 ## Descriptivos de nivel 1 {.small}
+
+
 
 ```{r descriptivos n1}
 
@@ -254,7 +270,11 @@ data %>%  select (ess, ess_f, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::d
 
 ```
 
+
+
 ## Descriptivos de nivel 2 {.small}
+
+
 
 ```{r descriptivos n2}
 
@@ -265,6 +285,8 @@ data %>%
   kable(digits = 2, format = "markdown", caption = "Estadísticos descriptivos de las variables contextuales")
 
 ```
+
+
 
 ## Métodos {.small}
 
@@ -338,6 +360,8 @@ $$
 
 ## Modelos {.small}
 
+
+
 ```{r}
 html_tab <- tab_model(
   model0, model1, model2, model3, model4, model5,
@@ -362,7 +386,11 @@ knitr::asis_output(salida)
 invisible(NULL)      # evita ecos adicionales
 ```
 
+
+
 ## Test de devianza {.big}
+
+
 
 ```{r}
 anova(model3, model4) |> 
@@ -370,6 +398,8 @@ anova(model3, model4) |>
   gt() |> 
   tab_header(title = "Comparación de modelos con pendiente fija y aleatoria")
 ```
+
+
 
 ## Resultados {.scrollable-x}
 
@@ -440,3 +470,4 @@ Sémbler, C. (2006). Estratificación social y clases sociales. Una revisión
 Treiman, D. J. (1977). Occupational prestige in comparative perspective. New York: Academic Press. ::::::::
 
 ::::::::
+
