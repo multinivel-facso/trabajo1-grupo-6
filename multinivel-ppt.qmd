@@ -21,7 +21,8 @@ pacman::p_load(lme4,
                sjmisc,
                sjPlot,
                gt,
-               stargazer,
+               stargazer,,
+               webshot2,
                ggplot2, # gráficos
                dplyr, # manipulacion de datos
                equatiomatic) # paquetes a cargar
@@ -135,11 +136,11 @@ $H_7$: El efecto positivo del estatus social familiar sobre la autopercepción d
 
 -   Análisis mediante modelo multinivel de dos niveles:
 
-    Nivel 1: Individuos (n=729)
+    Nivel 1: Individuos (n=767)
 
     Nivel 2: Comunas (n=42)
 
----
+------------------------------------------------------------------------
 
 ```{r mapa,  fig.align="center", fig.width=12, fig.height=8}
 library(dplyr)
@@ -243,13 +244,13 @@ tabla1 %>%
 
 ```
 
-## Descriptivos Nivel 1 {.small}
+## Descriptivos de nivel 1 {.small}
 
 ```{r descriptivos n1}
 
-data %>%  select (ess, ess_f, ess_f_cmc, edu, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::descr(.,
+data %>%  select (ess, ess_f, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::descr(.,
                                                                                                      show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
-  kable(., digits =2, "markdown", caption = "Variables nivel 1")
+  kable(., digits =2, "markdown", caption = "Estadísticos descriptivos de las variables individuales")
 
 ```
 
@@ -257,9 +258,11 @@ data %>%  select (ess, ess_f, ess_f_cmc, edu, edu_univ,inghogar_i, inghogar_i_mi
 
 ```{r descriptivos n2}
 
-data %>%  select (pob_multi, pob_multi_gmc, dim_amb, dim_seg) %>% sjmisc::descr(.,
-                                                                                show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
-  kable(., digits =2, "markdown", caption = "Variables nivel 2")
+data %>%
+  select(comuna, pob_multi, dim_amb, dim_seg) %>%
+  distinct() %>%
+  sjmisc::descr(., show = c("label","range", "mean", "sd", "NA.prc", "n")) %>%
+  kable(digits = 2, format = "markdown", caption = "Estadísticos descriptivos de las variables contextuales")
 
 ```
 
@@ -280,13 +283,13 @@ ess_{ij} = \gamma_{00} +
 \gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
 $$
 
-Modelo 2 (contextual)
+Modelo 2 (Grupal)
 
 $$
 ess_{ij} = \gamma_{00} + 
 \gamma_{01} \text{pobreza mutidimensional} + 
 \gamma_{01} \text{dimension ambiental} + 
-\gamma_{01} \text{dimension seeguridad} + u_{0j} + r_{ij}
+\gamma_{01} \text{dimension seguridad} + u_{0j} + r_{ij}
 $$
 
 Modelo 3 (Multinivel)
@@ -303,7 +306,8 @@ ess_{ij} &= \gamma_{00}
 + u_{0j} + r_{ij}
 \end{align*}
 $$
----
+
+------------------------------------------------------------------------
 
 Modelo con pendiente aleatoria
 
@@ -334,33 +338,24 @@ $$
 
 ## Descriptivos
 
-## Modelos {.small}
+## Modelos
 
-Los resultados de los modelos de regresión pueden ser presentados en un coefplot
+Tabla de resumen de los modelos
 
-```{r tbl modelo}
+![](output/modelos_tabla.png){width=100% height=100% style="object-fit: contain;"}
 
-tab_model(model0,model1,model2,model4,model5,
-          show.ci=FALSE,
-          show.icc=FALSE)
 
-```
+## Resultados {.scrollable-x}
 
-## Resultados {.scrollable-x .smaller}
+resultado del modelo aleatorio
 
-o mediante tablas
-
-```{r}
-
-```
+![](output/grafico_efecto_aleatorio.png)
 
 ## Interacción
 
 ::::: columns
 ::: {.column width="70%"}
-```{r}
-
-```
+![](output/grafico_interacción.png)
 :::
 
 ::: {.column width="30%"}

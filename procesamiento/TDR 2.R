@@ -329,9 +329,11 @@ data %>%  select (ess, ess_f, ess_f_cmc, edu, edu_univ,inghogar_i, inghogar_i_mi
   kable(., digits =2, "markdown", caption = "Variables nivel 1")
 
 
-data %>%  select (pob_multi, pob_multi_gmc, dim_amb, dim_seg) %>% sjmisc::descr(.,
-                                                                                show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
-  kable(., digits =2, "markdown", caption = "Variables nivel 2")
+data %>%
+  select(comuna, pob_multi_gmc, dim_amb, dim_seg) %>%
+  distinct() %>%
+  sjmisc::descr(., show = c("label","range", "mean", "sd", "NA.prc", "n")) %>%
+  kable(digits = 2, format = "markdown", caption = "Variables nivel 2")
 
 
 # Bivariados --------------------------------------------------------------
@@ -381,8 +383,12 @@ screenreg(model5)
 
 # Comparación entre modelos -----------------------------------------------
 
-sjPlot::tab_model(model0, model1, model2, model3, model4, model5, dv.labels = c("Nulo ","Individual","Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"), show.ci = FALSE)
-
+sjPlot::tab_model(
+  model0, model1, model2, model3, model4, model5,
+  dv.labels = c("Nulo", "Individual", "Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"),
+  show.ci = FALSE,
+  file = "output/modelos_tabla.html"
+)
 
 # Casos influyentes  -----------------------------------------------------
 
@@ -448,8 +454,7 @@ plot(graf_fij) +
     legend.text = element_text(size = 11),
     panel.grid.minor = element_blank())
 
-ggsave("grafico_efecto_fijo.png", width = 8, height = 6, dpi = 300)
-
+ggsave("output/grafico_efecto_fijo.png", width = 8, height = 6, dpi = 300)
 
 # Modelo con predictores aleatorios
 
@@ -477,7 +482,7 @@ plot(graf_aleat) +
     legend.text = element_text(size = 11),
     panel.grid.minor = element_blank())
 
-ggsave("grafico_efecto_aleatorio.png", width = 8, height = 6, dpi = 300)
+ggsave("output/grafico_efecto_aleatorio.png", width = 8, height = 6, dpi = 300)
 
 
 # Gráfico de interacción entre ess_f_cmc y pob_multi_gmc
@@ -494,7 +499,7 @@ plot_model(model5, type = "int", terms = c("ess_f_cmc", "pob_multi_gmc")) +
     axis.title = element_text(size = 12),
     legend.position = "bottom")
 
-ggsave("grafico_interacción.png", width = 8, height = 6, dpi = 300)
+ggsave("output/grafico_interacción.png", width = 8, height = 6, dpi = 300)
 
 
 # Guardar BBDD ------------------------------------------------------------
