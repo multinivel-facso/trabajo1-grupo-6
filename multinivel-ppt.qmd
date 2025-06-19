@@ -110,7 +110,7 @@ Aquí mis notas
 
 **Nivel 1**
 
-$H_1$: A mayor nivel educativo, mayor será el estatus social subjetivo
+$H_1$: Las personas con educación universitaria o superior tendran un mayor estatus social subjetivo, en comparación con aquellos que tienen un nivel educativo más bajo
 
 $H_2$: A mayores ingresos, mayor es el estatus social subjetivo
 
@@ -118,11 +118,11 @@ $H_3$: Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre
 
 **Nivel 2**
 
-$H_4$: Las comunas con un mayor índice de pobreza multidimensional niveles más bajo de estatus social subjetivo
+$H_4$: Las comunas con un mayor índice de pobreza multidimensional tienen niveles más bajo de estatus social subjetivo
 
 $H_5$: Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo.
 
-$H_6$:Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles mas altos de estatus social subjetivo
+$H_6$:Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles más altos de estatus social subjetivo
 
 **Interacción**
 
@@ -196,11 +196,11 @@ tabla1 <- tibble::tribble(
   "¿Dónde se ubicaría usted en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
   
   "Nivel 1", 
-  "Nivel educacional", 
-  "Educación básica incompleta\nEducación básica completa\nEducación media incompleta\nEducación media completa\nEducación superior no universitaria\nEducación universitaria completa",
+  "Educación universitaria", 
+  "Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior",
   
   "",
-  "Ingreso total por hogar", "",
+  "Ingreso total por hogar", "Ingreso percibido en el hogar en decenas de mil CLP ($10.000)",
   
   "",
   "Estatus social familiar", 
@@ -254,7 +254,7 @@ data %>%  select (ess, ess_f, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::d
 
 ```
 
-## Descriptivos Nivel 2 {.small}
+## Descriptivos de nivel 2 {.small}
 
 ```{r descriptivos n2}
 
@@ -336,20 +336,54 @@ $$
 
 # Resultados {data-background-color="#821018"}
 
-## Descriptivos
+## Modelos {.small}
 
-## Modelos
+```{r}
+html_tab <- tab_model(
+  model0, model1, model2, model3, model4, model5,
+  show.ci  = FALSE,
+  show.se  = TRUE,
+  p.style  = "stars",
+  digits   = 3,
+  dv.labels = c(
+    "Nulo", "Individual", "Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"
+  ),
+  file = NA          # ← devuelve la lista, no la imprime
+)
 
-Tabla de resumen de los modelos
+# 2. Compone la salida (solo UNA vez)
+salida <- paste0(
+  "<style>", html_tab$page.style, "</style>",
+'<div style="overflow-x: auto; overflow-y: auto; max-height: 500px;">',
+  html_tab$page.content,
+  "</div>")
 
-![](output/modelos_tabla.png){width=100% height=100% style="object-fit: contain;"}
+knitr::asis_output(salida)
+invisible(NULL)      # evita ecos adicionales
+```
 
+## Test de devianza {.big}
+
+```{r}
+anova(model3, model4) |> 
+  as.data.frame() |> 
+  gt() |> 
+  tab_header(title = "Test de anova: comparación de modelos con pendiente fija y aleatoria")
+```
 
 ## Resultados {.scrollable-x}
 
-resultado del modelo aleatorio
-
+::::: columns
+::: {.column width="70%"}
 ![](output/grafico_efecto_aleatorio.png)
+:::
+
+::: {.column width="30%"}
+Texto explicativo del gráfico. Puedes detallar aquí los efectos aleatorios según comuna.
+:::
+:::::
+
+------------------------------------------------------------------------
 
 ## Interacción
 
@@ -368,7 +402,43 @@ La interacción muestra que...
 ::: incremental
 -   bla bla bla
 -   bla bla
--   bla
+-   ba
 :::
 
-## Referencias
+## Referencias {.scrollable}
+
+Benavides, A. R. (2011). Calidad de vida, calidad ambiental y sustentabilidad como conceptos urbanos complemetarios. Fermentum. Revista Venezolana de Sociología y Antropología, 21(61), 176-207.
+
+Bukodi, E., & Goldthorpe, J. H. (2013). Decomposing ‘social origins’: The effects of parents’ class, status, and education on the educational attainment of their children. European sociological review, 29(5), 1024-1039.c
+
+Castillo, J. C., Miranda, D., & Madero-Cabib, I. (2013). Todos somos de clase media: Sobre el estatus social subjetivo en Chile. Latin American Research Review, 48(1). <https://jc-castillo.com/documents/magister-facso-2020/castillo%20et%20al%202013%20todos%20somos%20de%20clase%20media.pdf>
+
+Centro de Estudios de Conflicto y Cohesión Social (COES). (s.f.). Manual metodológico ELSOC 2016–2022. <https://manual-metodologico-elsoc.netlify.app/>
+
+Germani, G. (2010), “Clase social subjetiva e indicadores objetivos de estratificación” en Mera, Carolina y Rebón, Julián (Eds.), Gino Germani. La sociedad en cuestión. Antología comentada. Buenos Aires, CLACSO. Iturra, J. C., & Mellado, D. (2018). Estatus social subjetivo en tres países de América Latina: El caso de Argentina, Chile y Venezuela. Contenido, Cultura y Ciencias Sociales. <https://doi.org/10.31235/osf.io/yp3wm>
+
+Kaztman, F., & Retamoso, A. (2005). Segregación espacial, empleo y pobreza en Montevideo. Revista de la CEPAL, 2005(85), 131-148. <https://doi.org/10.18356/93a498f9-es>
+
+Layera, M. L. M., Otero, G., & Perret, V. (2020). Inseguridad percibida en los barrios de Santiago de Chile: la importancia del bienestar subjetivo. Dados, 63 (1). https://www.scielo.br/j/dados/a/Vdkqpn9BCxHSYNXCZFz5LkB/?format=html&lang=es Lunecke, A. (2016). Inseguridad ciudadana y diferenciación social en el nivel microbarrial: El caso del sector Santo Tomás, Santiago de Chile. EURE (Santiago), 42(125), 109-129. <https://doi.org/10.4067/S0250-71612016000100005>
+
+Mac-Clure, O., Barozet, E., & Aguilera, C. (2024). Definiendo su posición en tiempos de crisis: ¿clase social u otros atributos?. Estudios sociológicos, 42, e2401. Epub 24 de mayo de 2024.<https://doi.org/10.24201/es.2024v42.e2401>
+
+Mattos, C., Fuentes, L., & Link, F. (2014). Tendencias recientes del crecimiento metropolitano en Santiago de Chile: ¿Hacia una nueva geografía urbana? Revista INVI, 29(81), 193-219. <https://doi.org/10.4067/S0718-83582014000200006>
+
+Marqués Perales, I., & Rodríguez de la Fuente, J. (2023). Posicionamiento subjetivo y condición socioeconómica en América Latina (2006-2020): Una aproximación desde el análisis multinivel. Dados, 67(3), e20220070.
+
+Otero, G., Carranza, R., Contreras, D. (2016). Los ‘efectos del barrio’ en el rendimiento educacional de los niños en Chile: los efectos de la organización local, polarización y desigualdad. Serie Documentos de Trabajo COES, Documento de trabajo N° 14, pp. 1 – 28. https://www.researchgate.net/publication/305281825_Los\_'efectos_del_barrio'\_en_el_rendimiento_educacional_de_los_ninos_en_Chile_Los_efectos_de_la_organizacion_local_polarizacion_y_desigualdad
+
+Penfold, M., & Rodríguez Guzmán, G. (2014). N° 17 (English): The Growing but Vulnerable Middle Class in Latin America. Growth Patterns, Values and Preferences. Public Policy and Productive Transformation Series;N° 17/2014, Caracas: CAF. Retrieved from <https://scioteca.caf.com/handle/123456789/909>
+
+Programa de las Naciones Unidas para el Desarrollo (2023). Medición de la Pobreza Multidimensional en Chile, Encuesta Casen 2022. <https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Informe%20IPM%20-%20PNUD%20-%20CASEN%202022.pdf>
+
+Rodríguez, J., & Arriagada, C. (2004). Segregación Residencial en la Ciudad Latinoamericana. EURE (Santiago), 30(89), 05-24. <https://doi.org/10.4067/S0250-71612004008900001>
+
+Sabatini, F. & Wormald, G. (2013). Segregación de la vivienda social: reducción de oportunidades, pérdida de cohesión. En F. Sabatini, G. Wormald & A. Rasse (Eds.), Segregación de la vivienda social: ocho conjuntos en Santiago, Concepción y Talca (págs. 12-31). Santiago, Chile: Colección Estudios Urbanos UC. <https://www.researchgate.net/publication/301485647_Segregacion_de_la_vivienda_social_reduccion_de_oportunidades_perdida_de_cohesion>
+
+Sémbler, C. (2006). Estratificación social y clases sociales. Una revisión analítica de los sectores medios. CEPAL.
+
+Treiman, D. J. (1977). Occupational prestige in comparative perspective. New York: Academic Press. ::::::::
+
+::::::::
