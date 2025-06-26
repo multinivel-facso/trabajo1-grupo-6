@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Cristóbal Mejías, Nicolás Outerbridge y Victoria Arias">
+<meta name="author" content="Cristóbal Mejías y Victoria Arias">
 
 <title>Análisis multinivel del estatus social subjetivo: el caso de la Región Metropolitana</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -57,14 +91,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
     <div class="quarto-title-meta-contents">
-             <p>Cristóbal Mejías, Nicolás Outerbridge y Victoria Arias </p>
+             <p>Cristóbal Mejías y Victoria Arias </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">28 de mayo de 2025</p>
+      <p class="date">30 de junio de 2025</p>
     </div>
   </div>
   
@@ -105,40 +139,61 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Hipótesis</strong></p>
 <p>Hipotesis de nivel 1:</p>
 <ul>
-<li><p>El nivel educativo tiene un efecto positivo sobre el estatus social subjetivo</p></li>
-<li><p>El estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo</p></li>
+<li><p>Las personas con educación universitaria o superior tendran un mayor estatus social subjetivo, en comparación con aquellos que tienen un nivel educativo más bajo</p></li>
+<li><p>A mayores ingresos, mayor es el estatus social subjetivo</p></li>
+<li><p>Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo</p></li>
 </ul>
 <p>Hipotesis de nivel 2:</p>
 <ul>
-<li><p>Las comunas con mayor percepción de seguridad tienen niveles más altos de estatus social subjetivo</p></li>
-<li><p>La pobreza multidimensional tiene un efecto negativo sobre el estatus social subjetivo</p></li>
+<li><p>Las comunas con un mayor índice de pobreza multidimensional tienen niveles más bajo de estatus social subjetivo</p></li>
+<li><p>Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo.</p></li>
+<li><p>Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles más altos de estatus social subjetivo</p></li>
 </ul>
+<p>Hipotesis de interacción:</p>
+<p>El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional</p>
 </section>
 <section id="datos" class="level1">
 <h1>Datos</h1>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21.256</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data: data
+Models:
+model3: ess ~ 1 + ess_f_cmc + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg + dim_amb + (1 | cod_com)
+model4: ess ~ 1 + ess_f_cmc + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg + dim_amb + (1 + ess_f_cmc | cod_com)
+       npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(&gt;Chisq)    
+model3    9 2582.2 2624.0 -1282.1    2564.2                         
+model4   11 2571.7 2622.8 -1274.8    2549.7 14.513  2  0.0007055 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
 <p>El presente estudio utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) desarrollada por el Centro de Estudios de Cohesión y Conflicto Social (COES), que tiene como principal objetivo constituirse como un “insumo empírico la comprensión de las creencias, actitudes y percepciones de los chilenos hacia las distintas dimensiones de la convivencia y el conflicto, y como éstas cambian a lo largo del tiempo” (COES, s.f., p.&nbsp;3).</p>
-<p>La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico. Además, esta encuesta se aplica de forma anual (COES, s.f.).</p>
-<p>Adicionalmente, se integró una segunda fuente de datos proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia. Corresponden a las estimaciones de pobreza multidimensional por comuna del año 2022. Con esta información se buscó incorporar indicadores contextuales de nivel comunal, complementando los datos individuales del ELSOC. La integración de ambas bases se realizó mediante merge utilizando el código comuna_cod presente en ambas bases como variable de vinculación. Como resultado, se obtuvo una base de datos combinada que contiene variables individuales y contextuales. Esto a modo de posibilitar aplicación de modelos multinivel para comprender la influencia simultánea de factores individuales y contextuales sobre el estatus social subjetivo.</p>
+<p>La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico (COES, s.f.).</p>
+<p>Además, se integrarón dos fuentes de datos adicionales para las variables de nivel 2, la primera corresponde proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional, y la segunda corresponde a dos dimensiones de la Matriz de Bienestar Territorial que tiene como objetivo … dimensiones ambiental y de seguridad.</p>
+<p>En este estudio, los datos serán analizados mediante una técnica de análisis multinivel de dos niveles, el nivel 1 corresponde a los individuos y el nivel 2 con comunas. El análisis de nivel 1 considera una muestra de 767 personas, de un total de 2.730 personas encuestadas. Por otro lado, el análisis de nivel 2 emplea una base de datos agregados por comuna, considerando un total de 42 comunas de la Región Metropolitana.</p>
 <p>A continuacion se presentan las variables a utilizar en este estudio.</p>
 <div id="tbl-1" class="cell anchored">
 <div class="cell-output-display">
-<div id="wmcfgoxgri" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wmcfgoxgri table {
+<div id="rsxzywmlfv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rsxzywmlfv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wmcfgoxgri thead, #wmcfgoxgri tbody, #wmcfgoxgri tfoot, #wmcfgoxgri tr, #wmcfgoxgri td, #wmcfgoxgri th {
+#rsxzywmlfv thead, #rsxzywmlfv tbody, #rsxzywmlfv tfoot, #rsxzywmlfv tr, #rsxzywmlfv td, #rsxzywmlfv th {
   border-style: none;
 }
 
-#wmcfgoxgri p {
+#rsxzywmlfv p {
   margin: 0;
   padding: 0;
 }
 
-#wmcfgoxgri .gt_table {
+#rsxzywmlfv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -164,12 +219,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_caption {
+#rsxzywmlfv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wmcfgoxgri .gt_title {
+#rsxzywmlfv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -181,7 +236,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#wmcfgoxgri .gt_subtitle {
+#rsxzywmlfv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -193,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#wmcfgoxgri .gt_heading {
+#rsxzywmlfv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -205,13 +260,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_bottom_border {
+#rsxzywmlfv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_col_headings {
+#rsxzywmlfv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -226,7 +281,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_col_heading {
+#rsxzywmlfv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -246,7 +301,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#wmcfgoxgri .gt_column_spanner_outer {
+#rsxzywmlfv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -258,15 +313,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#wmcfgoxgri .gt_column_spanner_outer:first-child {
+#rsxzywmlfv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wmcfgoxgri .gt_column_spanner_outer:last-child {
+#rsxzywmlfv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wmcfgoxgri .gt_column_spanner {
+#rsxzywmlfv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -278,11 +333,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#wmcfgoxgri .gt_spanner_row {
+#rsxzywmlfv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wmcfgoxgri .gt_group_heading {
+#rsxzywmlfv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -308,7 +363,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#wmcfgoxgri .gt_empty_group_heading {
+#rsxzywmlfv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -323,15 +378,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#wmcfgoxgri .gt_from_md > :first-child {
+#rsxzywmlfv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wmcfgoxgri .gt_from_md > :last-child {
+#rsxzywmlfv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wmcfgoxgri .gt_row {
+#rsxzywmlfv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -350,7 +405,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#wmcfgoxgri .gt_stub {
+#rsxzywmlfv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -363,7 +418,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wmcfgoxgri .gt_stub_row_group {
+#rsxzywmlfv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -377,15 +432,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#wmcfgoxgri .gt_row_group_first td {
+#rsxzywmlfv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wmcfgoxgri .gt_row_group_first th {
+#rsxzywmlfv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wmcfgoxgri .gt_summary_row {
+#rsxzywmlfv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -395,16 +450,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wmcfgoxgri .gt_first_summary_row {
+#rsxzywmlfv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_first_summary_row.thick {
+#rsxzywmlfv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wmcfgoxgri .gt_last_summary_row {
+#rsxzywmlfv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -414,7 +469,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_grand_summary_row {
+#rsxzywmlfv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -424,7 +479,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wmcfgoxgri .gt_first_grand_summary_row {
+#rsxzywmlfv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -434,7 +489,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_last_grand_summary_row_top {
+#rsxzywmlfv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -444,11 +499,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_striped {
+#rsxzywmlfv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wmcfgoxgri .gt_table_body {
+#rsxzywmlfv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -457,7 +512,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_footnotes {
+#rsxzywmlfv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -471,7 +526,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_footnote {
+#rsxzywmlfv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -480,7 +535,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wmcfgoxgri .gt_sourcenotes {
+#rsxzywmlfv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -494,7 +549,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wmcfgoxgri .gt_sourcenote {
+#rsxzywmlfv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -502,72 +557,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wmcfgoxgri .gt_left {
+#rsxzywmlfv .gt_left {
   text-align: left;
 }
 
-#wmcfgoxgri .gt_center {
+#rsxzywmlfv .gt_center {
   text-align: center;
 }
 
-#wmcfgoxgri .gt_right {
+#rsxzywmlfv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wmcfgoxgri .gt_font_normal {
+#rsxzywmlfv .gt_font_normal {
   font-weight: normal;
 }
 
-#wmcfgoxgri .gt_font_bold {
+#rsxzywmlfv .gt_font_bold {
   font-weight: bold;
 }
 
-#wmcfgoxgri .gt_font_italic {
+#rsxzywmlfv .gt_font_italic {
   font-style: italic;
 }
 
-#wmcfgoxgri .gt_super {
+#rsxzywmlfv .gt_super {
   font-size: 65%;
 }
 
-#wmcfgoxgri .gt_footnote_marks {
+#rsxzywmlfv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wmcfgoxgri .gt_asterisk {
+#rsxzywmlfv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wmcfgoxgri .gt_indent_1 {
+#rsxzywmlfv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wmcfgoxgri .gt_indent_2 {
+#rsxzywmlfv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wmcfgoxgri .gt_indent_3 {
+#rsxzywmlfv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wmcfgoxgri .gt_indent_4 {
+#rsxzywmlfv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wmcfgoxgri .gt_indent_5 {
+#rsxzywmlfv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wmcfgoxgri .katex-display {
+#rsxzywmlfv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wmcfgoxgri div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rsxzywmlfv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -575,45 +630,49 @@ ul.task-list li input[type="checkbox"] {
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading header">
-<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border"><strong>Tabla 1: Variables del estudio</strong></th>
+<th colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border"><strong>Tabla 1: Variables del estudio</strong></th>
 </tr>
 <tr class="gt_col_headings even">
 <th id="Tipo" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Nivel de análisis</th>
 <th id="Variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Variable</th>
 <th id="Operacionalización" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Operacionalización</th>
-<th id="Tipo-variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Tipo de variable</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Tipo" style="font-weight: bold">Dependiente</td>
-<td class="gt_row gt_left" headers="Variable">Estatus social subjetivo (d01_01)</td>
+<td class="gt_row gt_left" headers="Variable">Estatus social subjetivo</td>
 <td class="gt_row gt_left" headers="Operacionalización">¿Dónde se ubicaría usted en la escala de estatus social? 1 (Nivel más bajo) – 10 (Nivel más alto)</td>
-<td class="gt_row gt_left" headers="Tipo variable">Ordinal</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left gt_striped" headers="Tipo" style="font-weight: bold">Nivel 1</td>
-<td class="gt_row gt_left gt_striped" headers="Variable">Estatus social familiar (d01_02)</td>
-<td class="gt_row gt_left gt_striped" headers="Operacionalización">¿Dónde ubicaría a la familia en que creció en la escala de estatus social? 1 (Nivel más bajo) – 10 (Nivel más alto)</td>
-<td class="gt_row gt_left gt_striped" headers="Tipo variable">Ordinal</td>
+<td class="gt_row gt_left gt_striped" headers="Variable">Educación universitaria</td>
+<td class="gt_row gt_left gt_striped" headers="Operacionalización">Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Tipo"></td>
-<td class="gt_row gt_left" headers="Variable">Nivel educativo (m01)</td>
-<td class="gt_row gt_left" headers="Operacionalización">Educación básica incompleta Educación básica completa Educación media incompleta Educación media completa Educación superior no universitaria Educación universitaria completa</td>
-<td class="gt_row gt_left" headers="Tipo variable">Ordinal</td>
+<td class="gt_row gt_left" headers="Variable">Ingreso total por hogar</td>
+<td class="gt_row gt_left" headers="Operacionalización">Ingreso percibido en el hogar en decenas de mil CLP ($10.000)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left gt_striped" headers="Tipo" style="font-weight: bold">Nivel 2</td>
-<td class="gt_row gt_left gt_striped" headers="Variable">Percepción de seguridad (índice t10 y t06_01)</td>
-<td class="gt_row gt_left gt_striped" headers="Operacionalización">Índice compuesto por: Percepción de seguridad del barrio (t10) y Satisfacción con la seguridad del barrio (t06_01)</td>
-<td class="gt_row gt_left gt_striped" headers="Tipo variable">Índice (Ordinal/Likert)</td>
+<td class="gt_row gt_left gt_striped" headers="Tipo"></td>
+<td class="gt_row gt_left gt_striped" headers="Variable">Estatus social familiar</td>
+<td class="gt_row gt_left gt_striped" headers="Operacionalización">¿Dónde ubicaría a la familia en que creció en la escala de estatus social? 1 (Nivel más bajo) – 10 (Nivel más alto)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Tipo" style="font-weight: bold">Nivel 2</td>
+<td class="gt_row gt_left" headers="Variable">Pobreza multidimensional</td>
+<td class="gt_row gt_left" headers="Operacionalización">Índice compuesto por las siguientes dimensiones: educación, salud, trabajo, vivienda y redes y cohesion social</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Tipo"></td>
+<td class="gt_row gt_left gt_striped" headers="Variable">Ambiental</td>
+<td class="gt_row gt_left gt_striped" headers="Operacionalización">Dimensión basada en la amplitud térmica anual y la cobertura vegetal</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Tipo"></td>
-<td class="gt_row gt_left" headers="Variable">Pobreza multidimensional</td>
-<td class="gt_row gt_left" headers="Operacionalización">Índice compuesto por las siguientes dimensiones: educación, salud, trabajo, vivienda y redes y cohesion social</td>
-<td class="gt_row gt_left" headers="Tipo variable">Índice</td>
+<td class="gt_row gt_left" headers="Variable">Seguridad</td>
+<td class="gt_row gt_left" headers="Operacionalización">Dimensión construida a partir de los indicadores de seguridad que miden la incidencia de delitos graves y leves contra personas y la propiedad</td>
 </tr>
 </tbody>
 </table>
@@ -621,430 +680,428 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>A partir de la Tabla 2, se observa que la muestra está compuesta por un 65.3% de mujeres y un 34,7% de hombres, mientras que la edad de los encuestados varía entre los 22 años y los 90 años, con un promedio de 51 años.</p>
-<div id="tbl-2" class="cell anchored">
-<div class="cell-output cell-output-error">
-<pre><code>Error in h(simpleError(msg, call)): error al evaluar el argumento 'x' al seleccionar un método para la función 'print': the condition has length &gt; 1</code></pre>
-</div>
+<p>A partir de la Tabla x, se observa que la muestra está compuesta por un 65.3% de mujeres y un 34,7% de hombres, mientras que la edad de los encuestados varía entre los 22 años y los 90 años, con un promedio de 51 años.</p>
+<div class="cell">
 <div class="cell-output-display">
-<div class="container st-container">
-
-<table class="table table-striped table-bordered st-table st-table-striped st-table-bordered st-multiline caption-top table-sm small" data-quarto-postprocess="true">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estadísticos descriptivos de las variables individuales</caption>
 <colgroup>
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
+<col style="width: 2%">
+<col style="width: 12%">
+<col style="width: 40%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>No</strong></th>
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>Variable</strong></th>
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>Stats / Values</strong></th>
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>Freqs (% of Valid)</strong></th>
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>Graph</strong></th>
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>Valid</strong></th>
-<th class="st-protect-top-border" style="text-align: center;" data-quarto-table-cell-role="th"><strong>Missing</strong></th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: left;">label</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">NA.prc</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: left;">range</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: left;">sexo [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Min : 1</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean : 1.7</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Max : 2</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">1</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">264</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">34.7%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">2</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">496</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">65.3%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAG4AAAA3BAMAAAAf9GL3AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwGDoi+FAAAARElEQVRIx2NgGP5ACSdQFMQKoPqUjXGBUX2j+kb1jeqjTB+55ZIgqWCA9CmRCgiGJ3ZgNKpvVN+ovlF9ROojt1wazgAAMV9o+QtVWGoAAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">ess</td>
+<td style="text-align: left;">Estatus Social Subjetivo Individual</td>
+<td style="text-align: right;">767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.69</td>
+<td style="text-align: right;">1.65</td>
+<td style="text-align: left;">10 (0-10)</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: left;">edad [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 51.1 (15.2)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">min ≤ med ≤ max:</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">22 ≤ 52 ≤ 90</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">IQR (CV) : 25 (0.3)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle;">64 distinct values</td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwGDoi+FAAAAsUlEQVRo3u3XcQ5AIBTH8a7ADXAD7n83PBuynvFqavn+/jDNfPZKVjlHLGmepe3XqI9fYtOSsWZsG65UmDhgYGBgYNVjsnh0ftOMDetLndccS8Okh6kwuQN7iu1jnwLzL/kxv3ORWMAB+z2mTTETpjk/xdRDpwVTywMDA8uPhf52MxYqD+xr7PJJ47BLeWBlYLcboLfYrQMGBgYGlhk7lvUE2FEeWCWYzI/z9iA6jlgyA4zdwXn1ug1hAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">ess_f</td>
+<td style="text-align: left;">Estatus Social Subjetivo Familiar</td>
+<td style="text-align: right;">767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.26</td>
+<td style="text-align: right;">2.04</td>
+<td style="text-align: left;">10 (0-10)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: left;">ess [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 4.7 (1.6)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">min ≤ med ≤ max:</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">0 ≤ 5 ≤ 10</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">IQR (CV) : 1 (0.3)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle;">11 distinct values</td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwGDoi+FAAAAkklEQVRo3u3ZQQqAIBBAUa9gR6gbNPe/W4RuRoZRdAiD/zdu4jFQFlJKNFN2Oku53wB2ydsNBgYGBgYGBgYGBgYGBhaD1VNrDFYUAQMDAwPbHFMv/1VMKWBgYHtjAz8sxjHpDwj2GXaY93YWM+f8C2Z94xqsXuJhjtJgYszZYI4CFozpjbCIaTMGq4t+zhZLNNMDvZyz+qZd7A8AAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">edu_univ</td>
+<td style="text-align: left;">edu_univ</td>
+<td style="text-align: right;">767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: left;">1 (1-2)</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: left;">ess_f [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 4.2 (2)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">min ≤ med ≤ max:</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">0 ≤ 4 ≤ 10</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">IQR (CV) : 2 (0.5)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle;">11 distinct values</td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwGDoi+FAAAAmElEQVRo3u3YyQnAIBBAUVswJZgOYv+9haCXgcG4TCTi/xdvjwm4QJyjnnyhkPLvVWBnfLrAwMDAwMDApmH5KbfBkhLB1sbEnhjFhAIGBga2Iqbdit2YpoCBgYGBzcIq/mPWY/F9wC+wwrPUjhUUMLAW7FAPVy+mzgm2NZY3mA0mF7B2TJ73QUwO+EMsf60Nlpe9sGCSo55uYyQ8ZjBoOk8AAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">inghogar_i</td>
+<td style="text-align: left;">Ingreso total del hogar (imputada)</td>
+<td style="text-align: right;">767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">955748.98</td>
+<td style="text-align: right;">1345617.58</td>
+<td style="text-align: left;">18000000 (0-18000000)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">5</td>
-<td style="text-align: left;">nedu [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 5.5 (2.3)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">min ≤ med ≤ max:</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">1 ≤ 5 ≤ 10</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">IQR (CV) : 3 (0.4)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">1</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">4</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">0.5%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">2</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">77</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">10.1%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">3</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">77</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">10.1%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">4</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">106</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">13.9%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">5</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">207</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">27.2%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">6</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">21</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">2.8%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">7</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">105</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">13.8%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">8</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">38</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">5.0%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">9</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">106</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">13.9%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">10</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">19</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">2.5%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAADUAAADzBAMAAADUeUPqAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwGDoi+FAAAAmklEQVRYw+3Xyw2AIBBFUUpwOhDoQPrvzcSoyG/UmJmYzHvbs5DFNQHn9Beo3QSDDYyULezrWUzbFpgt45qQaJAz9Al704Rkg9dPVucsjgqzbVwvwn2em5tz5sFsG9eLTJ9+aDHBYKVxvVBn3/s85hvL/xEMdt+LVJ8ji9UdGWbDuCaoM+k+8T6CPW1Cv08/tD/de2B6xjWhuRVWkwgybujmXwAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td style="text-align: left;">seguridad [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 3.1 (0.9)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">min ≤ med ≤ max:</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">1 ≤ 3 ≤ 5</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">IQR (CV) : 2 (0.3)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">1.00</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">13</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">1.7%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">1.50</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">48</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">6.3%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">2.00</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">133</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">17.5%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">2.50</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">90</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">11.8%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">3.00</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">121</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">15.9%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">3.50</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">110</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">14.5%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">4.00</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">205</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">27.0%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">4.50</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">35</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">4.6%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">5.00</td>
-<td style="text-align: left; padding: 0 2px; border: 0;">:</td>
-<td style="text-align: right; padding: 0 4px 0 6px; margin: 0; border: 0;">5</td>
-<td style="text-align: left; padding: 0; border: 0;">(</td>
-<td style="text-align: right; padding: 0 2px; margin: 0; border: 0;">0.7%</td>
-<td style="text-align: left; padding: 0 4px 0 0; border: 0;">)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAADUAAADbBAMAAAA/hsSxAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwGDoi+FAAAAkUlEQVRYw+3XsQ3AIAxEUUaINwiwAey/WxQpQGFjksIU8V37GpA+BSHsX4rEdjyWYS5Na4Jor6V7szvUWgvMnWlNkDDzPtsiv0MfzI1pTZg2KFg7Z4HBXvRi2ud4DuI7gsFWvRj3yWycs8Bgy16M++w7hXfUBvu/aU1YNLjqc2aZf+NgDkxrgoSZ9gmDfbCduwDR/OPoo0mNqQAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td style="text-align: left;">pob_multi [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.2 (0.1)</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">min ≤ med ≤ max:</td>
-</tr>
-<tr class="odd" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">0 ≤ 0.2 ≤ 0.3</td>
-</tr>
-<tr class="even" style="background-color:transparent">
-<td style="text-align: left; padding: 0; margin: 0; border: 0;">IQR (CV) : 0.1 (0.3)</td>
-</tr>
-</tbody>
-</table></td>
-<td style="text-align: left; vertical-align: middle;">42 distinct values</td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpBR0DEwIaq34/AAAAoklEQVRo3u3XwQ2AIAyFYVbQDdQNZP/dlB5ACSRaatKY/x28mH42QEwJgWgyPcu8pnRfv8TimR0MDAwMDAwMDAwMDAys58gdzAArjgG2ZecbrHnzVGOtHsHAwMBsMfltWWHJiWBgXjE57YsRJoVg/rHuQKrB7j36xS4DqQFWehzDqq0Yw6rVA/sJJofECpMHmA8sT5sWWK65YOUDms6GE4gmB5Dm21SNPnnIAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
-<td style="text-align: center;">760 (100.0%)</td>
-<td style="text-align: center;">0 (0.0%)</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">inghogar_i_mil</td>
+<td style="text-align: left;">Ingreso total del hogar (en decenas de mil CLP)</td>
+<td style="text-align: right;">767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">95.57</td>
+<td style="text-align: right;">134.56</td>
+<td style="text-align: left;">1800 (0-1800)</td>
 </tr>
 </tbody>
 </table>
-
-<p>Generated by <a href="https://github.com/dcomtois/summarytools">summarytools</a> 1.1.4 (<a href="https://www.r-project.org/">R</a> version 4.5.0)<br>2025-05-28</p>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(comuna, pob_multi, dim_amb, dim_seg) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  sjmisc<span class="sc">::</span><span class="fu">descr</span>(., <span class="at">show =</span> <span class="fu">c</span>(<span class="st">"label"</span>,<span class="st">"range"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"NA.prc"</span>, <span class="st">"n"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">format =</span> <span class="st">"markdown"</span>, <span class="at">caption =</span> <span class="st">"Estadísticos descriptivos de las variables contextuales"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estadísticos descriptivos de las variables contextuales</caption>
+<colgroup>
+<col style="width: 4%">
+<col style="width: 13%">
+<col style="width: 33%">
+<col style="width: 4%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: left;">label</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">NA.prc</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: left;">range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">pob_multi</td>
+<td style="text-align: left;">Pobreza multidimensional</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: left;">0.26 (0.02-0.29)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">dim_amb</td>
+<td style="text-align: left;">BHT-Dimension Ambiental</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: left;">0.28 (0.25-0.53)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">dim_seg</td>
+<td style="text-align: left;">BHT-Dimension Seguridad</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: left;">0.45 (0.53-0.98)</td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>En este estudio, los datos serán analizados mediante una técnica de análisis multinivel de dos niveles, el nivel 1 corresponde a los individuos y el nivel 2 con comunas. El análisis de nivel 1 considera una muestra de 760 personas, de un total de 2.730 personas encuestadas. Por otro lado, el análisis de nivel 2 emplea una base de datos agregados por comuna, considerando un total de 42 comunas de la Región Metropolitana.</p>
+</div>
+<p>Modelos</p>
+<p>Modelo nulo</p>
+<p>$$</p>
+<p>ess_{ij} = + u*{0j} + r_{ij}</p>
+<p>$$</p>
+<p>modelos…</p>
 </section>
 <section id="resultados" class="level1">
 <h1>Resultados</h1>
 <p>De acuerdo con la correlación intra-clase, el 17.70% de la varianza de la variable dependiente se asocia a la pertenencia en una comuna.</p>
 <p>Mediante el modelo nulo, podemos identificar el intercepto o el <em>𝛄00</em> que es de 4.7197, correspondiente al promedio general de la población.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Nulo</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Individual</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Grupal</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Individual y Grupal</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Pendiente Aleatoria</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Interacción</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col9">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  0">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  1">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  2">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  3">std. Error</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.780 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.139</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.461 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.121</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.887 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.914</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">4.730 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.845</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">4.511 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.731</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">4.638 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.749</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Estatus Social Subjetivo<br>Familiar Centrada</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.411 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.024</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.413 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.024</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.407 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.031</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">0.407 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.031</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">edu_univ: Universitaria o<br>más</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.332 <sup>*</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.147</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.214 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.148</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.239 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.146</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">0.231 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.148</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Ingreso total del hogar<br>(en decenas de mil CLP)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.002 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.000</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.002 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.000</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.002 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.000</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">0.002 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.000</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Pobreza multidimensional<br>Centrada</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-9.800 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">1.621</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">-7.888 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">1.546</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">-8.189 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">1.357</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">-8.019 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">1.506</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">BHT-Dimension Seguridad</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.831 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">1.655</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">-1.475 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">1.533</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">-0.944 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">1.310</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">-0.994 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">1.310</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">BHT-Dimension Ambiental</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.258 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">2.169</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">3.024 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">2.015</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">2.345 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">1.721</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">2.462 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">1.725</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Edad del entrevistado</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">-0.001 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.003</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Sexo del entrevistado:<br>Mujer</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">-0.125 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.098</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ess_f_cmc:pob_multi_gmc</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  2">0.241 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.562</td>
+</tr>
+<tr>
+<td colspan="13" style="font-weight:bold; text-align:left; padding-top:.8em;">Random Effects</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">σ<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">2.32</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1.59</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">2.31</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1.57</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1.53</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1.53</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>00</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.63 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.40 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.21 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.20 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.20 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.19 <sub>cod_com</sub></td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>11</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.01 <sub>cod_com.ess_f_cmc</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.01 <sub>cod_com.ess_f_cmc</sub></td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ρ<sub>01</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.96 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.94 <sub>cod_com</sub></td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ICC</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.21</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.20</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.14</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.14</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">N</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">42 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">42 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">42 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">42 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">42 <sub>cod_com</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">42 <sub>cod_com</sub></td>
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">767</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">767</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">767</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">767</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">767</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">767</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.000 / 0.213</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.281 / 0.427</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.120 / 0.193</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.374 / 0.446</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.373 / 0.458</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.371 / 0.456</td>
+</tr>
+<tr>
+<td colspan="13" style="font-style:italic; border-top:double black; text-align:right;">* p&lt;0.05&nbsp;&nbsp;&nbsp;** p&lt;0.01&nbsp;&nbsp;&nbsp;*** p&lt;0.001</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
 <p>En la siguiente tabla, tenemos la comparación del nivel individual, agrupado y multinivel. En el modelo 1 (individual), las variables nivel educacional y estatus social familiar están estimadas correctamente, mientras que en las variables de pobreza multidimensional y percepción de seguridad, se encuentran subestimadas debido a que estas variables están operacionalizadas a nivel contextual. Lo anterior, se verifica por la diferencia en los errores estándar, en comparación al modelo 2, ya que, este se encuentra estimado por la variable cluster. De igual manera, se puede observar que las variables de nivel 1 se encuentran sobreestimadas, tomando como ejemplo la variable estatus social subjetivo, en la que el error estándar aumenta de forma errada de un 0.02 a un 0.13. Por último, en el modelo 3 correspondiente al análisis multinivel, cada variable está medida en su respectivo nivel.</p>
 <p>Las variables más importantes del análisis son la variable de estatus social familiar (p &lt; 0.001), que indica que por cada punto que aumente la variable estatus social familiar, aumenta en 0.42 el estatus social subjetivo. Junto con la pobreza multidimensional (p &lt; 0.01), que señala que por cada punto porcentual que aumente, el estatus social subjetivo disminuirá en 3.77.</p>
-<div id="tbl-comparacion" class="cell quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-comparacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;1
-</figcaption>
-<div aria-describedby="tbl-comparacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-================================================================
-                             Model 1     Model 2    Model 3     
-----------------------------------------------------------------
-(Intercept)                    1.96 **    3.14 **       2.28 *  
-                              (0.67)     (1.09)        (0.93)   
-nedu                           0.06 *     0.03          0.06 *  
-                              (0.02)     (0.08)        (0.02)   
-ess_f                          0.42 ***   0.52 ***      0.42 ***
-                              (0.02)     (0.13)        (0.02)   
-pob_multi                     -2.95 **   -5.16 *       -3.77 ** 
-                              (1.05)     (1.99)        (1.42)   
-meanseg                        0.38 *     0.01          0.32    
-                              (0.18)     (0.25)        (0.25)   
-----------------------------------------------------------------
-R^2                            0.35       0.71                  
-Adj. R^2                       0.35       0.67                  
-Num. obs.                    760         42           760       
-AIC                                                  2575.31    
-BIC                                                  2607.74    
-Log Likelihood                                      -1280.65    
-Num. groups: comuna_cod                                42       
-Var: comuna_cod (Intercept)                             0.10    
-Var: Residual                                           1.62    
-================================================================
-*** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05</code></pre>
-</div>
-</div>
-</figure>
-</div>
 </section>
 <section id="conclusiones" class="level1">
 <h1>Conclusiones</h1>

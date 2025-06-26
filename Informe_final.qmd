@@ -1,8 +1,8 @@
 ---
 title: "Análisis multinivel del estatus social subjetivo: el caso de la Región Metropolitana" 
 subtitle: "Análisis de Datos Multinivel" 
-author: "Cristóbal Mejías, Nicolás Outerbridge y Victoria Arias" 
-date: "05/28/2025" 
+author: "Cristóbal Mejías y Victoria Arias" 
+date: "06/30/2025" 
 lang: es 
 format: html 
 editor: visual 
@@ -50,15 +50,23 @@ Analizar los factores individuales y contextuales asociados al estatus social su
 
 Hipotesis de nivel 1:
 
--   El nivel educativo tiene un efecto positivo sobre el estatus social subjetivo
+-   Las personas con educación universitaria o superior tendran un mayor estatus social subjetivo, en comparación con aquellos que tienen un nivel educativo más bajo
 
--   El estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo
+-   A mayores ingresos, mayor es el estatus social subjetivo
+
+-   Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo
 
 Hipotesis de nivel 2:
 
--   Las comunas con mayor percepción de seguridad tienen niveles más altos de estatus social subjetivo
+-   Las comunas con un mayor índice de pobreza multidimensional tienen niveles más bajo de estatus social subjetivo
 
--   La pobreza multidimensional tiene un efecto negativo sobre el estatus social subjetivo
+-   Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo.
+
+-   Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles más altos de estatus social subjetivo
+
+Hipotesis de interacción:
+
+-   El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional
 
 # Datos
 
@@ -88,46 +96,84 @@ rm(list = ls()) # para limpiar el entorno de trabajo
 ```
 
 ```{r datos, echo=FALSE, warning=FALSE, message=FALSE}
-datos_proc <- readRDS(file="output/base_proc.RData")
+
+data <- readRDS("output/data_proc.Rdata")
+
+# Modelo multinivel: Modelo nulo -------------------------------------------------------
+
+agg_data=data %>% group_by(cod_com) %>% summarise_all(funs(mean)) %>% as.data.frame()
+
+model0 = lmer(ess ~ 1 + (1 | cod_com), data = data)
+
+ICC<-reghelper::ICC(model0)
+ICC*100
+
+#Modelo 1: Predictores de nivel individual -------------------------------
+
+model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + (1 | cod_com), data = data)
+
+# Modelo 2: Predictores nivel 2 -------------------------------------------
+
+model2 = lmer(ess ~ 1 + pob_multi_gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = data)
+
+# Modelo 3: Predictores individuales y grupales ---------------------------
+
+model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 | cod_com), data = data)
+
+#Modelo 4: Pendiente aleatoria -------------------------------------------
+
+model4= lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = data)
+
+#Comparación pendiete fija y aleatoria con Anova
+anova(model3,model4)
+
+# Modelo 5: Interacción entre niveles -------------------------------------
+
+model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_multi_gmc  + dim_seg  + dim_amb + edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
+
 ```
 
 El presente estudio utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) desarrollada por el Centro de Estudios de Cohesión y Conflicto Social (COES), que tiene como principal objetivo constituirse como un “insumo empírico la comprensión de las creencias, actitudes y percepciones de los chilenos hacia las distintas dimensiones de la convivencia y el conflicto, y como éstas cambian a lo largo del tiempo” (COES, s.f., p. 3).
 
-La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico. Además, esta encuesta se aplica de forma anual (COES, s.f.).
+La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico (COES, s.f.).
 
-Adicionalmente, se integró una segunda fuente de datos proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia. Corresponden a las estimaciones de pobreza multidimensional por comuna del año 2022. Con esta información se buscó incorporar indicadores contextuales de nivel comunal, complementando los datos individuales del ELSOC. La integración de ambas bases se realizó mediante merge utilizando el código comuna_cod presente en ambas bases como variable de vinculación. Como resultado, se obtuvo una base de datos combinada que contiene variables individuales y contextuales. Esto a modo de posibilitar aplicación de modelos multinivel para comprender la influencia simultánea de factores individuales y contextuales sobre el estatus social subjetivo.
+Además, se integrarón dos fuentes de datos adicionales para las variables de nivel 2, la primera corresponde proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional, y la segunda corresponde a dos dimensiones de la Matriz de Bienestar Territorial que tiene como objetivo ... dimensiones ambiental y de seguridad.
+
+En este estudio, los datos serán analizados mediante una técnica de análisis multinivel de dos niveles, el nivel 1 corresponde a los individuos y el nivel 2 con comunas. El análisis de nivel 1 considera una muestra de 767 personas, de un total de 2.730 personas encuestadas. Por otro lado, el análisis de nivel 2 emplea una base de datos agregados por comuna, considerando un total de 42 comunas de la Región Metropolitana.
 
 A continuacion se presentan las variables a utilizar en este estudio.
 
 ```{r tbl-1, echo=FALSE, warning=FALSE, message=FALSE}
 
 tabla <- tibble::tribble(
-  ~Tipo, ~Variable, ~Operacionalización, ~`Tipo variable`,
-  
+   ~Tipo, ~Variable, ~Operacionalización, 
   "Dependiente", 
-  "Estatus social subjetivo (d01_01)", 
-  "¿Dónde se ubicaría usted en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)", 
-  "Ordinal",
+  "Estatus social subjetivo", 
+  "¿Dónde se ubicaría usted en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
   
   "Nivel 1", 
-  "Estatus social familiar (d01_02)", 
-  "¿Dónde ubicaría a la familia en que creció en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)", 
-  "Ordinal",
+  "Educación universitaria", 
+  "Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior",
   
-  "", 
-  "Nivel educativo (m01)", 
-  "Educación básica incompleta\nEducación básica completa\nEducación media incompleta\nEducación media completa\nEducación superior no universitaria\nEducación universitaria completa", 
-  "Ordinal",
+  "",
+  "Ingreso total por hogar", "Ingreso percibido en el hogar en decenas de mil CLP ($10.000)",
+  
+  "",
+  "Estatus social familiar", 
+  "¿Dónde ubicaría a la familia en que creció en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
   
   "Nivel 2", 
-  "Percepción de seguridad (índice t10 y t06_01)", 
-  "Índice compuesto por:\n Percepción de seguridad del barrio (t10) y Satisfacción con la seguridad del barrio (t06_01)", 
-  "Índice (Ordinal/Likert)",
-  
-  "", 
   "Pobreza multidimensional", 
   "Índice compuesto por las siguientes dimensiones: educación, salud, trabajo, vivienda y redes y cohesion social", 
-  "Índice"
+  
+  "",
+  "Ambiental",
+  "Dimensión basada en la amplitud térmica anual y la cobertura vegetal",
+  
+  "",
+  "Seguridad",
+  "Dimensión construida a partir de los indicadores de seguridad que miden la incidencia de delitos graves y leves contra personas y la propiedad",
+  
 )
 
 tabla %>%
@@ -139,7 +185,6 @@ tabla %>%
     Tipo = "Nivel de análisis",
     Variable = "Variable",
     Operacionalización = "Operacionalización",
-    `Tipo variable` = "Tipo de variable"
   ) %>%
   tab_style(
     style = cell_text(weight = "bold"),
@@ -153,61 +198,65 @@ tabla %>%
     row.striping.include_table_body = TRUE
   )
 
-```
-
-A partir de la Tabla 2, se observa que la muestra está compuesta por un 65.3% de mujeres y un 34,7% de hombres, mientras que la edad de los encuestados varía entre los 22 años y los 90 años, con un promedio de 51 años.
-
-```{r tbl-2, echo=FALSE, warning=FALSE, message=FALSE}
-#| echo: false
-#| warning: false
-#| message: false
-summarytools::st_options(dfSummary.silent = TRUE)
-print(dfSummary(datos_proc[, c("sexo", "edad", "ess", "ess_f", "nedu", "seguridad", "pob_multi")], 
-                headings = FALSE, title = "** Tabla 2: Descriptivos**"), 
-      method = "render",
-      titles = FALSE
-)
 
 ```
 
-En este estudio, los datos serán analizados mediante una técnica de análisis multinivel de dos niveles, el nivel 1 corresponde a los individuos y el nivel 2 con comunas. El análisis de nivel 1 considera una muestra de 760 personas, de un total de 2.730 personas encuestadas. Por otro lado, el análisis de nivel 2 emplea una base de datos agregados por comuna, considerando un total de 42 comunas de la Región Metropolitana.
+A partir de la Tabla x, se observa que la muestra ...
+
+```{r dscr n1, echo=FALSE, warning=FALSE, message=FALSE}
+
+data %>%  select (ess, ess_f, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::descr(.,
+                                                                                                     show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
+  kable(., digits =2, "markdown", caption = "Estadísticos descriptivos de las variables individuales")
+
+```
+
+```{r dscr n2}
+
+data %>%
+  select(comuna, pob_multi, dim_amb, dim_seg) %>%
+  distinct() %>%
+  sjmisc::descr(., show = c("label","range", "mean", "sd", "NA.prc", "n")) %>%
+  kable(digits = 2, format = "markdown", caption = "Estadísticos descriptivos de las variables contextuales")
+```
+
+Modelos
+
+Modelo nulo
+
+$$
+
+ess_{ij} = gamma*{00} + u*{0j} + r_{ij}
+
+$$
+
+modelos...
 
 # Resultados
 
-De acuerdo con la correlación intra-clase, el 17.70% de la varianza de la variable dependiente se asocia a la pertenencia en una comuna.
+De acuerdo con la correlación intra-clase, el 21% de la varianza de la variable dependiente se asocia a la pertenencia en una comuna.
 
 Mediante el modelo nulo, podemos identificar el intercepto o el *𝛄00* que es de 4.7197, correspondiente al promedio general de la población.
 
 ```{r model-com, echo=FALSE, warning=FALSE, message=FALSE}
-#Modelo 1: Predictores de nivel individual 
 
-results_1 = lmer(ess ~ 1 + nedu  + ess_f + (1 | comuna_cod), data = datos_proc)
-
-# Modelo 2: Predictores nivel 2 
-
-results_2 = lmer(ess ~ 1 + pob_multi + meanseg  + (1 | comuna_cod), data = datos_proc)
-
-# Modelo 3: Predictores individuales y grupales 
-
-results_3 = lmer(ess ~ 1 + nedu + ess_f + pob_multi + meanseg + (1 | comuna_cod), data = datos_proc)
-
-# Comparación individual, agregado y multinivel 
-
-reg_ind=lm(ess ~ nedu + ess_f + pob_multi + meanseg, data=datos_proc)
-agg_data=datos_proc %>% group_by(comuna_cod) %>% summarise_all(funs(mean)) %>% as.data.frame()
-reg_agg=lm(ess ~ nedu + ess_f + pob_multi + meanseg, data=agg_data)
+tab_model(
+  model0, model1, model2, model3, model4, model5,
+  show.ci  = FALSE,
+  show.se  = TRUE,
+  p.style  = "stars",
+  digits   = 3,
+  dv.labels = c(
+    "Nulo", "Individual", "Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"
+  ),
+  file = NA          # ← devuelve la lista, no la imprime
+)
 
 ```
 
 En la siguiente tabla, tenemos la comparación del nivel individual, agrupado y multinivel. En el modelo 1 (individual), las variables nivel educacional y estatus social familiar están estimadas correctamente, mientras que en las variables de pobreza multidimensional y percepción de seguridad, se encuentran subestimadas debido a que estas variables están operacionalizadas a nivel contextual. Lo anterior, se verifica por la diferencia en los errores estándar, en comparación al modelo 2, ya que, este se encuentra estimado por la variable cluster. De igual manera, se puede observar que las variables de nivel 1 se encuentran sobreestimadas, tomando como ejemplo la variable estatus social subjetivo, en la que el error estándar aumenta de forma errada de un 0.02 a un 0.13. Por último, en el modelo 3 correspondiente al análisis multinivel, cada variable está medida en su respectivo nivel.
 
 Las variables más importantes del análisis son la variable de estatus social familiar (p \< 0.001), que indica que por cada punto que aumente la variable estatus social familiar, aumenta en 0.42 el estatus social subjetivo. Junto con la pobreza multidimensional (p \< 0.01), que señala que por cada punto porcentual que aumente, el estatus social subjetivo disminuirá en 3.77.
-
-```{r tbl-comparacion, echo=FALSE, message=FALSE, warning=FALSE}
-
-screenreg(list(reg_ind, reg_agg, results_3))
-
-```
 
 # Conclusiones
 
