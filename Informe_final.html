@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -141,6 +107,7 @@ window.Quarto = {
 
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
+<p>El estatus social subjetivo ha sido un tema poco explorado en América Latina, por lo que esta investigación se propone analizar los factores individuales y contextuales asociados a esta variable en la Región Metropolitana. Para ello, se emplea una metodología multinivel que permite estimar los efectos tanto de las características personales como del entorno comunal en la autopercepción de la posición social. El estudio se basa en datos de la sexta ola del Estudio Longitudinal Social de Chile (ELSOC), complementados con información comunal sobre el índice de pobreza multidimensional, calidad ambiental y seguridad, provenientes de fuentes secundarias En total, se analizan 767 personas y 42 comunas de la Región Metropolitana. Los resultados indican que las variables que inciden significativamente en el estatus social subjetivo son el estatus social subjetivo de origen familiar, el ingreso total del hogar y el nivel de pobreza multidimensional de las comunas. En consecuencia, se evidencia una fuerte influencia del contexto familiar y de la variable socioeconómica, tanto a nivel individual como contextual, en la autopercepción del estatus social.</p>
 </section>
 <section id="introducción" class="level1">
 <h1>Introducción</h1>
@@ -195,26 +162,26 @@ window.Quarto = {
 <p>La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico (COES, s.f.).</p>
 <p>Además, se integraron dos fuentes de datos adicionales para las variables de nivel 2, la primera proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional (SAE, 2022). Mientras que la segunda fuente corresponde a dos dimensiones de la Matriz de Bienestar Humano Territorial cuyo objetivo es caracterizar los territorios (manzanas, barrios, comunas o regiones) a partir de cinco dimensiones: accesibilidad, ambiental, socioeconómico, seguridad y desarrollo local. Esta matriz se construye con datos provenientes de diversas instituciones, como el Instituto Nacional de Estadísticas, Censo de Población y Vivienda 2017, Ministerio de Educación, Subsecretaría de Prevención del Delito, entre otros. Para este informe, se considerarán únicamente las dimensiones ambiental y de seguridad, ya que las otras dimensiones son consideradas dentro del índice de pobreza multidimensional (Matriz BHT, s.f).</p>
 <p>En cuanto al número de casos, se trabajará con una muestra de 767 individuos, mientras que a nivel contextual, se consideran 42 comunas de la Región Metropolitana. Se excluyeron las comunas de Alhué, Buin, Calera de Tango, María Pinto, Melipilla, Pirque, San José de Maipo, San Pedro, Talagante y Tiltil, debido a la ausencia de datos en la encuesta ELSOC.</p>
-<p>A continuacion se presenta la Tabla 1 con las variables a utilizar en este estudio.</p>
+<p>A continuación se presenta la Tabla 1 con las variables a utilizar en este estudio.</p>
 <div id="tbl-1" class="cell anchored">
 <div class="cell-output-display">
-<div id="sclfldmtug" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sclfldmtug table {
+<div id="mrectyztqm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mrectyztqm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#sclfldmtug thead, #sclfldmtug tbody, #sclfldmtug tfoot, #sclfldmtug tr, #sclfldmtug td, #sclfldmtug th {
+#mrectyztqm thead, #mrectyztqm tbody, #mrectyztqm tfoot, #mrectyztqm tr, #mrectyztqm td, #mrectyztqm th {
   border-style: none;
 }
 
-#sclfldmtug p {
+#mrectyztqm p {
   margin: 0;
   padding: 0;
 }
 
-#sclfldmtug .gt_table {
+#mrectyztqm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -240,12 +207,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_caption {
+#mrectyztqm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#sclfldmtug .gt_title {
+#mrectyztqm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -257,7 +224,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#sclfldmtug .gt_subtitle {
+#mrectyztqm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -269,7 +236,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#sclfldmtug .gt_heading {
+#mrectyztqm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -281,13 +248,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_bottom_border {
+#mrectyztqm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_col_headings {
+#mrectyztqm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -302,7 +269,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_col_heading {
+#mrectyztqm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -322,7 +289,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#sclfldmtug .gt_column_spanner_outer {
+#mrectyztqm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -334,15 +301,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#sclfldmtug .gt_column_spanner_outer:first-child {
+#mrectyztqm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sclfldmtug .gt_column_spanner_outer:last-child {
+#mrectyztqm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sclfldmtug .gt_column_spanner {
+#mrectyztqm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -354,11 +321,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#sclfldmtug .gt_spanner_row {
+#mrectyztqm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#sclfldmtug .gt_group_heading {
+#mrectyztqm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -384,7 +351,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#sclfldmtug .gt_empty_group_heading {
+#mrectyztqm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -399,15 +366,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#sclfldmtug .gt_from_md > :first-child {
+#mrectyztqm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sclfldmtug .gt_from_md > :last-child {
+#mrectyztqm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sclfldmtug .gt_row {
+#mrectyztqm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -426,7 +393,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#sclfldmtug .gt_stub {
+#mrectyztqm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -439,7 +406,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sclfldmtug .gt_stub_row_group {
+#mrectyztqm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -453,15 +420,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#sclfldmtug .gt_row_group_first td {
+#mrectyztqm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sclfldmtug .gt_row_group_first th {
+#mrectyztqm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#sclfldmtug .gt_summary_row {
+#mrectyztqm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -471,16 +438,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sclfldmtug .gt_first_summary_row {
+#mrectyztqm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_first_summary_row.thick {
+#mrectyztqm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sclfldmtug .gt_last_summary_row {
+#mrectyztqm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -490,7 +457,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_grand_summary_row {
+#mrectyztqm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -500,7 +467,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sclfldmtug .gt_first_grand_summary_row {
+#mrectyztqm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -510,7 +477,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_last_grand_summary_row_top {
+#mrectyztqm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -520,11 +487,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_striped {
+#mrectyztqm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sclfldmtug .gt_table_body {
+#mrectyztqm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -533,7 +500,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_footnotes {
+#mrectyztqm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -547,7 +514,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_footnote {
+#mrectyztqm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -556,7 +523,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sclfldmtug .gt_sourcenotes {
+#mrectyztqm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -570,7 +537,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sclfldmtug .gt_sourcenote {
+#mrectyztqm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -578,72 +545,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sclfldmtug .gt_left {
+#mrectyztqm .gt_left {
   text-align: left;
 }
 
-#sclfldmtug .gt_center {
+#mrectyztqm .gt_center {
   text-align: center;
 }
 
-#sclfldmtug .gt_right {
+#mrectyztqm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sclfldmtug .gt_font_normal {
+#mrectyztqm .gt_font_normal {
   font-weight: normal;
 }
 
-#sclfldmtug .gt_font_bold {
+#mrectyztqm .gt_font_bold {
   font-weight: bold;
 }
 
-#sclfldmtug .gt_font_italic {
+#mrectyztqm .gt_font_italic {
   font-style: italic;
 }
 
-#sclfldmtug .gt_super {
+#mrectyztqm .gt_super {
   font-size: 65%;
 }
 
-#sclfldmtug .gt_footnote_marks {
+#mrectyztqm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#sclfldmtug .gt_asterisk {
+#mrectyztqm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sclfldmtug .gt_indent_1 {
+#mrectyztqm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sclfldmtug .gt_indent_2 {
+#mrectyztqm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sclfldmtug .gt_indent_3 {
+#mrectyztqm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sclfldmtug .gt_indent_4 {
+#mrectyztqm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sclfldmtug .gt_indent_5 {
+#mrectyztqm .gt_indent_5 {
   text-indent: 25px;
 }
 
-#sclfldmtug .katex-display {
+#mrectyztqm .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#sclfldmtug div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mrectyztqm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -701,7 +668,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>El estatus social subjetivo, que corresponde a la variable dependiente del estudio, presenta un promedio de 4,69, lo que indica una concentración de los datos hacia el centro de la escala en una posición intermedia. en una posicion media. Según la Tabla 2, el estatus social subjetivo familiar presenta un promedio ligeramente inferior, aunque igual se concentra en los valores medios de la escala. No obstante, esta variable presenta una mayor dispersión en comparación con el estatus individual, lo que sugiere una variabilidad más alta entre los casos. En cuanto al ingreso total del hogar es de $955.749 con una alta desviación estándar, por lo tanto, la distribución es bastante dispersa y desigual.</p>
+<p>El estatus social subjetivo, que corresponde a la variable dependiente del estudio, presenta un promedio de 4,69, lo que indica una concentración de los datos hacia el centro de la escala, es decir, gran parte de la muestra se ubica en lo que se conoce como clase media. Según la Tabla 2, el estatus social subjetivo familiar presenta un promedio ligeramente inferior, aunque igual se concentra en los valores medios de la escala. No obstante, esta variable presenta una mayor dispersión en comparación con el estatus individual, lo que sugiere una variabilidad más alta entre los casos. En cuanto al ingreso total del hogar es de $955.749 con una alta desviación estándar, por lo tanto, la distribución es bastante dispersa y desigual.</p>
 <p>En cuanto al ingreso total del hogar, el promedio es de $955.749, acompañado de una alta desviación estándar, lo que refleja una distribución dispersa y desigual.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -796,13 +763,13 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">3</td>
-<td style="text-align: left;">pob_tramo</td>
-<td style="text-align: left;">pob_tramo</td>
+<td style="text-align: left;">pob_multi</td>
+<td style="text-align: left;">pob_multi</td>
 <td style="text-align: right;">42</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">2.24</td>
-<td style="text-align: right;">0.66</td>
-<td style="text-align: left;">2 (1-3)</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: left;">0.26 (0.02-0.29)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
@@ -828,6 +795,8 @@ window.Quarto = {
 </table>
 </div>
 </div>
+<section id="modelos" class="level2">
+<h2 class="anchored" data-anchor-id="modelos">Modelos</h2>
 <p>En este informe se estimaron cinco modelos multinivel con el objetivo de analizar la variación en la variable dependiente considerando tanto factores individuales como contextuales:</p>
 <ul>
 <li>Modelo nulo</li>
@@ -839,7 +808,7 @@ ess_{ij} = gamma*{00} + u*{0j} + r\_{ij}
 <ul>
 <li>Modelo 1 - Nivel individual</li>
 </ul>
-<p>En este modelo se incluyen los predictores de nivel individual, los cuales corresponden a: estatus social subjetivo familiar, educación universitaria o superior, e ingreso total del hogar (en centenas de mil CLP).</p>
+<p>En este modelo se incluyen los predictores de nivel individual, los cuales corresponden a: estatus social subjetivo familiar, educación universitaria o superior, e ingreso total del hogar (por cada $500.000 pesos chilenos).</p>
 <p><span class="math display">\[
 ess_{ij} = \gamma_{00} +
 \gamma_{10} \text{educación universitaria} +
@@ -859,7 +828,7 @@ ess_{ij} = \gamma_{00} +
 <ul>
 <li>Modelo 3 - Individual y grupal</li>
 </ul>
-<p>Este modelo incorpora todos los predictores de nivel individual y contextual con efecto fijo</p>
+<p>Este modelo incorpora todos los predictores de nivel individual y contextual con efecto fijo.</p>
 <p><span class="math display">\[
 \begin{align*}
 ess_{ij} &amp;= \gamma_{00}
@@ -888,7 +857,7 @@ ess_{ij} &amp;= \gamma_{00} \\
 <ul>
 <li>Modelo 5 - Interacción entre niveles</li>
 </ul>
-<p>Este modelo incorpora un efecto aleatorio de pendiente para la variable estatus social subjetivo familiar por comuna y su interacción con el índice de pobreza multidimensional</p>
+<p>Este modelo incorpora un efecto aleatorio de pendiente para la variable estatus social subjetivo familiar por comuna y su interacción con el índice de pobreza multidimensional.</p>
 <p><span class="math display">\[
 \begin{align*}
 ess_{ij} &amp;= \gamma_{00} \\
@@ -900,9 +869,10 @@ ess_{ij} &amp;= \gamma_{00} \\
 \end{align*}
 \]</span></p>
 </section>
+</section>
 <section id="resultados" class="level1">
 <h1>Resultados</h1>
-<p>A continuación se presenta la tabla con los resultados de los seis modelos estimados en esta investigación. Primero, se analiza el modelo sin predictores (modelo nulo), seguido por la incorporación de variables individuales y contextuales por separado y en conjunto, y finalizando con modelos que incluyen pendiente aleatoria e interacción entre niveles.</p>
+<p>A continuación se presenta la tabla con los resultados de los seis modelos estimados en esta investigación. Primero, se analiza el modelo sin predictores (modelo nulo), seguido por la incorporación de variables individuales y contextuales por separado y en conjunto, y finalizando con modelos que incluyen pendiente aleatoria e interacción entre niveles. En relación con las variables, se decidió centrar algunas variables de nivel 1 y 2. En el nivel 1, se centraron a la media general las variables de estatus social subjetivo e ingreso total del hogar. En el nivel 2, las variables dimensión seguridad y la dimensión ambiental fueron centradas a la gran media.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table style="border-collapse:collapse; border:none;">
@@ -1209,43 +1179,30 @@ ess_{ij} &amp;= \gamma_{00} \\
 
 </div>
 </div>
-<p>El modelo nulo presenta un coeficiente de correlación intraclase de 0.21, lo que indica que un 21% de la varianza del estatus social subjetivo se explica por las diferencias entre las comunas, este resultado nos permite sustentar el uso de la metodología multinivel, dado que una proporción significativa de la variabilidad en la variable dependiente se encuentra en el nivel contextual.</p>
-<p>Mediante el modelo nulo, podemos identificar el intercepto o el <em>𝛄00</em> que es de 4.7197, correspondiente al promedio general de la población.</p>
-<p>En el modelo 1 que incluye las variables individuales, se puede observar que las tres son significativas y tienen un efecto positivo sobre el estatus social subjetivo. La variable que tiene mayor nivel predictivo es el estatus social familiar, donde por cada punto que aumenta esta variable, el estatus social subjetivo aumenta en 0.41 puntos. En el caso de las personas que tengan un nivel educacional universitario o superior, tendrán 0.33 puntos más en su autopercepción de estatus que quienes tienen niveles más bajos de educación, con una significancia estadistica del 95%. Luego, en la variable de ingreso total por hogar por cada $500.000 el estatus social subjetivo aumentara en 0.090.</p>
-<p>En cuanto al modelo 2, los efectos de la pobreza multidimensional son negativos y significativos al 99.9%. Por un lado, las comunas con un porcentaje de pobreza multidimensional alto presentan una disminución de 1.95 puntos en el estatus social subjetivo, en comparación a las comunas con pobreza multidimensional bajo. Mientras que las comunas de nivel medio, presentan una disminución de 1.60 del estatus social subjetivo.</p>
-<p>Por otro lado, se observa que la dimensión ambiental y de seguridad no presentan una relación significativa en ninguno de los modelos. Podemos decir que xxx.</p>
-<p>En el modelo 3, tras la inclusión de las variables individuales y contextuales, se observa que el Estatus Social Subjetivo Familiar y los Ingresos, controlados por las variables de nivel 2, mantienen su relación positiva y significativa. Sin embargo, la educación pierde su nivel de significancia del 95%. En cuanto a la pobreza multidimensional, es posible observar que sus categorías mantienen su efecto significativo, demostrando una leve disminución en sus coeficientes de regresión.</p>
-<p>En el modelo 4, donde la variable de estatus social subjetivo familiar tiene pendiente aleatoria, es decir, su efecto puede variar por comuna. En cuantos&nbsp; los coeficientes, estos estos mantienen los niveles de significancia del modelo 3, pero presenta un R condicional de 0.469, siendo el mejor modelo.</p>
-<p>A partir del modelo con pendiente fija (modelo 3) y el modelo con pendiente aleatoria (modelo 4), se realizó un test de devianza, donde la diferencia entre ambos es estadísticamente significativa, por ende, se comprueba que el modelo 4 tiene un mejor ajuste. A partir de esto, es posible proceder con el modelo 5 donde se prueba la hipótesis de interacción entre variables.</p>
+<p>El modelo nulo presenta un coeficiente de correlación intraclase de 0.21, lo que indica que un 21% de la varianza del estatus social subjetivo se explica por las diferencias entre las comunas, este resultado nos permite sustentar el uso de la metodología multinivel, dado que una proporción significativa de la variabilidad en la variable dependiente se encuentra en el nivel contextual. Además, el modelo estima un intercepto (𝛄00) que es de 4.7197, correspondiente al promedio general de la población.</p>
+<p>Respecto a los modelos con predictores, el modelo 1, que contiene las variables individuales, muestra que todas las variables son significativamente estadísticas y tienen un efecto positivo sobre el estatus social subjetivo. La variable que tiene mayor nivel de incidencia es el estatus social familiar, donde por cada punto que aumenta esta variable, el estatus social subjetivo aumenta en 0.41 puntos. En el caso de las personas que tengan un nivel educacional universitario o superior, tendrán 0.33 puntos más en su autopercepción de estatus, en comparación a quienes tienen niveles más bajos de educación, con una significancia estadística del 95%. Luego, en la variable de ingreso, por cada $500.000 pesos que aumente el ingreso total del hogar, el estatus social subjetivo aumentará en 0.090.</p>
+<p>El modelo 2, que incorpora variables contextuales, muestra que los efectos de la pobreza multidimensional son negativos y significativos al 99.9%. Por un lado, las comunas con un porcentaje de pobreza multidimensional alto presentan una disminución de 1.95 puntos en el estatus social subjetivo, en comparación a las comunas con pobreza multidimensional bajo. Mientras que las comunas de nivel medio, presentan una disminución de 1.60 del estatus social subjetivo. Por otro lado, se observa que la dimensión ambiental y de seguridad no presentan una relación significativa en ninguno de los modelos. En el modelo 3, tras la inclusión de las variables individuales y contextuales, se observa que el estatus social subjetivo familiar y los Ingresos, controlados por las variables de nivel 2, mantienen su relación positiva y significativa. Sin embargo, la educación pierde su nivel de significancia del 95%. En cuanto a la pobreza multidimensional, es posible observar que sus categorías mantienen su efecto significativo, demostrando una leve disminución en sus coeficientes de regresión.</p>
+<p>En el modelo 4 incluye todas las variables, y la variable de estatus social subjetivo familiar tiene pendiente aleatoria, es decir, su efecto puede variar por comuna. En cuanto a los coeficientes, estos mantienen los niveles de significancia del modelo 3, pero presenta un R^ condicional de 0.469, siendo el mejor modelo. Esto, indica que el modelo explica un 46% de la ICC de 21%.</p>
+<p>A partir del modelo con pendiente fija (modelo 3) y el modelo con pendiente aleatoria (modelo 4), se realizó un test de devianza, donde la diferencia entre ambos es estadísticamente significativa (Pr(&gt;Chisq) = 0.004), por ende, se comprueba que el modelo 4 tiene un mejor ajuste. A partir de esto, es posible proceder con el modelo 5 donde se prueba la hipótesis de interacción entre variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>anova_comparacion <span class="ot">&lt;-</span> <span class="fu">anova</span>(model3, model4) <span class="sc">|&gt;</span> </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>refitting model(s) with ML (instead of REML)</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>anova_comparacion <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Tabla 4: Comparación de modelos con pendiente fija y aleatoria"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="bgokmtkdky" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bgokmtkdky table {
+<div id="zdtcoqiyzg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zdtcoqiyzg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bgokmtkdky thead, #bgokmtkdky tbody, #bgokmtkdky tfoot, #bgokmtkdky tr, #bgokmtkdky td, #bgokmtkdky th {
+#zdtcoqiyzg thead, #zdtcoqiyzg tbody, #zdtcoqiyzg tfoot, #zdtcoqiyzg tr, #zdtcoqiyzg td, #zdtcoqiyzg th {
   border-style: none;
 }
 
-#bgokmtkdky p {
+#zdtcoqiyzg p {
   margin: 0;
   padding: 0;
 }
 
-#bgokmtkdky .gt_table {
+#zdtcoqiyzg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1271,12 +1228,12 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-left-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_caption {
+#zdtcoqiyzg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bgokmtkdky .gt_title {
+#zdtcoqiyzg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1288,7 +1245,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-width: 0;
 }
 
-#bgokmtkdky .gt_subtitle {
+#zdtcoqiyzg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1300,7 +1257,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-top-width: 0;
 }
 
-#bgokmtkdky .gt_heading {
+#zdtcoqiyzg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1312,13 +1269,13 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_bottom_border {
+#zdtcoqiyzg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_col_headings {
+#zdtcoqiyzg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1333,7 +1290,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_col_heading {
+#zdtcoqiyzg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1353,7 +1310,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   overflow-x: hidden;
 }
 
-#bgokmtkdky .gt_column_spanner_outer {
+#zdtcoqiyzg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1365,15 +1322,15 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 4px;
 }
 
-#bgokmtkdky .gt_column_spanner_outer:first-child {
+#zdtcoqiyzg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bgokmtkdky .gt_column_spanner_outer:last-child {
+#zdtcoqiyzg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bgokmtkdky .gt_column_spanner {
+#zdtcoqiyzg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1385,11 +1342,11 @@ ess_{ij} &amp;= \gamma_{00} \\
   width: 100%;
 }
 
-#bgokmtkdky .gt_spanner_row {
+#zdtcoqiyzg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bgokmtkdky .gt_group_heading {
+#zdtcoqiyzg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1415,7 +1372,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   text-align: left;
 }
 
-#bgokmtkdky .gt_empty_group_heading {
+#zdtcoqiyzg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1430,15 +1387,15 @@ ess_{ij} &amp;= \gamma_{00} \\
   vertical-align: middle;
 }
 
-#bgokmtkdky .gt_from_md > :first-child {
+#zdtcoqiyzg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bgokmtkdky .gt_from_md > :last-child {
+#zdtcoqiyzg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bgokmtkdky .gt_row {
+#zdtcoqiyzg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1457,7 +1414,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   overflow-x: hidden;
 }
 
-#bgokmtkdky .gt_stub {
+#zdtcoqiyzg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1470,7 +1427,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#bgokmtkdky .gt_stub_row_group {
+#zdtcoqiyzg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1484,15 +1441,15 @@ ess_{ij} &amp;= \gamma_{00} \\
   vertical-align: top;
 }
 
-#bgokmtkdky .gt_row_group_first td {
+#zdtcoqiyzg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bgokmtkdky .gt_row_group_first th {
+#zdtcoqiyzg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bgokmtkdky .gt_summary_row {
+#zdtcoqiyzg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1502,16 +1459,16 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#bgokmtkdky .gt_first_summary_row {
+#zdtcoqiyzg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_first_summary_row.thick {
+#zdtcoqiyzg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bgokmtkdky .gt_last_summary_row {
+#zdtcoqiyzg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1521,7 +1478,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_grand_summary_row {
+#zdtcoqiyzg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1531,7 +1488,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#bgokmtkdky .gt_first_grand_summary_row {
+#zdtcoqiyzg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1541,7 +1498,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-top-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_last_grand_summary_row_top {
+#zdtcoqiyzg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1551,11 +1508,11 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_striped {
+#zdtcoqiyzg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bgokmtkdky .gt_table_body {
+#zdtcoqiyzg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1564,7 +1521,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_footnotes {
+#zdtcoqiyzg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1578,7 +1535,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_footnote {
+#zdtcoqiyzg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1587,7 +1544,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#bgokmtkdky .gt_sourcenotes {
+#zdtcoqiyzg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1601,7 +1558,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#bgokmtkdky .gt_sourcenote {
+#zdtcoqiyzg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1609,72 +1566,72 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#bgokmtkdky .gt_left {
+#zdtcoqiyzg .gt_left {
   text-align: left;
 }
 
-#bgokmtkdky .gt_center {
+#zdtcoqiyzg .gt_center {
   text-align: center;
 }
 
-#bgokmtkdky .gt_right {
+#zdtcoqiyzg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bgokmtkdky .gt_font_normal {
+#zdtcoqiyzg .gt_font_normal {
   font-weight: normal;
 }
 
-#bgokmtkdky .gt_font_bold {
+#zdtcoqiyzg .gt_font_bold {
   font-weight: bold;
 }
 
-#bgokmtkdky .gt_font_italic {
+#zdtcoqiyzg .gt_font_italic {
   font-style: italic;
 }
 
-#bgokmtkdky .gt_super {
+#zdtcoqiyzg .gt_super {
   font-size: 65%;
 }
 
-#bgokmtkdky .gt_footnote_marks {
+#zdtcoqiyzg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bgokmtkdky .gt_asterisk {
+#zdtcoqiyzg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bgokmtkdky .gt_indent_1 {
+#zdtcoqiyzg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bgokmtkdky .gt_indent_2 {
+#zdtcoqiyzg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bgokmtkdky .gt_indent_3 {
+#zdtcoqiyzg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bgokmtkdky .gt_indent_4 {
+#zdtcoqiyzg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bgokmtkdky .gt_indent_5 {
+#zdtcoqiyzg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bgokmtkdky .katex-display {
+#zdtcoqiyzg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bgokmtkdky div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zdtcoqiyzg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1722,47 +1679,44 @@ ess_{ij} &amp;= \gamma_{00} \\
 </div>
 </div>
 </div>
+<p>Finalmente, el modelo 5 presenta la interacción entre estatus social subjetivo familiar y pobreza multidimensional comunal, controlando por las variables de sexo y tramo de edad. En primer lugar, se observa que la interacción entre las variables no genera ningún impacto sobre la variable dependiente. En segundo lugar, se observa que se mantienen los niveles de significancia del modelo 4. Por último, se aprecia que las personas jóvenes, presentan una disminución de 0.34 puntos de estatus social subjetivo, en comparación a los adultos, siendo significativa al 95%.</p>
+<section id="gráficos-de-interacción" class="level2">
+<h2 class="anchored" data-anchor-id="gráficos-de-interacción">Gráficos de interacción</h2>
+<p>El siguiente gráfico muestra las predicciones del estatus social subjetivo según el estatus social familiar para las comunas de La Pintana, Nuñoa, Puente Alto y Vitacura, que fueron seleccionadas por representar contextos comunales distintos. En el caso de La Pintana, se observa que es la comuna que parte con una menor percepción del estatus social subjetivo, sin embargo, a medida que va aumentando el estatus social de la familia, esta comuna alcanza los niveles más altos de estatus social individual, por sobre comunas como Vitacura o Ñuñoa. En cuanto Ñuñoa, se observa que comienza con niveles de estatus social subjetivo bajo, y a pesar del aumento del estatus de la familia, los niveles se mantienen más bajos que el resto de comunas.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="output/grafico_efecto_aleatorio.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
-<p>Finalmente, el modelo 5 presenta la interacción entre Estatus social subjetivo familiar y pobreza multidimensional comunal, controlando por las variables de sexo y tramo de edad. En primer lugar, se observa que la interacción entre las variables no genera ningún impacto sobre la variable dependiente. En segundo lugar, se observa que se mantienen los niveles de significancia del modelo 4. Por último, se aprecia que las personas jóvenes, presentan una disminución de 0.34 puntos de estatus social subjetivo, en comparación a los adultos, siendo significativa al 95%.</p>
+<p>En el siguiente gráfico, se muestra la interacción entre estatus social familiar y la pobreza multidimensional por comuna en tramos. A pesar de que la interacción no es significativa (H7), la presente figura ayuda a visualizar de qué manera la predicción de la variable dependiente, según el estatus social subjetivo familiar, se diferencia en cada tramo de pobreza. Se observa que en comunas con bajos niveles de pobreza multidimensional, el estatus social subjetivo alcanza mayores niveles según el estatus de la familia. En contraparte, las categorías de mayor índice de pobreza multidimensional, presentan niveles más bajos de estatus social subjetivo.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="output/grafico_interacción.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
+</section>
 <section id="análisis-de-casos-influyentes" class="level2">
 <h2 class="anchored" data-anchor-id="análisis-de-casos-influyentes">Análisis de casos influyentes</h2>
-<p>En esta investigación se mantuvo el total de las comunas, ya que al calcular la Distancia de cook se determinó que no existen casos influyentes, que podrian haber alterado significativamente los resultados de los modelos.</p>
+<p>En esta investigación se mantuvo el total de las comunas (N=42), ya que al calcular la Distancia de cook en el modelo 5, se determinó que no existen casos influyentes, los cuales podrían haber alterado significativamente los resultados de los modelos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>estex.m5 <span class="ot">&lt;-</span> <span class="fu">influence</span>(model5, <span class="st">"cod_com"</span>) </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tabla_sig <span class="ot">&lt;-</span> <span class="fu">sigtest</span>(estex.m5, <span class="at">test =</span> <span class="sc">-</span><span class="fl">1.96</span>)<span class="sc">$</span>ess_f_cmc[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tabla_sig <span class="sc">|&gt;</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Tabla 5: Distancia de cook"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="qtqfprztqt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qtqfprztqt table {
+<div id="lygddrqjwx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lygddrqjwx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qtqfprztqt thead, #qtqfprztqt tbody, #qtqfprztqt tfoot, #qtqfprztqt tr, #qtqfprztqt td, #qtqfprztqt th {
+#lygddrqjwx thead, #lygddrqjwx tbody, #lygddrqjwx tfoot, #lygddrqjwx tr, #lygddrqjwx td, #lygddrqjwx th {
   border-style: none;
 }
 
-#qtqfprztqt p {
+#lygddrqjwx p {
   margin: 0;
   padding: 0;
 }
 
-#qtqfprztqt .gt_table {
+#lygddrqjwx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1788,12 +1742,12 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-left-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_caption {
+#lygddrqjwx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qtqfprztqt .gt_title {
+#lygddrqjwx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1805,7 +1759,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-width: 0;
 }
 
-#qtqfprztqt .gt_subtitle {
+#lygddrqjwx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1817,7 +1771,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-top-width: 0;
 }
 
-#qtqfprztqt .gt_heading {
+#lygddrqjwx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1829,13 +1783,13 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_bottom_border {
+#lygddrqjwx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_col_headings {
+#lygddrqjwx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1850,7 +1804,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_col_heading {
+#lygddrqjwx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1870,7 +1824,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   overflow-x: hidden;
 }
 
-#qtqfprztqt .gt_column_spanner_outer {
+#lygddrqjwx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1882,15 +1836,15 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 4px;
 }
 
-#qtqfprztqt .gt_column_spanner_outer:first-child {
+#lygddrqjwx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qtqfprztqt .gt_column_spanner_outer:last-child {
+#lygddrqjwx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qtqfprztqt .gt_column_spanner {
+#lygddrqjwx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1902,11 +1856,11 @@ ess_{ij} &amp;= \gamma_{00} \\
   width: 100%;
 }
 
-#qtqfprztqt .gt_spanner_row {
+#lygddrqjwx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qtqfprztqt .gt_group_heading {
+#lygddrqjwx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1932,7 +1886,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   text-align: left;
 }
 
-#qtqfprztqt .gt_empty_group_heading {
+#lygddrqjwx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1947,15 +1901,15 @@ ess_{ij} &amp;= \gamma_{00} \\
   vertical-align: middle;
 }
 
-#qtqfprztqt .gt_from_md > :first-child {
+#lygddrqjwx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qtqfprztqt .gt_from_md > :last-child {
+#lygddrqjwx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qtqfprztqt .gt_row {
+#lygddrqjwx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1974,7 +1928,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   overflow-x: hidden;
 }
 
-#qtqfprztqt .gt_stub {
+#lygddrqjwx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1987,7 +1941,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#qtqfprztqt .gt_stub_row_group {
+#lygddrqjwx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2001,15 +1955,15 @@ ess_{ij} &amp;= \gamma_{00} \\
   vertical-align: top;
 }
 
-#qtqfprztqt .gt_row_group_first td {
+#lygddrqjwx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qtqfprztqt .gt_row_group_first th {
+#lygddrqjwx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qtqfprztqt .gt_summary_row {
+#lygddrqjwx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2019,16 +1973,16 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#qtqfprztqt .gt_first_summary_row {
+#lygddrqjwx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_first_summary_row.thick {
+#lygddrqjwx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qtqfprztqt .gt_last_summary_row {
+#lygddrqjwx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2038,7 +1992,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_grand_summary_row {
+#lygddrqjwx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2048,7 +2002,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#qtqfprztqt .gt_first_grand_summary_row {
+#lygddrqjwx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2058,7 +2012,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-top-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_last_grand_summary_row_top {
+#lygddrqjwx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2068,11 +2022,11 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_striped {
+#lygddrqjwx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qtqfprztqt .gt_table_body {
+#lygddrqjwx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2081,7 +2035,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-bottom-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_footnotes {
+#lygddrqjwx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2095,7 +2049,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_footnote {
+#lygddrqjwx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2104,7 +2058,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#qtqfprztqt .gt_sourcenotes {
+#lygddrqjwx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2118,7 +2072,7 @@ ess_{ij} &amp;= \gamma_{00} \\
   border-right-color: #D3D3D3;
 }
 
-#qtqfprztqt .gt_sourcenote {
+#lygddrqjwx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2126,72 +2080,72 @@ ess_{ij} &amp;= \gamma_{00} \\
   padding-right: 5px;
 }
 
-#qtqfprztqt .gt_left {
+#lygddrqjwx .gt_left {
   text-align: left;
 }
 
-#qtqfprztqt .gt_center {
+#lygddrqjwx .gt_center {
   text-align: center;
 }
 
-#qtqfprztqt .gt_right {
+#lygddrqjwx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qtqfprztqt .gt_font_normal {
+#lygddrqjwx .gt_font_normal {
   font-weight: normal;
 }
 
-#qtqfprztqt .gt_font_bold {
+#lygddrqjwx .gt_font_bold {
   font-weight: bold;
 }
 
-#qtqfprztqt .gt_font_italic {
+#lygddrqjwx .gt_font_italic {
   font-style: italic;
 }
 
-#qtqfprztqt .gt_super {
+#lygddrqjwx .gt_super {
   font-size: 65%;
 }
 
-#qtqfprztqt .gt_footnote_marks {
+#lygddrqjwx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qtqfprztqt .gt_asterisk {
+#lygddrqjwx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qtqfprztqt .gt_indent_1 {
+#lygddrqjwx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qtqfprztqt .gt_indent_2 {
+#lygddrqjwx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qtqfprztqt .gt_indent_3 {
+#lygddrqjwx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qtqfprztqt .gt_indent_4 {
+#lygddrqjwx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qtqfprztqt .gt_indent_5 {
+#lygddrqjwx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qtqfprztqt .katex-display {
+#lygddrqjwx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qtqfprztqt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#lygddrqjwx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2268,6 +2222,16 @@ ess_{ij} &amp;= \gamma_{00} \\
 </section>
 <section id="conclusiones" class="level1">
 <h1>Conclusiones</h1>
+<p>En relación con las hipótesis planteadas, los resultados permiten afirmar que las hipótesis correspondientes al nivel individual se menara parcial Las hipótesis H2 y H3, que plantean un efecto positivo del ingreso total del hogar y del estatus social subjetivo familiar sobre el estatus social subjetivo individual, son respaldadas por los resultados de los modelos. En cambio, la hipótesis H1, relacionada con el nivel educativo, presenta un efecto significativo tan solo con variables de nivel individual, pero, al incorporar variables contextuales en los modelos posteriores, su efecto pierde significancia estadística.</p>
+<p>En cuanto a la pobreza multidimensional (H4), esta logra mantener sus efectos sobre la variable dependiente en todos los modelos. De esta manera, es posible afirmar que se aprueba la hipótesis que señala que en comunas que cuenta con menor presencia de pobreza multidimensional, en promedio, las personas se posicionan en escalas más bajas del estatus social.</p>
+<p>Respecto a las dimensiones ambiental (H5) y de seguridad (H6), no logra ningún efecto significativo sobre el estatus social subjetivo. Por ende, no se puede afirmar que en comunas con mayores niveles de bienestar ambiental y seguridad, exista un mayor estatus social subjetivo.</p>
+<p>Por último, en relación con la hipótesis H7, que plantea la interacción entre estatus social subjetivo familiar y pobreza multidimensional, los resultados del modelo 5 permiten rechazarla, ya que se observa que dicha interacción no es significativa, por lo tanto el efecto del estatus social familiar sobre la autopercepción individual no varía según los niveles de pobreza multidimensional en las comunas.</p>
+<p>Dentro de las variables de control, se observa un efecto significativo en el tramo de edad jóven. Esto se puede atribuir a las condiciones que enfrentan los jóvenes, considerados como menores a 30 años, en comparación a los adultos, especialmente por el desarrollo del nivel de acceso a condiciones materiales. Se destaca que la comparación entre el tramo de adultos mayores no es significativo. Esto plantea un desafío para futuras investigaciones, donde se incluyan los tramos etarios y desarrollo sobre las condiciones que pueden afectar en distintos momentos de la vida.</p>
+<p>Cómo respuesta a la pregunta de investigación planteada, ¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana? Es posible afirmar que dentro de los factores individuales se encuentra el estatus social subjetivo (H2) y el ingreso (H3), mientras que a nivel contextual, es el índice de pobreza multidimensional (H4).</p>
+<p>En base a lo planteado por Iturra y Mellado (2018), los resultados de este estudio coinciden en que el factor individual con mayor impacto sobre el estatus social subjetivo es el estatus social subjetivo familiar. Sin embargo, se observan diferencias importantes respecto al rol del nivel educativo. Mientras que en el estudio de Iturra y Mellado este aparece como un predictor significativo del estatus social subjetivo, en nuestro análisis la variable de educación universitaria o superior no presenta un efecto estadísticamente significativo al incorporar las variables contextuales, lo que sugiere que su influencia podría estar mediada o modulada por otros factores estructurales.</p>
+<p>Por otro lado, tal como señalan Mac-Clure et al.&nbsp;(2024), el efecto del lugar donde viven las personas es crucial a la hora de posicionarse en la escala social. De esta manera, las condiciones del barrio que implican abordar la pobreza en distintas dimensiones, afectan profundamente en el bienestar y autopercepción del estatus del individuo. De esta manera, es crucial seguir desarrollando políticas públicas que busquen reducir los niveles de pobreza en diferentes dimensiones y avanzar a un país más equitativo.</p>
+<p>Ahora bien, las hipótesis relacionadas al medio ambiente y a la seguridad no lograron dar cuenta de un real efecto sobre la variable dependiente. Sin embargo, como futuras investigaciones se plantea la necesidad de abordar estas dimensiones tanto de factores objetivos—como los ya medidos—-, así como de factores subjetivos.</p>
+<p>En resumen, estos resultados destacan la importancia de los factores individuales y del contexto territorial para comprender el estatus social subjetivo. Además, se coincide en parte con los estudios previos, pero también surge la necesidad de seguir indagando en otros elementos contextuales que puedan influir en la autopercepción del estatus social subjetivo.</p>
 </section>
 <section id="referencias" class="level1">
 <h1>Referencias</h1>
@@ -2284,21 +2248,18 @@ ess_{ij} &amp;= \gamma_{00} \\
 <p>Germani, G. (2010), “Clase social subjetiva e indicadores objetivos de estratificación” en Mera, Carolina y Rebón, Julián (Eds.), Gino Germani. La sociedad en cuestión. Antología comentada. Buenos Aires, CLACSO.</p>
 <p>Iturra, J. C., &amp; Mellado, D. (2018). Estatus social subjetivo en tres países de América Latina: El caso de Argentina, Chile y Venezuela. Contenido, Cultura y Ciencias Sociales. <a href="https://doi.org/10.31235/osf.io/yp3wm" class="uri">https://doi.org/10.31235/osf.io/yp3wm</a></p>
 <p>Kaztman, F., &amp; Retamoso, A. (2005). Segregación espacial, empleo y pobreza en Montevideo. Revista de la CEPAL, 2005(85), 131-148. <a href="https://doi.org/10.18356/93a498f9-es" class="uri">https://doi.org/10.18356/93a498f9-es</a></p>
-<p>Layera, M. L. M., Otero, G., &amp; Perret, V. (2020). Inseguridad percibida en los barrios de Santiago de Chile: la importancia del bienestar subjetivo. Dados, 63 (1). <a href="https://www.scielo.br/j/dados/a/Vdkqpn9BCxHSYNXCZFz5LkB/?format=html&amp;lang=es" class="uri">https://www.scielo.br/j/dados/a/Vdkqpn9BCxHSYNXCZFz5LkB/?format=html&amp;lang=es</a></p>
 <p>Lunecke, A. (2016). Inseguridad ciudadana y diferenciación social en el nivel microbarrial: El caso del sector Santo Tomás, Santiago de Chile. EURE (Santiago), 42(125), 109-129. <a href="https://doi.org/10.4067/S0250-71612016000100005" class="uri">https://doi.org/10.4067/S0250-71612016000100005</a></p>
 <p>Mac-Clure, O., Barozet, E., &amp; Aguilera, C. (2024). Definiendo su posición en tiempos de crisis: ¿clase social u otros atributos?. Estudios sociológicos, 42, e2401. Epub 24 de mayo de 2024.<a href="https://doi.org/10.24201/es.2024v42.e2401" class="uri">https://doi.org/10.24201/es.2024v42.e2401</a></p>
 <p>Mattos, C., Fuentes, L., &amp; Link, F. (2014). Tendencias recientes del crecimiento metropolitano en Santiago de Chile: ¿Hacia una nueva geografía urbana? Revista INVI, 29(81), 193-219. <a href="https://doi.org/10.4067/S0718-83582014000200006" class="uri">https://doi.org/10.4067/S0718-83582014000200006</a></p>
 <p>Marqués Perales, I., &amp; Rodríguez de la Fuente, J. (2023). Posicionamiento subjetivo y condición socioeconómica en América Latina (2006-2020): Una aproximación desde el análisis multinivel. Dados, 67(3), e20220070.</p>
 <p>Otero,&nbsp; G.,&nbsp; Carranza,&nbsp; R.,&nbsp; Contreras,&nbsp; D.&nbsp; (2016).&nbsp; Los&nbsp; ‘efectos&nbsp; del&nbsp; barrio’&nbsp; en&nbsp; el&nbsp; rendimiento&nbsp; educacional de los niños en Chile: los efectos de la organización local, polarización y desigualdad. Serie&nbsp; Documentos de Trabajo COES, Documento de trabajo N° 14, pp.&nbsp;1 – 28. [https://www.researchgate.net/publication/305281825_Los_‘efectos_del_barrio’_en_el_rendimiento_educacional_de_los_ninos_en_Chile_Los_efectos_de_la_organizacion_local_polarizacion_y_desigualdad]</p>
 <p>Penfold, M., &amp; Rodríguez Guzmán, G. (2014). N° 17 (English): The Growing but Vulnerable Middle Class in Latin America. Growth Patterns, Values and Preferences. Public Policy and Productive Transformation Series;N° 17/2014, Caracas: CAF. Retrieved from <a href="https://scioteca.caf.com/handle/123456789/909" class="uri">https://scioteca.caf.com/handle/123456789/909</a>&nbsp;</p>
-<p>PNUD. (2024). Análisis de la Medida de Pobreza Multidimensional en Chile. Santiago, Chile: Programa de las Naciones Unidas para el Desarrollo. <a href="https://www.undp.org/es/chile/publicaciones/analisis-de-la-medida-de-pobreza-multidimensional-en-chile" class="uri">https://www.undp.org/es/chile/publicaciones/analisis-de-la-medida-de-pobreza-multidimensional-en-chile</a></p>
-<p>Programa de las Naciones Unidas para el Desarrollo (2023). Medición de la Pobreza Multidimensional en Chile, Encuesta Casen 2022. <a href="https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Informe%20IPM%20-%20PNUD%20-%20CASEN%202022.pdf" class="uri">https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Informe%20IPM%20-%20PNUD%20-%20CASEN%202022.pdf</a>&nbsp;</p>
+<p>Programa de las Naciones Unidas para el Desarrollo. (2024). Análisis de la Medida de Pobreza Multidimensional en Chile. Santiago, Chile: Programa de las Naciones Unidas para el Desarrollo. <a href="https://www.undp.org/es/chile/publicaciones/analisis-de-la-medida-de-pobreza-multidimensional-en-chile" class="uri">https://www.undp.org/es/chile/publicaciones/analisis-de-la-medida-de-pobreza-multidimensional-en-chile</a></p>
 <p>Rodríguez, J., &amp; Arriagada, C. (2004). Segregación Residencial en la Ciudad Latinoamericana. EURE (Santiago), 30(89), 05-24. <a href="https://doi.org/10.4067/S0250-71612004008900001" class="uri">https://doi.org/10.4067/S0250-71612004008900001</a></p>
 <p>Romero Aravena, H., Fuentes, C., &amp; Smith, P. (2010). Ecología política de los riesgos naturales y de la contaminación ambiental en Santiago de Chile: necesidad de justicia ambiental.&nbsp;</p>
 <p>Sabatini, F. &amp; Wormald, G. (2013). Segregación de la vivienda social: reducción de oportunidades, pérdida de cohesión. En F. Sabatini, G. Wormald &amp; A. Rasse (Eds.), Segregación de la vivienda social: ocho conjuntos en Santiago, Concepción y Talca (págs. 12-31). Santiago, Chile: Colección Estudios Urbanos UC. <a href="https://www.researchgate.net/publication/301485647_Segregacion_de_la_vivienda_social_reduccion_de_oportunidades_perdida_de_cohesion" class="uri">https://www.researchgate.net/publication/301485647_Segregacion_de_la_vivienda_social_reduccion_de_oportunidades_perdida_de_cohesion</a></p>
 <p>Saraví, G. (2004). Segregación urbana y espacio público. Los jóvenes en enclaves de pobreza estructural. Revista de la CEPAL (83), 33-48. En <a href="http://www.cepal.org/id.asp?id=19418" class="uri">http://www.cepal.org/id.asp?id=19418</a></p>
 <p>Sémbler, C. (2006). Estratificación social y clases sociales. Una revisión analítica de los sectores medios. CEPAL.</p>
-<p>Treiman, D. J. (1977). Occupational prestige in comparative perspective. New York: Academic Press.</p>
 <p>Vásquez, A, &amp; Salgado, M. (2009). Desigualdades socioeconómicas y distribución inequitativa de los riesgos ambientales en las comunas de Peñalolén y San Pedro de la Paz: Una perspectiva de justicia ambiental. Revista de geografía Norte Grande, (43), 95-110. <a href="https://dx.doi.org/10.4067/S0718-34022009000200006" class="uri">https://dx.doi.org/10.4067/S0718-34022009000200006</a></p>
 </section>
 
