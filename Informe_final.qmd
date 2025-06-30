@@ -45,31 +45,36 @@ agg_data=data %>% group_by(cod_com) %>% summarise_all(funs(mean)) %>% as.data.fr
 
 model0 = lmer(ess ~ 1 + (1 | cod_com), data = data)
 
+
 ICC<-reghelper::ICC(model0)
 ICC*100
 
 #Modelo 1: Predictores de nivel individual -------------------------------
 
-model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + (1 | cod_com), data = data)
+model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + ing_cmc + (1 | cod_com), data = data)
+
 
 # Modelo 2: Predictores nivel 2 -------------------------------------------
 
-model2 = lmer(ess ~ 1 + pob_multi_gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = data)
+model2 = lmer(ess ~ 1 + pob_tramo+  dim_seg_gmc  + dim_amb_gmc +  (1 | cod_com), data = data)
+
 
 # Modelo 3: Predictores individuales y grupales ---------------------------
 
-model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 | cod_com), data = data)
+model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + ing_cmc + pob_tramo + dim_seg_gmc  + dim_amb_gmc + (1 | cod_com), data = data)
+
 
 #Modelo 4: Pendiente aleatoria -------------------------------------------
 
-model4= lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = data)
+model4= lmer(ess ~ 1 + ess_f_cmc  + edu_univ + ing_cmc + pob_tramo + dim_seg_gmc  + dim_amb_gmc + (1 + ess_f_cmc| cod_com), data = data)
+
 
 #Comparación pendiete fija y aleatoria con Anova
 anova(model3,model4)
 
 # Modelo 5: Interacción entre niveles -------------------------------------
 
-model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_multi_gmc  + dim_seg  + dim_amb + edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
+model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + ing_cmc + ess_f_cmc*pob_tramo  + dim_seg_gmc  + dim_amb_gmc + tramo_edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
 
 ```
 
@@ -162,7 +167,7 @@ tabla <- tibble::tribble(
   "Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior, donde 1 = sin educación universitaria y 2 = educación universitaria o superior",
   
   "",
-  "Ingreso total por hogar", "Ingreso percibido en el hogar en decenas de mil CLP ($10.000)",
+  "Ingreso total por hogar", "Ingreso percibido en el hogar por cada $500.000",
   
   "",
   "Estatus social familiar", 
@@ -170,7 +175,7 @@ tabla <- tibble::tribble(
   
   "Nivel 2", 
   "Pobreza multidimensional", 
-  "Índice compuesto por las siguientes dimensiones: educación (22.5%), salud (22.5%), trabajo (22.5%), vivienda y redes (22.5%) y cohesion social (10%)", 
+  "Índice compuesto por las siguientes dimensiones: educación (22.5%), salud (22.5%), trabajo (22.5%), vivienda y redes (22.5%) y cohesion social (10%). Fue procesada como una variable categórica de tres tramos: baja (0 - 0.1), media (0.1 - 0.2) y alta (0.2 - 1)", 
   
   "",
   "Ambiental",
@@ -228,7 +233,7 @@ Por otro lado, la dimensión de seguridad presenta un promedio bastante alto, de
 ```{r dscr n2, echo=FALSE, warning=FALSE, message=FALSE}
 
 data %>%
-  select(comuna, pob_multi, dim_amb, dim_seg) %>%
+  select(comuna, pob_tramo, dim_amb, dim_seg) %>%
   distinct() %>%
   sjmisc::descr(., show = c("label","range", "mean", "sd", "NA.prc", "n")) %>%
   kable(digits = 2, format = "markdown", caption = "Tabla 3: Estadísticos descriptivos de las variables contextuales")
@@ -314,10 +319,6 @@ $$
 
 # Resultados
 
-El modelo nulo presenta un coeficiente de correlación intraclase de 0.21, lo que indica que un 21% de la varianza del estatus social subjetivo se explica por las diferencias entre las comunas, este resultado nos permite sustentar el uso de la metodología multinivel, dado que una proporción significativa de la variabilidad en la variable dependiente se encuentra en el nivel contextual.
-
-Mediante el modelo nulo, podemos identificar el intercepto o el *𝛄00* que es de 4.7197, correspondiente al promedio general de la población.
-
 ```{r model-com, echo=FALSE, warning=FALSE, message=FALSE}
 
 tab_model(
@@ -329,47 +330,106 @@ tab_model(
   dv.labels = c(
     "Nulo", "Individual", "Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"
   ),
-  file = NA          # ← devuelve la lista, no la imprime
+  file = NA         
 )
 
+```
+
+El modelo nulo presenta un coeficiente de correlación intraclase de 0.21, lo que indica que un 21% de la varianza del estatus social subjetivo se explica por las diferencias entre las comunas, este resultado nos permite sustentar el uso de la metodología multinivel, dado que una proporción significativa de la variabilidad en la variable dependiente se encuentra en el nivel contextual.
+
+Mediante el modelo nulo, podemos identificar el intercepto o el *𝛄00* que es de 4.7197, correspondiente al promedio general de la población.
+
+En el modelo 1 que incluye las variables individuales, se puede observar que las tres son significativas y tienen un efecto positivo sobre el estatus social subjetivo. La variable que tiene mayor nivel predictivo es el estatus social familiar, donde por cada punto que aumenta esta variable, el estatus social subjetivo aumenta en 0.41 puntos. En el caso de las personas que tengan un nivel educacional universitario o superior, tendrán 0.33 puntos más en su autopercepción de estatus que quienes tienen niveles más bajos de educación, con una significancia estadistica del 95%. Luego, en la variable de ingreso total por hogar por cada \$500.000 el estatus social subjetivo aumentara en 0.090.
+
+En cuanto al modelo 2, los efectos de la pobreza multidimensional son negativos y significativos al 99.9%. Por un lado, las comunas con un porcentaje de pobreza multidimensional alto presentan una disminución de 1.95 puntos en el estatus social subjetivo, en comparación a las comunas con pobreza multidimensional bajo. Mientras que las comunas de nivel medio, presentan una disminución de 1.60 del estatus social subjetivo.
+
+Por otro lado, se observa que la dimensión ambiental y de seguridad no presentan una relación significativa en ninguno de los modelos. Podemos decir que xxx.
+
+En el modelo 3, tras la inclusión de las variables individuales y contextuales, se observa que el Estatus Social Subjetivo Familiar y los Ingresos, controlados por las variables de nivel 2, mantienen su relación positiva y significativa. Sin embargo, la educación pierde su nivel de significancia del 95%. En cuanto a la pobreza multidimensional, es posible observar que sus categorías mantienen su efecto significativo, demostrando una leve disminución en sus coeficientes de regresión.
+
+En el modelo 4, donde la variable de estatus social subjetivo familiar tiene pendiente aleatoria, es decir, su efecto puede variar por comuna. En cuantos  los coeficientes, estos estos mantienen los niveles de significancia del modelo 3, pero presenta un R condicional de 0.469, siendo el mejor modelo.
+
+A partir del modelo con pendiente fija (modelo 3) y el modelo con pendiente aleatoria (modelo 4), se realizó un test de devianza, donde la diferencia entre ambos es estadísticamente significativa, por ende, se comprueba que el modelo 4 tiene un mejor ajuste. A partir de esto, es posible proceder con el modelo 5 donde se prueba la hipótesis de interacción entre variables.
+
+```{r}
+anova(model3,model4)
+```
+
+![](output/grafico_efecto_aleatorio.png){fig-align="center"}
+
+Finalmente, el modelo 5 presenta la interacción entre Estatus social subjetivo familiar y pobreza multidimensional comunal, controlando por las variables de sexo y tramo de edad. En primer lugar, se observa que la interacción entre las variables no genera ningún impacto sobre la variable dependiente. En segundo lugar, se observa que se mantienen los niveles de significancia del modelo 4. Por último, se aprecia que las personas jóvenes, presentan una disminución de 0.34 puntos de estatus social subjetivo, en comparación a los adultos, siendo significativa al 95%.
+
+![](output/grafico_interacción.png){fig-align="center"}
+
+## Análisis de casos influyentes
+
+En esta investigación se mantuvo el total de las comunas, ya que al calcular la Distancia de cook se determinó que no existen casos influyentes, que podrian haber alterado significativamente los resultados de los modelos.
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+estex.m5 <- influence(model5, "cod_com") 
+4/42 # cut point: 4/ 42 comunas
+sigtest(estex.m5, test=-1.96)$ess_f_cmc[1:10,]
 ```
 
 # Conclusiones
 
 # Referencias
 
+Benavides, A. R. (2011). Calidad de vida, calidad ambiental y sustentabilidad como conceptos urbanos complemetarios. Fermentum. Revista Venezolana de Sociología y Antropología, 21(61), 176-207.
+
 Bukodi, E., & Goldthorpe, J. H. (2013). Decomposing ‘social origins’: The effects of parents’ class, status, and education on the educational attainment of their children. European sociological review, 29(5), 1024-1039.c
 
 Castillo, J. C., Miranda, D., & Madero-Cabib, I. (2013). Todos somos de clase media: Sobre el estatus social subjetivo en Chile. Latin American Research Review, 48(1).
+<https://jc-castillo.com/documents/magister-facso-2020/castillo%20et%20al%202013%20todos%20somos%20de%20clase%20media.pdf> 
 
-https://jc-castillo.com/documents/magister-facso-2020/castillo%20et%20al%202013%20todos%20somos%20de%20clase%20media.pdf 
+Centro de Estudios de Conflicto y Cohesión Social (COES). (s.f.). Manual metodológico ELSOC 2016–2022 disponible en <https://manual-metodologico-elsoc.netlify.app/> 
 
-Centro de Estudios de Conflicto y Cohesión Social (COES). (s.f.). Manual metodológico ELSOC 2016–2022. https://manual-metodologico-elsoc.netlify.app/ 
+Dammert, L. & Oviedo, E. (2004). Delitos y violencia urbana en una ciudad segregada En C. de Mattos, M. E. Ducci, A. Rodríguez & G. Yáñez Warner (Eds.), Santiago en la globalización: ¿Una nueva ciudad? (pp. 273-294). Santiago: Ediciones SUR. En <http://www.sitiosur.cl/r.php?id=121>
+
+División Observatorio Social Estimaciones de área pequeña a nivel comunal (SAE). (2022). Estimaciones Comunales de Pobreza por Ingresos y Multidimensional en base a
+
+Casen 2022 disponible en https://observatorio.ministeriodesarrollosocial.gob.cl/pobreza-comunal-2022
+
+Encuesta de Caracterización Socioeconómica Nacional (CASEN). (2023a). Resultado de pobreza multidimensional 2022 disponible en <https://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-2022>
+
+Encuesta de Caracterización Socioeconómica Nacional (CASEN). (2023b). Resultado de pobreza por ingreso 2022 disponible en <https://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-2022>
+
+Evans, M. D., & Kelley, J. (2004). Subjective social location: Data from 21 nations. International Journal of Public Opinion Research, 16(1), 3-38.
 
 Germani, G. (2010), “Clase social subjetiva e indicadores objetivos de estratificación” en Mera, Carolina y Rebón, Julián (Eds.), Gino Germani. La sociedad en cuestión. Antología comentada. Buenos Aires, CLACSO.
 
-Iturra, J. C., & Mellado, D. (2018). Estatus social subjetivo en tres países de América Latina: El caso de Argentina, Chile y Venezuela. https://doi.org/10.31235/osf.io/yp3wm
+Iturra, J. C., & Mellado, D. (2018). Estatus social subjetivo en tres países de América Latina: El caso de Argentina, Chile y Venezuela. Contenido, Cultura y Ciencias Sociales. <https://doi.org/10.31235/osf.io/yp3wm>
 
-Kaztman, F., & Retamoso, A. (2005). Segregación espacial, empleo y pobreza en Montevideo. Revista de la CEPAL, 2005(85), 131-148. https://doi.org/10.18356/93a498f9-es
+Kaztman, F., & Retamoso, A. (2005). Segregación espacial, empleo y pobreza en Montevideo. Revista de la CEPAL, 2005(85), 131-148. <https://doi.org/10.18356/93a498f9-es>
 
-Layera, M. L. M., Otero, G., & Perret, V. (2020). Inseguridad percibida en los barrios de Santiago de Chile: la importancia del bienestar subjetivo. Dados, 63. https://www.scielo.br/j/dados/a/Vdkqpn9BCxHSYNXCZFz5LkB/?format=html&lang=es
+Layera, M. L. M., Otero, G., & Perret, V. (2020). Inseguridad percibida en los barrios de Santiago de Chile: la importancia del bienestar subjetivo. Dados, 63 (1). <https://www.scielo.br/j/dados/a/Vdkqpn9BCxHSYNXCZFz5LkB/?format=html&lang=es>
 
-Lunecke, A. (2016). Inseguridad ciudadana y diferenciación social en el nivel microbarrial: El caso del sector Santo Tomás, Santiago de Chile. EURE (Santiago), 42(125), 109-129. https://doi.org/10.4067/S0250-71612016000100005
+Lunecke, A. (2016). Inseguridad ciudadana y diferenciación social en el nivel microbarrial: El caso del sector Santo Tomás, Santiago de Chile. EURE (Santiago), 42(125), 109-129. <https://doi.org/10.4067/S0250-71612016000100005>
 
-Mattos, C., Fuentes, L., & Link, F. (2014). Tendencias recientes del crecimiento metropolitano en Santiago de Chile: ¿Hacia una nueva geografía urbana? Revista INVI, 29(81), 193-219. https://doi.org/10.4067/S0718-83582014000200006
+Mac-Clure, O., Barozet, E., & Aguilera, C. (2024). Definiendo su posición en tiempos de crisis: ¿clase social u otros atributos?. Estudios sociológicos, 42, e2401. Epub 24 de mayo de 2024.<https://doi.org/10.24201/es.2024v42.e2401>
 
-Marqués Perales, I., & Rodríguez de la Fuente, J. (2023). Posicionamiento subjetivo y condición socioeconómica en América Latina (2006-2020): Una aproximación desde el análisis multinivel. Dados, 67(3).
+Mattos, C., Fuentes, L., & Link, F. (2014). Tendencias recientes del crecimiento metropolitano en Santiago de Chile: ¿Hacia una nueva geografía urbana? Revista INVI, 29(81), 193-219. <https://doi.org/10.4067/S0718-83582014000200006>
 
-Otero,  G.,  Carranza,  R.,  Contreras,  D.  (2016).  Los  ‘efectos  del  barrio’  en  el  rendimiento  educacional de los niños en Chile: los efectos de la organización local, polarización y desigualdad. Serie Documentos de Trabajo COES, Documento de trabajo N° 14, pp. 1 – 28. https://www.researchgate.net/publication/305281825_Los\_'efectos_del_barrio'\_en_el_rendimiento_educacional_de_los_ninos_en_Chile_Los_efectos_de_la_organizacion_local_polarizacion_y_desigualdad
+Marqués Perales, I., & Rodríguez de la Fuente, J. (2023). Posicionamiento subjetivo y condición socioeconómica en América Latina (2006-2020): Una aproximación desde el análisis multinivel. Dados, 67(3), e20220070.
 
-Penfold, M., & Rodríguez Guzmán, G. (2014). N° 17 (English): The Growing but Vulnerable Middle Class in Latin America. Growth Patterns, Values and Preferences. Public Policy and Productive Transformation Series;N° 17/2014, Caracas: CAF. Retrieved from https://scioteca.caf.com/handle/123456789/909 
+Otero,  G.,  Carranza,  R.,  Contreras,  D.  (2016).  Los  ‘efectos  del  barrio’  en  el  rendimiento  educacional de los niños en Chile: los efectos de la organización local, polarización y desigualdad. Serie  Documentos de Trabajo COES, Documento de trabajo N° 14, pp. 1 – 28. [https://www.researchgate.net/publication/305281825_Los\_'efectos_del_barrio'\_en_el_rendimiento_educacional_de_los_ninos_en_Chile_Los_efectos_de_la_organizacion_local_polarizacion_y_desigualdad]
 
-Programa de las Naciones Unidas para el Desarrollo (2023). Medición de la Pobreza Multidimensional en Chile, Encuesta Casen 2022. https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Informe%20IPM%20-%20PNUD%20-%20CASEN%202022.pdf
+Penfold, M., & Rodríguez Guzmán, G. (2014). N° 17 (English): The Growing but Vulnerable Middle Class in Latin America. Growth Patterns, Values and Preferences. Public Policy and Productive Transformation Series;N° 17/2014, Caracas: CAF. Retrieved from <https://scioteca.caf.com/handle/123456789/909> 
 
-Rodríguez, J., & Arriagada, C. (2004). Segregación Residencial en la Ciudad Latinoamericana. EURE (Santiago), 30(89), 05-24. https://doi.org/10.4067/S0250-71612004008900001
+PNUD. (2024). Análisis de la Medida de Pobreza Multidimensional en Chile. Santiago, Chile: Programa de las Naciones Unidas para el Desarrollo. <https://www.undp.org/es/chile/publicaciones/analisis-de-la-medida-de-pobreza-multidimensional-en-chile>
 
-Sabatini, F. & Wormald, G. (2013). Segregación de la vivienda social: reducción de oportunidades, pérdida de cohesión. En F. Sabatini, G. Wormald & A. Rasse (Eds.), Segregación de la vivienda social: ocho conjuntos en Santiago, Concepción y Talca (págs. 12-31). Santiago, Chile: Colección Estudios Urbanos UC. https://www.researchgate.net/publication/301485647_Segregacion_de_la_vivienda_social_reduccion_de_oportunidades_perdida_de_cohesion
+Programa de las Naciones Unidas para el Desarrollo (2023). Medición de la Pobreza Multidimensional en Chile, Encuesta Casen 2022. <https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Informe%20IPM%20-%20PNUD%20-%20CASEN%202022.pdf> 
+
+Rodríguez, J., & Arriagada, C. (2004). Segregación Residencial en la Ciudad Latinoamericana. EURE (Santiago), 30(89), 05-24. <https://doi.org/10.4067/S0250-71612004008900001>
+
+Romero Aravena, H., Fuentes, C., & Smith, P. (2010). Ecología política de los riesgos naturales y de la contaminación ambiental en Santiago de Chile: necesidad de justicia ambiental. 
+
+Sabatini, F. & Wormald, G. (2013). Segregación de la vivienda social: reducción de oportunidades, pérdida de cohesión. En F. Sabatini, G. Wormald & A. Rasse (Eds.), Segregación de la vivienda social: ocho conjuntos en Santiago, Concepción y Talca (págs. 12-31). Santiago, Chile: Colección Estudios Urbanos UC. <https://www.researchgate.net/publication/301485647_Segregacion_de_la_vivienda_social_reduccion_de_oportunidades_perdida_de_cohesion>
+
+Saraví, G. (2004). Segregación urbana y espacio público. Los jóvenes en enclaves de pobreza estructural. Revista de la CEPAL (83), 33-48. En <http://www.cepal.org/id.asp?id=19418>
 
 Sémbler, C. (2006). Estratificación social y clases sociales. Una revisión analítica de los sectores medios. CEPAL.
 
 Treiman, D. J. (1977). Occupational prestige in comparative perspective. New York: Academic Press.
+
+Vásquez, A, & Salgado, M. (2009). Desigualdades socioeconómicas y distribución inequitativa de los riesgos ambientales en las comunas de Peñalolén y San Pedro de la Paz: Una perspectiva de justicia ambiental. Revista de geografía Norte Grande, (43), 95-110. <https://dx.doi.org/10.4067/S0718-34022009000200006>
