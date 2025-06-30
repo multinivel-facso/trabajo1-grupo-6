@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -69,6 +35,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Informe_final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Informe_final_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -115,85 +110,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="introducción" class="level1">
 <h1>Introducción</h1>
-<p>La ciudad contemporánea, y particularmente el Gran Santiago, se ha constituido como un espacio profundamente desigual, donde las dinámicas de urbanización han ido acompañadas por procesos sistemáticos de segregación socioespacial. Diversos estudios han evidenciado que esta segregación no sólo expresa desigualdades estructurales, sino que también las reproduce activamente (Rodríguez y Arriagada, 2004; Matto et al., 2014; Kaztman y Retamoso, 2005). Esta no sólo afecta el acceso a oportunidades educativas, laborales y de servicio (Sabatini y Wormald, 2013), sino que también moldea experiencias de estigmatización, inseguridad y desarticulación social (Otero et al., 2016). De esta manera, las comunas como unidades administrativas intermedias, emergen como una escala clave para el análisis de los efectos del entorno sobre diversas dimensiones del estatus social subjetivo.</p>
-<p>El estudio de la desigualdad social ha sido uno de los temas fundacionales de la sociología, particularmente a través del análisis de los procesos de diferenciación y jerarquización de los grupos sociales. En este contexto, los enfoques clásicos —representados por Marx, Weber y la escuela funcionalista— introdujeron conceptos y nociones clave para comprender la estratificación social. Desde la perspectiva marxista, las clases sociales se definen por la posición que los sujetos ocupan en el proceso productivo; para Weber, la clase está determinada por la posición que se tiene en el mercado del trabajo; mientras que en el funcionalismo, los roles ocupacionales se jerarquizan en función de su valor funcional para el sistema social (Sémbler, 2006).</p>
-<p>A pesar de las diferencias teóricas, estos enfoques conceden un rol central al trabajo en la constitución de las identidades sociales y en los procesos de diferenciación, enmarcandose en un paradigma productivista, en el que la estructura ocupacional y la inserción en el mundo del trabajo juegan un rol clave en la conformación de la jerarquía social (Sémbler, 2006).</p>
-<p>En este contexto, el concepto de estatus es uno de los elementos esenciales de la estratificación social (Marqués Perales, I., &amp; Rodríguez de la Fuente, J, 2023), entendido como la posición de superioridad, igualdad, o inferioridad que reflejan las evaluaciones prevalecientes de valor social (Budoki y Goldthorpe, 2013). En su dimensión objetiva, el estatus suele ser operacionalizado a partir de variables como el ingreso o el nivel educativo, &nbsp;o a partir de sistemas de clasificación de diferentes profesiones (Castillo et al., 2013). Desde su vertiente subjetiva, el estatus puede comprenderse como “la creencia de una persona acerca de su ubicación en un orden de estatus” (Davis, 1956, p.154, citado en Castillo et al., 2013), o como la percepción individual de la propia posición en un sistema jerárquico de estatus. (Jackman y Jackman, 1973,&nbsp; citado en Castillo et al., 2013).</p>
-<p>A pesar de que ambas dimensiones no son excluyentes, sino que más bien son complementarias, la investigación sociológica se ha centrado en el estudio de la dimensión objetiva, dejando en segundo plano la dimensión subjetiva, especialmente en contextos latinoamericanos (Iturra &amp; Mellado, 2018). Sin embargo, en la década de 1960 Germani (2010) aborda esta relación entre lo objetivo y lo subjetivo en un estudio sobre estratificación y movilidad social en Buenos Aires. Donde se destaca que las personas tienden a ubicarse subjetivamente en una posición más coherente con su estatus objetivo cuando pertenecen a los extremos del sistema de estratificación, es decir, los sectores más acomodados o los más desfavorecidos. En cambio, entre los sectores medios, la identificación subjetiva se vuelve más compleja, pues entran en juego con mayor intensidad factores personales y situaciones particulares del entorno inmediato, o en otras palabras, existe una menor claridad estructural y en cambio, los elementos individuales y contextuales tienen un mayor peso.&nbsp;</p>
+<p>El estudio de la desigualdad social ha sido uno de los temas fundacionales de la sociología, particularmente a través del análisis de los procesos de diferenciación y jerarquización de los grupos sociales. En este contexto, los enfoques clásicos —representados por Marx, Weber y la escuela funcionalista— introdujeron conceptos y nociones clave para comprender la estratificación social. Desde la perspectiva marxista, las clases sociales se definen por la posición que los sujetos ocupan en el proceso productivo. Para Weber, la clase está determinada por la posición que se tiene en el mercado del trabajo. Mientras que en el funcionalismo, los roles ocupacionales se jerarquizan en función de su valor funcional para el sistema social (Sémbler, 2006). A pesar de las diferencias teóricas, estos enfoques conceden un rol central al trabajo en la constitución de las identidades sociales y en los procesos de diferenciación, en el que la estructura ocupacional y la inserción en el mundo laboral juegan un rol clave en la conformación de la jerarquía social (Sémbler, 2006).</p>
+<p>En este sentido, el concepto de estatus social es uno de los elementos esenciales de la estratificación social (Marqués Perales, I., &amp; Rodríguez de la Fuente, J, 2023), entendido como la posición de superioridad, igualdad, o inferioridad que reflejan las evaluaciones prevalecientes de valor social (Budoki y Goldthorpe, 2013). En su dimensión objetiva, el estatus suele ser operacionalizado a partir de variables como el ingreso o el nivel educativo, o a partir de sistemas de clasificación de diferentes profesiones (Castillo et al., 2013). Desde su dimensión subjetiva, el estatus puede comprenderse como “la creencia de una persona acerca de su ubicación en un orden de estatus” (Davis, 1956, p.154, citado en Castillo et al., 2013).</p>
+<p>A pesar de que ambas dimensiones no son excluyentes, sino que más bien son complementarias, la investigación sociológica se ha centrado en el estudio de la dimensión objetiva, dejando en segundo plano la dimensión subjetiva, especialmente en contextos latinoamericanos (Iturra &amp; Mellado, 2018). Sin embargo, en la década de 1960, Germani (2010) aborda esta relación entre lo objetivo y lo subjetivo en un estudio sobre estratificación y movilidad social en Buenos Aires. Donde se destaca que las personas tienden a ubicarse subjetivamente en una posición más coherente con su estatus objetivo cuando pertenecen a los extremos del sistema de estratificación, es decir, los sectores más acomodados o los más desfavorecidos. En cambio, entre los sectores medios, la identificación subjetiva se vuelve más compleja, pues entran en juego con mayor intensidad factores personales y situaciones particulares del entorno inmediato, o en otras palabras, existe una menor claridad estructural y en cambio, los elementos individuales y contextuales tienen un mayor peso.</p>
 <p>Siguiendo por esta línea, el estudio de Penfold y Guzmán (2014) subraya que en América Latina existe una desconexión significativa entre la posición objetiva y la percepción subjetiva de clase, observándose un fenómeno de sobreposicionamiento de individuos de clases bajas dentro de la categoría de clase media. Por otra parte, Iturra y Mellado (2018), en un estudio comparativo de Chile, Argentina y Venezuela, concluyeron que, aunque los ingresos y el nivel educativo son predictores importantes del estatus social subjetivo, el factor individual que más incide en la autopercepción de la posición social es el estatus social subjetivo de la familia de origen.</p>
-<p>De igual manera se considera relevante estudiar las condiciones objetivas que reproducen la desigualdad socioespacial y cómo estas afectan en las dimensiones subjetivas del estatus social. Debido a esto, es oportuno medir la pobreza multidimensional (PNUD, 2023) de las comunas del Gran Santiago, ya que representa las condiciones planteadas en la literatura sobre desigualdad socioespacial (Kaztman y Retamoso, 2005; Sabatini y Wormald, 2013).</p>
-<p>Complementariamente, las condiciones contextuales subjetivas son igual de importantes. La bibliografía sociológica sobre desigualdades socioespaciales, considera que los mecanismo de interacción dentro de los barrios reproducen niveles de inseguridad (Lunecke, 2016). De esta manera, factores asociados al bienestar subjetivo individual, como el estatus social subjetivo están vinculados con la percepción de seguridad (Layera et al., 2020).&nbsp;</p>
-<p>Por esta razón, el presente estudio pretende contribuir a la comprensión del estatus social subjetivo en la Región Metropolitana, mediante un modelo de análisis multinivel que permita identificar los factores individuales y contextuales asociados al estatus social subjetivo.</p>
-<p>A partir de los antecedentes y el problema planteado, surge la pregunta: ¿Qué factores individuales y comunales inciden en la autopercepción del estatus social en la Región Metropolitana? A continuación se esbozan los objetivos e hipótesis diferenciadas por nivel, luego las variables a utilizar y los resultados.</p>
+<p>No obstante, comprender el estatus subjetivo requiere también considerar los factores contextuales, especialmente en entornos urbanos profundamente desiguales como Santiago. Esta ciudad presenta altos niveles de segregación socioespacial, que no solo se expresa en desigualdades estructurales, sino que también las reproduce activamente (Rodríguez y Arriagada, 2004; Matto et al., 2014; Kaztman y Retamoso, 2005). Esta no sólo afecta el acceso a oportunidades educativas, laborales y de servicio (Sabatini y Wormald, 2013), sino que también moldea experiencias de estigmatización, inseguridad y desarticulación social (Otero et al., 2016).</p>
+<p>En este sentido, resulta pertinente examinar las condiciones estructurales a nivel comunal que configuran las oportunidades de vida. El estudio de Mac-Clure et al.&nbsp;(2024), señala la importancia que le otorgan las personas a su lugar de residencia al momento de posicionarse en clases sociales bajas o autodenominarse como “pobres”. Debido a esto, resulta pertinente profundizar en el concepto de pobreza.</p>
+<p>La pobreza por ingreso ha disminuido considerablemente en los últimos años en Chile. En 2006 la cifra alcanzaba el 28,7%, pasando a 13,9% en el 2013, y reduciendo a 6,5% para 2022 (Casen, 2023b). A pesar de esto, el concepto de pobreza se ha ampliado más allá de la dimensión económica. Desde inicios del siglo XXI se ha llegado a conceptualizar la pobreza tanto en aspectos económicos, sociales y culturales, enfatizando en diferencias por género, etnia y ubicación geográfica. Así, surge el Índice de Pobreza Multidimensional que se aplicó por primera vez en Chile en 2014, donde se mide Educación, Salud, Trabajo y Seguridad Social, y Vivienda; y a partir del año 2016, se incluye la dimensión de Redes y Cohesión social (PNUD, 2024).</p>
+<p>En cuanto a cifras, al año 2022 se registra una pobreza multidimensional a nivel nacional de 16,9%, lo cual implica una disminución de 3,4% respecto al 20,3% registrado en 2017 (Casen, 2023a). De esta manera, tras comparar las cifras de los dos tipos de mediciones, resalta la necesidad de focalizar el estudio de la pobreza en diferentes dimensiones del bienestar.</p>
+<p>El estudio del bienestar no se agota en tan solo en las dimensiones mencionadas. Durante los últimos años, la calidad de vida se ha asociado con las condiciones medioambientales del entorno (Benavides, 2011). Según Romero et al.&nbsp;(2010), estas condiciones se distribuyen desigualmente en las urbes. Por un lado, los sectores de mayores ingresos de Santiago, localizados en la zona oriente de la ciudad, cuentan con mayor cantidad de áreas verdes, así como calidad de aire. Mientras que, los sectores medios y bajos, viven en zonas de mayor densidad habitacional, bajos niveles de equipamiento comunal, escasez de espacios vegetados y expuestos a amenazas y vulnerabilidad medioambiental (Romero et al., 2010; Vázques y Salgado, 2009).</p>
+<p>Santiago, al ser caracterizada por una ciudad altamente segregada, implica que las diferencias de ingresos, etarias o étnicas inciden sobre las desigualdad de las conductas delictivas. De esta manera, la concentración de delitos es desigual debido a los bienes, servicios urbanos y habitantes en cada territorio (Dammert y Oviedo, 2004). En este sentido, el delito opera como un símbolo cultural que expresa segregación espacial, condiciones de precariedad tanto físicas, como en el sistema de relaciones sociales, y el propio posicionamiento del estatus social (Saraví, 2004; Lupton, 1999 citado en Lunecke, 2016).</p>
+<p>Por otro lado, Kelley y Evans (2004) en su teoría de “R &amp; R-blend”, señalan que la percepción que tienen los sujetos sobre la estructura social es una combinación entre la realidad material y las generalizaciones, a partir de sus grupos de referencia–amigos, compañeros, familia—. A partir de esto, es posible estipular que el estatus social subjetivo de las personas, se verá afectado por la visión que tienen respecto a la posición de su familia (Iturra y Mellado 2018); lo cual, podrá verse modificado a partir de las condiciones materiales de sus entornos.</p>
+<p>Así, se plantea que los barrios, como lugar de desarrollo de tejidos sociales y creación de experiencias de estigmatización e inseguridad, son condicionantes a la hora de posicionarse en la escala social (Saraví 2004, Otero et al., 2016). Por esta razón, es que el presente estudio utiliza a las comunas, entendidas como unidades administrativas intermedias, como una escala clave en el análisis de las condiciones del entorno que inciden en el fenómeno a explicar. Esta perspectiva permite examinar tanto los efectos directos del contexto como sus posibles interacciones con factores individuales, avanzando hacia una comprensión más integral del fenómeno.</p>
+<p>Por ello, la presente investigación busca contribuir a la comprensión del estatus social subjetivo en la Región Metropolitana, mediante un modelo de análisis multinivel que permita identificar los factores individuales y contextuales asociados a esta autopercepción. A partir de los antecedentes y el problema planteado, surge la pregunta: ¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana?</p>
 </section>
 <section id="objetivos" class="level1">
 <h1>Objetivos</h1>
 <p><strong>Objetivo general</strong></p>
 <p>Analizar los factores individuales y contextuales asociados al estatus social subjetivo en la Región Metropolitana, mediante un modelo multinivel que permita estimar los efectos de las características personales y del entorno comunal en la autopercepción de posición social.</p>
-<p><strong>Objetivos específicos</strong></p>
-<ul>
-<li><p>Analizar cómo las características individuales se relacionan con el estatus social subjetivo en la Región Metropolitana.</p></li>
-<li><p>Analizar cómo las características contextuales se relacionan con el estatus social subjetivo en la Región Metropolitana.</p></li>
-<li><p>Evaluar la interacción entre factores individuales y contextuales mediante un modelo de análisis multinivel que permita identificar patrones explicativos del estatus social subjetivo.</p></li>
-</ul>
 <p><strong>Hipótesis</strong></p>
-<p>Hipotesis de nivel 1:</p>
+<p>Hipótesis de nivel 1:</p>
 <ul>
-<li><p>Las personas con educación universitaria o superior tendran un mayor estatus social subjetivo, en comparación con aquellos que tienen un nivel educativo más bajo</p></li>
-<li><p>A mayores ingresos, mayor es el estatus social subjetivo</p></li>
-<li><p>Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo</p></li>
+<li><p>H1: Las personas con educación universitaria o superior tendrán un mayor estatus social subjetivo, en comparación con aquellos que tienen un nivel educativo más bajo</p></li>
+<li><p>H2: A mayores ingresos, mayor es el estatus social subjetivo</p></li>
+<li><p>H3: Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo</p></li>
 </ul>
-<p>Hipotesis de nivel 2:</p>
+<p>Hipótesis de nivel 2:</p>
 <ul>
-<li><p>Las comunas con un mayor índice de pobreza multidimensional tienen niveles más bajo de estatus social subjetivo</p></li>
-<li><p>Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo.</p></li>
-<li><p>Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles más altos de estatus social subjetivo</p></li>
+<li><p>H4: Las comunas con un mayor índice de pobreza multidimensional tienen niveles más bajo de estatus social subjetivo</p></li>
+<li><p>H5: Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo</p></li>
+<li><p>H6: Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles más altos de estatus social subjetivo</p></li>
 </ul>
-<p>Hipotesis de interacción:</p>
-<p>El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional</p>
+<p>Hipótesis de interacción:</p>
+<ul>
+<li>H7: El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="input/img/hipotesis_fig.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="datos" class="level1">
 <h1>Datos</h1>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 21.256</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Data: data
-Models:
-model3: ess ~ 1 + ess_f_cmc + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg + dim_amb + (1 | cod_com)
-model4: ess ~ 1 + ess_f_cmc + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg + dim_amb + (1 + ess_f_cmc | cod_com)
-       npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(&gt;Chisq)    
-model3    9 2582.2 2624.0 -1282.1    2564.2                         
-model4   11 2571.7 2622.8 -1274.8    2549.7 14.513  2  0.0007055 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-<p>El presente estudio utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) desarrollada por el Centro de Estudios de Cohesión y Conflicto Social (COES), que tiene como principal objetivo constituirse como un “insumo empírico la comprensión de las creencias, actitudes y percepciones de los chilenos hacia las distintas dimensiones de la convivencia y el conflicto, y como éstas cambian a lo largo del tiempo” (COES, s.f., p.&nbsp;3).</p>
+<p>El presente estudio utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) desarrollada por el Centro de Estudios de Cohesión y Conflicto Social (COES), que tiene como principal objetivo constituirse como un “insumo empírico la comprensión de las creencias, actitudes y percepciones de los chilenos hacia las distintas dimensiones de la convivencia y el conflicto, y cómo éstas cambian a lo largo del tiempo” (COES, s.f., p.&nbsp;3).</p>
 <p>La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico (COES, s.f.).</p>
-<p>Además, se integrarón dos fuentes de datos adicionales para las variables de nivel 2, la primera corresponde proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional, y la segunda corresponde a dos dimensiones de la Matriz de Bienestar Territorial que tiene como objetivo … dimensiones ambiental y de seguridad.</p>
-<p>En este estudio, los datos serán analizados mediante una técnica de análisis multinivel de dos niveles, el nivel 1 corresponde a los individuos y el nivel 2 con comunas. El análisis de nivel 1 considera una muestra de 767 personas, de un total de 2.730 personas encuestadas. Por otro lado, el análisis de nivel 2 emplea una base de datos agregados por comuna, considerando un total de 42 comunas de la Región Metropolitana.</p>
-<p>A continuacion se presentan las variables a utilizar en este estudio.</p>
+<p>Además, se integraron dos fuentes de datos adicionales para las variables de nivel 2, la primera proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional (SAE, 2022). Mientras que la segunda fuente corresponde a dos dimensiones de la Matriz de Bienestar Humano Territorial cuyo objetivo es caracterizar los territorios (manzanas, barrios, comunas o regiones) a partir de cinco dimensiones: accesibilidad, ambiental, socioeconómico, seguridad y desarrollo local. Esta matriz se construye con datos provenientes de diversas instituciones, como el Instituto Nacional de Estadísticas, Censo de Población y Vivienda 2017, Ministerio de Educación, Subsecretaría de Prevención del Delito, entre otros. Para este informe, se considerarán únicamente las dimensiones ambiental y de seguridad, ya que las otras dimensiones son consideradas dentro del índice de pobreza multidimensional (Matriz BHT, s.f).</p>
+<p>En cuanto al número de casos, se trabajará con una muestra de 767 individuos, mientras que a nivel contextual, se consideran 42 comunas de la Región Metropolitana. Se excluyeron las comunas de Alhué, Buin, Calera de Tango, María Pinto, Melipilla, Pirque, San José de Maipo, San Pedro, Talagante y Tiltil, debido a la ausencia de datos en la encuesta ELSOC.</p>
+<p>A continuacion se presenta la Tabla 1 con las variables a utilizar en este estudio.</p>
 <div id="tbl-1" class="cell anchored">
 <div class="cell-output-display">
-<div id="rsxzywmlfv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rsxzywmlfv table {
+<div id="vgovlwrxgz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vgovlwrxgz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rsxzywmlfv thead, #rsxzywmlfv tbody, #rsxzywmlfv tfoot, #rsxzywmlfv tr, #rsxzywmlfv td, #rsxzywmlfv th {
+#vgovlwrxgz thead, #vgovlwrxgz tbody, #vgovlwrxgz tfoot, #vgovlwrxgz tr, #vgovlwrxgz td, #vgovlwrxgz th {
   border-style: none;
 }
 
-#rsxzywmlfv p {
+#vgovlwrxgz p {
   margin: 0;
   padding: 0;
 }
 
-#rsxzywmlfv .gt_table {
+#vgovlwrxgz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -219,12 +206,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_caption {
+#vgovlwrxgz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rsxzywmlfv .gt_title {
+#vgovlwrxgz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -236,7 +223,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-width: 0;
 }
 
-#rsxzywmlfv .gt_subtitle {
+#vgovlwrxgz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -248,7 +235,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-top-width: 0;
 }
 
-#rsxzywmlfv .gt_heading {
+#vgovlwrxgz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -260,13 +247,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_bottom_border {
+#vgovlwrxgz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_col_headings {
+#vgovlwrxgz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -281,7 +268,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_col_heading {
+#vgovlwrxgz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -301,7 +288,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   overflow-x: hidden;
 }
 
-#rsxzywmlfv .gt_column_spanner_outer {
+#vgovlwrxgz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -313,15 +300,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 4px;
 }
 
-#rsxzywmlfv .gt_column_spanner_outer:first-child {
+#vgovlwrxgz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rsxzywmlfv .gt_column_spanner_outer:last-child {
+#vgovlwrxgz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rsxzywmlfv .gt_column_spanner {
+#vgovlwrxgz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -333,11 +320,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   width: 100%;
 }
 
-#rsxzywmlfv .gt_spanner_row {
+#vgovlwrxgz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rsxzywmlfv .gt_group_heading {
+#vgovlwrxgz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -363,7 +350,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   text-align: left;
 }
 
-#rsxzywmlfv .gt_empty_group_heading {
+#vgovlwrxgz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -378,15 +365,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   vertical-align: middle;
 }
 
-#rsxzywmlfv .gt_from_md > :first-child {
+#vgovlwrxgz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rsxzywmlfv .gt_from_md > :last-child {
+#vgovlwrxgz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rsxzywmlfv .gt_row {
+#vgovlwrxgz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -405,7 +392,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   overflow-x: hidden;
 }
 
-#rsxzywmlfv .gt_stub {
+#vgovlwrxgz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -418,7 +405,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#rsxzywmlfv .gt_stub_row_group {
+#vgovlwrxgz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -432,15 +419,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   vertical-align: top;
 }
 
-#rsxzywmlfv .gt_row_group_first td {
+#vgovlwrxgz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rsxzywmlfv .gt_row_group_first th {
+#vgovlwrxgz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rsxzywmlfv .gt_summary_row {
+#vgovlwrxgz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -450,16 +437,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#rsxzywmlfv .gt_first_summary_row {
+#vgovlwrxgz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_first_summary_row.thick {
+#vgovlwrxgz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rsxzywmlfv .gt_last_summary_row {
+#vgovlwrxgz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -469,7 +456,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_grand_summary_row {
+#vgovlwrxgz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -479,7 +466,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#rsxzywmlfv .gt_first_grand_summary_row {
+#vgovlwrxgz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -489,7 +476,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_last_grand_summary_row_top {
+#vgovlwrxgz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -499,11 +486,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_striped {
+#vgovlwrxgz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rsxzywmlfv .gt_table_body {
+#vgovlwrxgz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -512,7 +499,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_footnotes {
+#vgovlwrxgz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -526,7 +513,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_footnote {
+#vgovlwrxgz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -535,7 +522,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#rsxzywmlfv .gt_sourcenotes {
+#vgovlwrxgz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -549,7 +536,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rsxzywmlfv .gt_sourcenote {
+#vgovlwrxgz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -557,72 +544,72 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#rsxzywmlfv .gt_left {
+#vgovlwrxgz .gt_left {
   text-align: left;
 }
 
-#rsxzywmlfv .gt_center {
+#vgovlwrxgz .gt_center {
   text-align: center;
 }
 
-#rsxzywmlfv .gt_right {
+#vgovlwrxgz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rsxzywmlfv .gt_font_normal {
+#vgovlwrxgz .gt_font_normal {
   font-weight: normal;
 }
 
-#rsxzywmlfv .gt_font_bold {
+#vgovlwrxgz .gt_font_bold {
   font-weight: bold;
 }
 
-#rsxzywmlfv .gt_font_italic {
+#vgovlwrxgz .gt_font_italic {
   font-style: italic;
 }
 
-#rsxzywmlfv .gt_super {
+#vgovlwrxgz .gt_super {
   font-size: 65%;
 }
 
-#rsxzywmlfv .gt_footnote_marks {
+#vgovlwrxgz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rsxzywmlfv .gt_asterisk {
+#vgovlwrxgz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rsxzywmlfv .gt_indent_1 {
+#vgovlwrxgz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rsxzywmlfv .gt_indent_2 {
+#vgovlwrxgz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rsxzywmlfv .gt_indent_3 {
+#vgovlwrxgz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rsxzywmlfv .gt_indent_4 {
+#vgovlwrxgz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rsxzywmlfv .gt_indent_5 {
+#vgovlwrxgz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rsxzywmlfv .katex-display {
+#vgovlwrxgz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rsxzywmlfv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vgovlwrxgz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -647,7 +634,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <tr class="even">
 <td class="gt_row gt_left gt_striped" headers="Tipo" style="font-weight: bold">Nivel 1</td>
 <td class="gt_row gt_left gt_striped" headers="Variable">Educación universitaria</td>
-<td class="gt_row gt_left gt_striped" headers="Operacionalización">Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior</td>
+<td class="gt_row gt_left gt_striped" headers="Operacionalización">Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior, donde 1 = sin educación universitaria y 2 = educación universitaria o superior</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Tipo"></td>
@@ -662,7 +649,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Tipo" style="font-weight: bold">Nivel 2</td>
 <td class="gt_row gt_left" headers="Variable">Pobreza multidimensional</td>
-<td class="gt_row gt_left" headers="Operacionalización">Índice compuesto por las siguientes dimensiones: educación, salud, trabajo, vivienda y redes y cohesion social</td>
+<td class="gt_row gt_left" headers="Operacionalización">Índice compuesto por las siguientes dimensiones: educación (22.5%), salud (22.5%), trabajo (22.5%), vivienda y redes (22.5%) y cohesion social (10%)</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left gt_striped" headers="Tipo"></td>
@@ -680,20 +667,20 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </div>
-<p>A partir de la Tabla x, se observa que la muestra está compuesta por un 65.3% de mujeres y un 34,7% de hombres, mientras que la edad de los encuestados varía entre los 22 años y los 90 años, con un promedio de 51 años.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Estadísticos descriptivos de las variables individuales</caption>
+<p>El estatus social subjetivo, que corresponde a la variable dependiente del estudio, presenta un promedio de 4,69, lo que indica una concentración de los datos hacia el centro de la escala en una posición intermedia. en una posicion media. Según la Tabla 2, el estatus social subjetivo familiar presenta un promedio ligeramente inferior, aunque igual se concentra en los valores medios de la escala. No obstante, esta variable presenta una mayor dispersión en comparación con el estatus individual, lo que sugiere una variabilidad más alta entre los casos. En cuanto al ingreso total del hogar es de $955.749 con una alta desviación estándar, por lo tanto, la distribución es bastante dispersa y desigual.</p>
+<p>En cuanto al ingreso total del hogar, el promedio es de $955.749, acompañado de una alta desviación estándar, lo que refleja una distribución dispersa y desigual.</p>
+<p>::: {#tbl-dscr n1 .cell} ::: {.cell-output-display}</p>
+<table class="caption-top table">
+<caption>Tabla 2: Estadísticos descriptivos de las variables individuales</caption>
 <colgroup>
 <col style="width: 2%">
-<col style="width: 12%">
-<col style="width: 40%">
+<col style="width: 10%">
+<col style="width: 33%">
 <col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 8%">
+<col style="width: 6%">
 <col style="width: 9%">
-<col style="width: 18%">
+<col style="width: 10%">
+<col style="width: 21%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -710,16 +697,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">2</td>
-<td style="text-align: left;">ess</td>
-<td style="text-align: left;">Estatus Social Subjetivo Individual</td>
-<td style="text-align: right;">767</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">4.69</td>
-<td style="text-align: right;">1.65</td>
-<td style="text-align: left;">10 (0-10)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">3</td>
 <td style="text-align: left;">ess_f</td>
 <td style="text-align: left;">Estatus Social Subjetivo Familiar</td>
 <td style="text-align: right;">767</td>
@@ -728,18 +705,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <td style="text-align: right;">2.04</td>
 <td style="text-align: left;">10 (0-10)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">edu_univ</td>
-<td style="text-align: left;">edu_univ</td>
+<td style="text-align: left;">Educación universitaria</td>
 <td style="text-align: right;">767</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1.16</td>
 <td style="text-align: right;">0.36</td>
 <td style="text-align: left;">1 (1-2)</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
+<tr class="odd">
+<td style="text-align: left;">3</td>
 <td style="text-align: left;">inghogar_i</td>
 <td style="text-align: left;">Ingreso total del hogar (imputada)</td>
 <td style="text-align: right;">767</td>
@@ -748,29 +725,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <td style="text-align: right;">1345617.58</td>
 <td style="text-align: left;">18000000 (0-18000000)</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: left;">inghogar_i_mil</td>
-<td style="text-align: left;">Ingreso total del hogar (en decenas de mil CLP)</td>
-<td style="text-align: right;">767</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">95.57</td>
-<td style="text-align: right;">134.56</td>
-<td style="text-align: left;">1800 (0-1800)</td>
-</tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(comuna, pob_multi, dim_amb, dim_seg) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  sjmisc<span class="sc">::</span><span class="fu">descr</span>(., <span class="at">show =</span> <span class="fu">c</span>(<span class="st">"label"</span>,<span class="st">"range"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"NA.prc"</span>, <span class="st">"n"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">format =</span> <span class="st">"markdown"</span>, <span class="at">caption =</span> <span class="st">"Estadísticos descriptivos de las variables contextuales"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Estadísticos descriptivos de las variables contextuales</caption>
+<p>::: :::</p>
+<p>En la Tabla 3, se observa que el 18% de la población de las comunas analizadas se encuentra en situación de pobreza multidimensional, cifra superior al promedio nacional que es de un 16,9% (Casen, 2023a). Esto da cuenta que la situación en la Región Metropolitana está caracterizada por mayores niveles de vulnerabilidad en comparación con la situación país.</p>
+<p>En cuanto a la dimensión ambiental, el promedio es de 0,32, lo que indica que las comunas presentan niveles relativamente bajos en los aspectos ambientales evaluados. Esto sugiere una calidad ambiental deficiente o limitada, considerando que la escala se sitúa entre 0 y 1.</p>
+<p>Por otro lado, la dimensión de seguridad presenta un promedio bastante alto, de 0,81, con una desviación estándar de 0,10. Esto indica que, en general, las comunas presentan bajos niveles de delincuencia. Sin embargo, el rango de valores va desde 0,53 hasta 0,98, lo que indica una mayor amplitud en la distribución y, por tanto, desigualdad entre comunas respecto a este aspecto.</p>
+<p>::: {#tbl-dscr n2 .cell} ::: {.cell-output-display}</p>
+<table class="caption-top table">
+<caption>Tabla 3: Estadísticos descriptivos de las variables contextuales</caption>
 <colgroup>
 <col style="width: 4%">
 <col style="width: 13%">
@@ -826,18 +789,69 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<p>Modelos</p>
+<p>::: :::</p>
+<p>En este informe se estimaron cinco modelos multinivel con el objetivo de analizar la variación en la variable dependiente considerando tanto factores individuales como contextuales:</p>
 <p>Modelo nulo</p>
+<p>Modelo sin predictores, con el fin de identificar la proporción de varianza atribuible al nivel comunal, mediante el cálculo de la correlación intraclase.</p>
 <p>$$</p>
-<p>ess_{ij} = + u*{0j} + r_{ij}</p>
+<p>ess_{ij} = gamma<em>{00} + u</em>{0j} + r_{ij}</p>
 <p>$$</p>
-<p>modelos…</p>
+<p>Modelo 1 - Nivel individual</p>
+<p>En este modelo se incluyen los predictores de nivel individual, los cuales corresponden a: estatus social subjetivo familiar, educación universitaria o superior, e ingreso total del hogar (en centenas de mil CLP).</p>
+<p><span class="math display">\[
+ess_{ij} = \gamma_{00} +
+\gamma_{10} \text{educación universitaria} +
+\gamma_{10} \text{estatus social familiar} +  
+\gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
+\]</span></p>
+<p>Modelo 2 - Nivel contextual</p>
+<p>En este modelo se incorporan solo los predictores de nivel contextual, correspondientes al índice de pobreza multidimensional, la dimensión ambiental y la dimensión de seguridad.</p>
+<p><span class="math display">\[
+ess_{ij} = \gamma_{00} +
+\gamma_{01} \text{pobreza mutidimensional} +
+\gamma_{01} \text{dimension ambiental} +
+\gamma_{01} \text{dimension seguridad} + u_{0j} + r_{ij}
+\]</span> Modelo 3 - Individual y grupal</p>
+<p>Este modelo incorpora todos los predictores de nivel individual y contextual con efecto fijo</p>
+<p><span class="math display">\[
+\begin{align*}
+ess_{ij} &amp;= \gamma_{00}
++ \gamma_{10} \text{educación universitaria}_{ij}
++ \gamma_{10} \text{estatus social familiar}_{ij}
++ \gamma_{10} \text{ingresos}_{ij} \\
+&amp;+ \gamma_{01} \text{pobreza multidimensional}_{j}
++ \gamma_{01} \text{dimensión ambiental}_{j}
++ \gamma_{01} \text{dimensión seguridad}_{j}
++ u_{0j} + r_{ij}
+\end{align*}
+\]</span></p>
+<p>Modelo 4 - Pendiente aleatoria</p>
+<p>Al modelo anterior se le incorpora un efecto aleatorio para la variable estatus social subjetivo familiar por comunas.</p>
+<p><span class="math display">\[
+\begin{align*}
+ess_{ij} &amp;= \gamma_{00} \\
+&amp;+ \gamma_{10} \text{estatus social familiar}_{ij} + \gamma_{10} \text{educación universitaria}_{ij} \\
+&amp;+ \gamma_{10} \text{ingreso}_{ij} + \gamma_{01} \text{pobreza multidimensional}_{j} \\
+&amp;+ \gamma_{01} \text{dimensión seguridad}_{j} + \gamma_{01} \text{dimensión ambiental}_{j} \\
+&amp;+ u_{0j} + u_{1j} \text{estatus social familiar}_{ij} + r_{ij}
+\end{align*}
+\]</span></p>
+<p>Modelo 5 - Interacción entre niveles</p>
+<p>Este modelo incorpora un efecto aleatorio de pendiente para la variable estatus social subjetivo familiar por comuna y su interacción con el índice de pobreza multidimensional</p>
+<p><span class="math display">\[
+\begin{align*}
+ess_{ij} &amp;= \gamma_{00} \\
+&amp;+ \gamma_{10} \, \text{estatus social familiar}_{ij} + \gamma_{10} \, \text{educación universitaria}_{ij} \\
+&amp;+ \gamma_{10} \, \text{ingreso}_{ij} + \gamma_{01} \, \text{pobreza multidimensional}_{j} \\
+&amp;+ \gamma_{01} \, \text{dimensión seguridad}_{j} + \gamma_{01} \, \text{dimensión ambiental}_{j} \\
+&amp;+ \gamma_{11} \, \text{estatus social familiar}_{ij} \,* \text{pobreza multidimensional}_{j} + u_{0j} \\
+&amp;+ u_{1j} \, \text{estatus social familiar}_{ij} + r_{ij}
+\end{align*}
+\]</span></p>
 </section>
 <section id="resultados" class="level1">
 <h1>Resultados</h1>
-<p>De acuerdo con la correlación intra-clase, el 17.70% de la varianza de la variable dependiente se asocia a la pertenencia en una comuna.</p>
+<p>El modelo nulo presenta un coeficiente de correlación intraclase de 0.21, lo que indica que un 21% de la varianza del estatus social subjetivo se explica por las diferencias entre las comunas, este resultado nos permite sustentar el uso de la metodología multinivel, dado que una proporción significativa de la variabilidad en la variable dependiente se encuentra en el nivel contextual.</p>
 <p>Mediante el modelo nulo, podemos identificar el intercepto o el <em>𝛄00</em> que es de 4.7197, correspondiente al promedio general de la población.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -897,7 +911,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  3">0.031</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">edu_univ: Universitaria o<br>más</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Educación universitaria:<br>Universitaria o más</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.332 <sup>*</sup></td>
