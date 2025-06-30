@@ -8,7 +8,6 @@ format: html
 editor: visual 
 ---
 
-
 ```{r librerias, echo=FALSE, warning=FALSE, message=FALSE}
 library(pacman)
 pacman::p_load(tidyverse,   
@@ -80,15 +79,15 @@ model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_m
 
 El estudio de la desigualdad social ha sido uno de los temas fundacionales de la sociología, particularmente a través del análisis de los procesos de diferenciación y jerarquización de los grupos sociales. En este contexto, los enfoques clásicos —representados por Marx, Weber y la escuela funcionalista— introdujeron conceptos y nociones clave para comprender la estratificación social. Desde la perspectiva marxista, las clases sociales se definen por la posición que los sujetos ocupan en el proceso productivo. Para Weber, la clase está determinada por la posición que se tiene en el mercado del trabajo. Mientras que en el funcionalismo, los roles ocupacionales se jerarquizan en función de su valor funcional para el sistema social (Sémbler, 2006). A pesar de las diferencias teóricas, estos enfoques conceden un rol central al trabajo en la constitución de las identidades sociales y en los procesos de diferenciación, en el que la estructura ocupacional y la inserción en el mundo laboral juegan un rol clave en la conformación de la jerarquía social (Sémbler, 2006).
 
-En este sentido, el concepto de estatus social es uno de los elementos esenciales de la estratificación social (Marqués Perales, I., & Rodríguez de la Fuente, J, 2023), entendido como la posición de superioridad, igualdad, o inferioridad que reflejan las evaluaciones prevalecientes de valor social (Budoki y Goldthorpe, 2013). En su dimensión objetiva, el estatus suele ser operacionalizado a partir de variables como el ingreso o el nivel educativo,  o a partir de sistemas de clasificación de diferentes profesiones (Castillo et al., 2013). Desde su dimensión subjetiva, el estatus puede comprenderse como “la creencia de una persona acerca de su ubicación en un orden de estatus” (Davis, 1956, p.154, citado en Castillo et al., 2013).
+En este sentido, el concepto de estatus social es uno de los elementos esenciales de la estratificación social (Marqués Perales, I., & Rodríguez de la Fuente, J, 2023), entendido como la posición de superioridad, igualdad, o inferioridad que reflejan las evaluaciones prevalecientes de valor social (Budoki y Goldthorpe, 2013). En su dimensión objetiva, el estatus suele ser operacionalizado a partir de variables como el ingreso o el nivel educativo, o a partir de sistemas de clasificación de diferentes profesiones (Castillo et al., 2013). Desde su dimensión subjetiva, el estatus puede comprenderse como “la creencia de una persona acerca de su ubicación en un orden de estatus” (Davis, 1956, p.154, citado en Castillo et al., 2013).
 
-A pesar de que ambas dimensiones no son excluyentes, sino que más bien son complementarias, la investigación sociológica se ha centrado en el estudio de la dimensión objetiva, dejando en segundo plano la dimensión subjetiva, especialmente en contextos latinoamericanos (Iturra & Mellado, 2018). Sin embargo, en la década de 1960, Germani (2010) aborda esta relación entre lo objetivo y lo subjetivo en un estudio sobre estratificación y movilidad social en Buenos Aires. Donde se destaca que las personas tienden a ubicarse subjetivamente en una posición más coherente con su estatus objetivo cuando pertenecen a los extremos del sistema de estratificación, es decir, los sectores más acomodados o los más desfavorecidos. En cambio, entre los sectores medios, la identificación subjetiva se vuelve más compleja, pues entran en juego con mayor intensidad factores personales y situaciones particulares del entorno inmediato, o en otras palabras, existe una menor claridad estructural y en cambio, los elementos individuales y contextuales tienen un mayor peso. 
+A pesar de que ambas dimensiones no son excluyentes, sino que más bien son complementarias, la investigación sociológica se ha centrado en el estudio de la dimensión objetiva, dejando en segundo plano la dimensión subjetiva, especialmente en contextos latinoamericanos (Iturra & Mellado, 2018). Sin embargo, en la década de 1960, Germani (2010) aborda esta relación entre lo objetivo y lo subjetivo en un estudio sobre estratificación y movilidad social en Buenos Aires. Donde se destaca que las personas tienden a ubicarse subjetivamente en una posición más coherente con su estatus objetivo cuando pertenecen a los extremos del sistema de estratificación, es decir, los sectores más acomodados o los más desfavorecidos. En cambio, entre los sectores medios, la identificación subjetiva se vuelve más compleja, pues entran en juego con mayor intensidad factores personales y situaciones particulares del entorno inmediato, o en otras palabras, existe una menor claridad estructural y en cambio, los elementos individuales y contextuales tienen un mayor peso.
 
 Siguiendo por esta línea, el estudio de Penfold y Guzmán (2014) subraya que en América Latina existe una desconexión significativa entre la posición objetiva y la percepción subjetiva de clase, observándose un fenómeno de sobreposicionamiento de individuos de clases bajas dentro de la categoría de clase media. Por otra parte, Iturra y Mellado (2018), en un estudio comparativo de Chile, Argentina y Venezuela, concluyeron que, aunque los ingresos y el nivel educativo son predictores importantes del estatus social subjetivo, el factor individual que más incide en la autopercepción de la posición social es el estatus social subjetivo de la familia de origen.
 
 No obstante, comprender el estatus subjetivo requiere también considerar los factores contextuales, especialmente en entornos urbanos profundamente desiguales como Santiago. Esta ciudad presenta altos niveles de segregación socioespacial, que no solo se expresa en desigualdades estructurales, sino que también las reproduce activamente (Rodríguez y Arriagada, 2004; Matto et al., 2014; Kaztman y Retamoso, 2005). Esta no sólo afecta el acceso a oportunidades educativas, laborales y de servicio (Sabatini y Wormald, 2013), sino que también moldea experiencias de estigmatización, inseguridad y desarticulación social (Otero et al., 2016).
 
-En este sentido, resulta pertinente examinar las condiciones estructurales a nivel comunal que configuran las oportunidades de vida. El estudio de Mac-Clure et al. (2024), señala la importancia que le otorgan las personas a su lugar de residencia al momento de posicionarse en clases sociales bajas o autodenominarse como “pobres”. Debido a esto, resulta pertinente profundizar en el concepto de pobreza. 
+En este sentido, resulta pertinente examinar las condiciones estructurales a nivel comunal que configuran las oportunidades de vida. El estudio de Mac-Clure et al. (2024), señala la importancia que le otorgan las personas a su lugar de residencia al momento de posicionarse en clases sociales bajas o autodenominarse como “pobres”. Debido a esto, resulta pertinente profundizar en el concepto de pobreza.
 
 La pobreza por ingreso ha disminuido considerablemente en los últimos años en Chile. En 2006 la cifra alcanzaba el 28,7%, pasando a 13,9% en el 2013, y reduciendo a 6,5% para 2022 (Casen, 2023b). A pesar de esto, el concepto de pobreza se ha ampliado más allá de la dimensión económica. Desde inicios del siglo XXI se ha llegado a conceptualizar la pobreza tanto en aspectos económicos, sociales y culturales, enfatizando en diferencias por género, etnia y ubicación geográfica. Así, surge el Índice de Pobreza Multidimensional que se aplicó por primera vez en Chile en 2014, donde se mide Educación, Salud, Trabajo y Seguridad Social, y Vivienda; y a partir del año 2016, se incluye la dimensión de Redes y Cohesión social (PNUD, 2024).
 
@@ -98,11 +97,11 @@ El estudio del bienestar no se agota en tan solo en las dimensiones mencionadas.
 
 Santiago, al ser caracterizada por una ciudad altamente segregada, implica que las diferencias de ingresos, etarias o étnicas inciden sobre las desigualdad de las conductas delictivas. De esta manera, la concentración de delitos es desigual debido a los bienes, servicios urbanos y habitantes en cada territorio (Dammert y Oviedo, 2004). En este sentido, el delito opera como un símbolo cultural que expresa segregación espacial, condiciones de precariedad tanto físicas, como en el sistema de relaciones sociales, y el propio posicionamiento del estatus social (Saraví, 2004; Lupton, 1999 citado en Lunecke, 2016).
 
-Por otro lado, Kelley y Evans (2004) en su teoría de “R & R-blend”, señalan que la percepción que tienen los sujetos sobre la estructura social es una combinación entre la realidad material y las generalizaciones, a partir de sus grupos de referencia–amigos, compañeros, familia—. A partir de esto,  es posible estipular que el estatus social subjetivo de las personas, se verá afectado por la visión que tienen respecto a la posición de su familia (Iturra y Mellado 2018); lo cual, podrá verse modificado a partir de las condiciones materiales de sus entornos.
+Por otro lado, Kelley y Evans (2004) en su teoría de “R & R-blend”, señalan que la percepción que tienen los sujetos sobre la estructura social es una combinación entre la realidad material y las generalizaciones, a partir de sus grupos de referencia–amigos, compañeros, familia—. A partir de esto, es posible estipular que el estatus social subjetivo de las personas, se verá afectado por la visión que tienen respecto a la posición de su familia (Iturra y Mellado 2018); lo cual, podrá verse modificado a partir de las condiciones materiales de sus entornos.
 
 Así, se plantea que los barrios, como lugar de desarrollo de tejidos sociales y creación de experiencias de estigmatización e inseguridad, son condicionantes a la hora de posicionarse en la escala social (Saraví 2004, Otero et al., 2016). Por esta razón, es que el presente estudio utiliza a las comunas, entendidas como unidades administrativas intermedias, como una escala clave en el análisis de las condiciones del entorno que inciden en el fenómeno a explicar. Esta perspectiva permite examinar tanto los efectos directos del contexto como sus posibles interacciones con factores individuales, avanzando hacia una comprensión más integral del fenómeno.
 
-Por ello, la presente investigación busca contribuir a la comprensión del estatus social subjetivo en la Región Metropolitana, mediante un modelo de análisis multinivel que permita identificar los factores individuales y contextuales asociados a esta autopercepción. A partir de los antecedentes y el problema planteado, surge la pregunta: ¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana? 
+Por ello, la presente investigación busca contribuir a la comprensión del estatus social subjetivo en la Región Metropolitana, mediante un modelo de análisis multinivel que permita identificar los factores individuales y contextuales asociados a esta autopercepción. A partir de los antecedentes y el problema planteado, surge la pregunta: ¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana?
 
 # Objetivos
 
@@ -138,14 +137,13 @@ knitr::include_graphics(here::here("input", "img", "hipotesis_fig.png"))
 
 ```
 
-
 # Datos
 
 El presente estudio utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) desarrollada por el Centro de Estudios de Cohesión y Conflicto Social (COES), que tiene como principal objetivo constituirse como un “insumo empírico la comprensión de las creencias, actitudes y percepciones de los chilenos hacia las distintas dimensiones de la convivencia y el conflicto, y cómo éstas cambian a lo largo del tiempo” (COES, s.f., p. 3).
 
 La encuesta es aplicada con una periodicidad anual, de la cual, se analizan los datos correspondientes a la sexta ola, realizada entre julio y octubre de 2022. La población está compuesta por hombres y mujeres entre 18 y 75 años de edad. El diseño muestral es probabilístico, estratificado, por conglomerados y multietápico (COES, s.f.).
 
-Además, se integraron dos fuentes de datos adicionales para las variables de nivel 2, la primera proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional (SAE, 2022). Mientras que la segunda fuente corresponde a dos dimensiones de la Matriz de Bienestar Humano Territorial cuyo objetivo es caracterizar los territorios (manzanas, barrios, comunas o regiones) a partir de cinco dimensiones: accesibilidad, ambiental, socioeconómico, seguridad y desarrollo local. Esta matriz se construye con datos provenientes de diversas instituciones, como el Instituto Nacional de Estadísticas, Censo de Población y Vivienda 2017, Ministerio de Educación, Subsecretaría de Prevención del Delito, entre otros. Para este informe, se considerarán únicamente las dimensiones ambiental y de seguridad, ya que las otras dimensiones son consideradas dentro del  índice de pobreza multidimensional (Matriz BHT, s.f).
+Además, se integraron dos fuentes de datos adicionales para las variables de nivel 2, la primera proveniente del Observatorio Social del Ministerio de Desarrollo Social y Familia y brinda información comunal sobre el índice de pobreza multidimensional (SAE, 2022). Mientras que la segunda fuente corresponde a dos dimensiones de la Matriz de Bienestar Humano Territorial cuyo objetivo es caracterizar los territorios (manzanas, barrios, comunas o regiones) a partir de cinco dimensiones: accesibilidad, ambiental, socioeconómico, seguridad y desarrollo local. Esta matriz se construye con datos provenientes de diversas instituciones, como el Instituto Nacional de Estadísticas, Censo de Población y Vivienda 2017, Ministerio de Educación, Subsecretaría de Prevención del Delito, entre otros. Para este informe, se considerarán únicamente las dimensiones ambiental y de seguridad, ya que las otras dimensiones son consideradas dentro del índice de pobreza multidimensional (Matriz BHT, s.f).
 
 En cuanto al número de casos, se trabajará con una muestra de 767 individuos, mientras que a nivel contextual, se consideran 42 comunas de la Región Metropolitana. Se excluyeron las comunas de Alhué, Buin, Calera de Tango, María Pinto, Melipilla, Pirque, San José de Maipo, San Pedro, Talagante y Tiltil, debido a la ausencia de datos en la encuesta ELSOC.
 
@@ -208,11 +206,11 @@ tabla %>%
 
 ```
 
-El estatus social subjetivo, que corresponde a la variable dependiente del estudio, presenta un promedio de 4,69, lo que indica una concentración de los datos hacia el centro de la escala en una posición intermedia. en una posicion media. Según la Tabla 2, el estatus social subjetivo familiar presenta un promedio ligeramente inferior, aunque igual se concentra en los valores medios de la escala. No obstante, esta variable presenta una mayor dispersión en comparación con el estatus individual, lo que sugiere una variabilidad más alta entre los casos. En cuanto al ingreso total del hogar es de $955.749 con una alta desviación estándar, por lo tanto, la distribución es bastante dispersa y desigual.
+El estatus social subjetivo, que corresponde a la variable dependiente del estudio, presenta un promedio de 4,69, lo que indica una concentración de los datos hacia el centro de la escala en una posición intermedia. en una posicion media. Según la Tabla 2, el estatus social subjetivo familiar presenta un promedio ligeramente inferior, aunque igual se concentra en los valores medios de la escala. No obstante, esta variable presenta una mayor dispersión en comparación con el estatus individual, lo que sugiere una variabilidad más alta entre los casos. En cuanto al ingreso total del hogar es de \$955.749 con una alta desviación estándar, por lo tanto, la distribución es bastante dispersa y desigual.
 
-En cuanto al ingreso total del hogar, el promedio es de $955.749, acompañado de una alta desviación estándar, lo que refleja una distribución dispersa y desigual.
+En cuanto al ingreso total del hogar, el promedio es de \$955.749, acompañado de una alta desviación estándar, lo que refleja una distribución dispersa y desigual.
 
-```{r tbl-dscr n1, echo=FALSE, warning=FALSE, message=FALSE}
+```{r dscr n1, echo=FALSE, warning=FALSE, message=FALSE}
 data$edu_univ <- set_label(data$edu_univ, label = "Educación universitaria")  
 data %>%  select (ess_f, edu_univ,inghogar_i) %>% 
   sjmisc::descr(.,
@@ -221,14 +219,13 @@ data %>%  select (ess_f, edu_univ,inghogar_i) %>%
 
 ```
 
-En la Tabla 3, se observa que el 18% de la población de las comunas analizadas se encuentra en situación de pobreza multidimensional, cifra superior al promedio nacional que es de un 16,9% (Casen, 2023a). Esto da cuenta que la situación en la Región Metropolitana está caracterizada por mayores niveles de vulnerabilidad en comparación con la situación país. 
+En la Tabla 3, se observa que el 18% de la población de las comunas analizadas se encuentra en situación de pobreza multidimensional, cifra superior al promedio nacional que es de un 16,9% (Casen, 2023a). Esto da cuenta que la situación en la Región Metropolitana está caracterizada por mayores niveles de vulnerabilidad en comparación con la situación país.
 
 En cuanto a la dimensión ambiental, el promedio es de 0,32, lo que indica que las comunas presentan niveles relativamente bajos en los aspectos ambientales evaluados. Esto sugiere una calidad ambiental deficiente o limitada, considerando que la escala se sitúa entre 0 y 1.
 
 Por otro lado, la dimensión de seguridad presenta un promedio bastante alto, de 0,81, con una desviación estándar de 0,10. Esto indica que, en general, las comunas presentan bajos niveles de delincuencia. Sin embargo, el rango de valores va desde 0,53 hasta 0,98, lo que indica una mayor amplitud en la distribución y, por tanto, desigualdad entre comunas respecto a este aspecto.
 
-
-```{r tbl-dscr n2, echo=FALSE, warning=FALSE, message=FALSE}
+```{r dscr n2, echo=FALSE, warning=FALSE, message=FALSE}
 
 data %>%
   select(comuna, pob_multi, dim_amb, dim_seg) %>%
@@ -239,17 +236,15 @@ data %>%
 
 En este informe se estimaron cinco modelos multinivel con el objetivo de analizar la variación en la variable dependiente considerando tanto factores individuales como contextuales:
 
-Modelo nulo
+-   Modelo nulo
 
 Modelo sin predictores, con el fin de identificar la proporción de varianza atribuible al nivel comunal, mediante el cálculo de la correlación intraclase.
 
 $$
-
-ess_{ij} = gamma*{00} + u*{0j} + r_{ij}
-
+ess_{ij} = gamma*{00} + u*{0j} + r\_{ij}
 $$
 
-Modelo 1 - Nivel individual
+-   Modelo 1 - Nivel individual
 
 En este modelo se incluyen los predictores de nivel individual, los cuales corresponden a: estatus social subjetivo familiar, educación universitaria o superior, e ingreso total del hogar (en centenas de mil CLP).
 
@@ -260,17 +255,18 @@ ess_{ij} = \gamma_{00} +
 \gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
 $$
 
-Modelo 2 - Nivel contextual
+-   Modelo 2 - Nivel contextual
 
 En este modelo se incorporan solo los predictores de nivel contextual, correspondientes al índice de pobreza multidimensional, la dimensión ambiental y la dimensión de seguridad.
 
 $$
-ess_{ij} = \gamma_{00} + 
-\gamma_{01} \text{pobreza mutidimensional} + 
-\gamma_{01} \text{dimension ambiental} + 
-\gamma_{01} \text{dimension seguridad} + u_{0j} + r_{ij}
+    ess_{ij} = \gamma_{00} + 
+    \gamma_{01} \text{pobreza mutidimensional} + 
+    \gamma_{01} \text{dimension ambiental} + 
+    \gamma_{01} \text{dimension seguridad} + u_{0j} + r_{ij}
 $$
-Modelo 3 - Individual y grupal
+
+-   Modelo 3 - Individual y grupal
 
 Este modelo incorpora todos los predictores de nivel individual y contextual con efecto fijo
 
@@ -287,7 +283,7 @@ ess_{ij} &= \gamma_{00}
 \end{align*}
 $$
 
-Modelo 4 - Pendiente aleatoria
+-   Modelo 4 - Pendiente aleatoria
 
 Al modelo anterior se le incorpora un efecto aleatorio para la variable estatus social subjetivo familiar por comunas.
 
@@ -301,7 +297,7 @@ ess_{ij} &= \gamma_{00} \\
 \end{align*}
 $$
 
-Modelo 5 -  Interacción entre niveles
+-   Modelo 5 - Interacción entre niveles
 
 Este modelo incorpora un efecto aleatorio de pendiente para la variable estatus social subjetivo familiar por comuna y su interacción con el índice de pobreza multidimensional
 
@@ -337,10 +333,6 @@ tab_model(
 )
 
 ```
-
-En la siguiente tabla, tenemos la comparación del nivel individual, agrupado y multinivel. En el modelo 1 (individual), las variables nivel educacional y estatus social familiar están estimadas correctamente, mientras que en las variables de pobreza multidimensional y percepción de seguridad, se encuentran subestimadas debido a que estas variables están operacionalizadas a nivel contextual. Lo anterior, se verifica por la diferencia en los errores estándar, en comparación al modelo 2, ya que, este se encuentra estimado por la variable cluster. De igual manera, se puede observar que las variables de nivel 1 se encuentran sobreestimadas, tomando como ejemplo la variable estatus social subjetivo, en la que el error estándar aumenta de forma errada de un 0.02 a un 0.13. Por último, en el modelo 3 correspondiente al análisis multinivel, cada variable está medida en su respectivo nivel.
-
-Las variables más importantes del análisis son la variable de estatus social familiar (p \< 0.001), que indica que por cada punto que aumente la variable estatus social familiar, aumenta en 0.42 el estatus social subjetivo. Junto con la pobreza multidimensional (p \< 0.01), que señala que por cada punto porcentual que aumente, el estatus social subjetivo disminuirá en 3.77.
 
 # Conclusiones
 
