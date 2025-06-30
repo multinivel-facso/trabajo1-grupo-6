@@ -30,6 +30,10 @@ pacman::p_load(tidyverse,
                tibble,
                sjlabelled, 
                here)            
+pacman::p_load(tidyverse,sjPlot,confintr,gginference,rempsyc,broom,sjmisc,lme4,
+               reghelper,haven,stargazer,ggplot2,texreg,dplyr,knitr,summarytools,Publish,
+               corrplot,readxl,ggfortify,sjlabelled,lmtest,sandwich,
+               foreign, lattice, ggeffects, car, lme4, lmerTest, influence.ME, tidyr )  
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls()) # para limpiar el entorno de trabajo
@@ -351,7 +355,7 @@ En el modelo 4, donde la variable de estatus social subjetivo familiar tiene pen
 
 A partir del modelo con pendiente fija (modelo 3) y el modelo con pendiente aleatoria (modelo 4), se realizó un test de devianza, donde la diferencia entre ambos es estadísticamente significativa, por ende, se comprueba que el modelo 4 tiene un mejor ajuste. A partir de esto, es posible proceder con el modelo 5 donde se prueba la hipótesis de interacción entre variables.
 
-```{r}
+```{r anova}
 anova(model3,model4)
 ```
 
@@ -365,8 +369,9 @@ Finalmente, el modelo 5 presenta la interacción entre Estatus social subjetivo 
 
 En esta investigación se mantuvo el total de las comunas, ya que al calcular la Distancia de cook se determinó que no existen casos influyentes, que podrian haber alterado significativamente los resultados de los modelos.
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE}
+```{r dcook, echo=TRUE, warning=FALSE, message=FALSE}
 estex.m5 <- influence(model5, "cod_com") 
+cooks.distance(estex.m5, sort = TRUE)
 4/42 # cut point: 4/ 42 comunas
 sigtest(estex.m5, test=-1.96)$ess_f_cmc[1:10,]
 ```
