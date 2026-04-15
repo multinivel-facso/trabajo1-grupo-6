@@ -1,14 +1,442 @@
 ---
-title: "Entrepreneurship & Market Justice"
-subtitle: "Seminario de grado 2025"
-author: "Cristóbal Mejías G."
-institute: "Departamento de Sociología, Universidad de Chile"
 format:
   revealjs:
-    theme: simple
-    background-color: "#003366" # azul oscuro
-    slide-number: true
+    title-slide: false
+    theme: multinivel.scss
+    incremental: true 
+    slideNumber: true
+    auto-stretch: false
     transition: fade
     transition-speed: slow
-css: styles.css
+editor: source
 ---
+
+# 
+
+```{r datos, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+pacman::p_load(lme4,
+               kableExtra,
+               haven,
+               car,
+               sjmisc,
+               sjPlot,
+               gt,
+               stargazer,,
+               webshot2,
+               ggplot2, # gráficos
+               dplyr, # manipulacion de datos
+               equatiomatic) # paquetes a cargar
+
+options(scipen = 999)
+
+data <- readRDS("output/data_proc.Rdata")
+
+# Modelo multinivel: Modelo nulo -------------------------------------------------------
+
+agg_data=data %>% group_by(cod_com) %>% summarise_all(funs(mean)) %>% as.data.frame()
+
+model0 = lmer(ess ~ 1 + (1 | cod_com), data = data)
+
+ICC<-reghelper::ICC(model0)
+ICC*100
+
+#Modelo 1: Predictores de nivel individual -------------------------------
+
+model1 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + (1 | cod_com), data = data)
+
+# Modelo 2: Predictores nivel 2 -------------------------------------------
+
+model2 = lmer(ess ~ 1 + pob_multi_gmc +  dim_seg  + dim_amb +  (1 | cod_com), data = data)
+
+# Modelo 3: Predictores individuales y grupales ---------------------------
+
+model3 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ  + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 | cod_com), data = data)
+
+#Modelo 4: Pendiente aleatoria -------------------------------------------
+
+model4= lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + pob_multi_gmc + dim_seg  + dim_amb + (1 + ess_f_cmc| cod_com), data = data)
+
+#Comparación pendiete fija y aleatoria con Anova
+anova(model3,model4)
+
+# Modelo 5: Interacción entre niveles -------------------------------------
+
+model5 = lmer(ess ~ 1 + ess_f_cmc  + edu_univ + inghogar_i_mil + ess_f_cmc*pob_multi_gmc  + dim_seg  + dim_amb + edad + sexo + (1 + ess_f_cmc| cod_com), data = data)
+
+```
+
+:::::: columns
+::: {.column width="20%"}
+:::
+
+:::: {.column .column-right width="80%"}
+# **Análisis multinivel del estatus social subjetivo: el caso de la Región Metropolitana**
+
+------------------------------------------------------------------------
+
+**Victoria Arias y Cristóbal Mejías**
+
+::: {.red2 .medium}
+**Análisis de datos multinivel - 2025**
+
+**Departamento de Sociología, Universidad de Chile**
+:::
+
+Santiago, 19 de Junio de 2025
+::::
+
+<https://github.com/multinivel-facso/trabajo1-grupo-6>
+::::::
+
+::: notes
+Aquí mis notas
+:::
+
+# Introducción
+
+-   **Problema de investigación:** La autopercepción del estatus social no se configura únicamente por características individuales, sino también por el entorno en el que se vive. Considerando que los contextos urbanos actuales están marcados por la desigualdad, la Región Metropolitana —caracterizada por su heterogeneidad comunal y altos niveles de desigualdad socioespacial— constituye un escenario pertinente para analizar cómo inciden los factores individuales y comunales en el posicionamiento social subjetivo, a partir del estudio de 42 comunas.
+
+-   **Factores asociados nivel 1:** Nivel educacional, ingresos total del hogar y estatus social subjetivo familiar
+
+-   **Factores asociados nivel 2:** Índice de pobreza multidimensional y dimensión ambiental y de seguridad (MBT) en las comunas de la Región Metropolitana
+
+##  {data-background-color="#821018"}
+
+::: {.center .middle}
+[¿Qué factores individuales y comunales inciden en la autopercepción del estatus social subjetivo en la Región Metropolitana?]{style="font-size: 250%;"}
+:::
+
+## Hipótesis {.small}
+
+**Nivel 1**
+
+$H_1$: Las personas con educación universitaria o superior tendran un mayor estatus social subjetivo, en comparación con aquellos que tienen un nivel educativo más bajo
+
+$H_2$: A mayores ingresos, mayor es el estatus social subjetivo
+
+$H_3$: Un mayor estatus social subjetivo familiar tiene un efecto positivo sobre el estatus social subjetivo
+
+**Nivel 2**
+
+$H_4$: Las comunas con un mayor índice de pobreza multidimensional tienen niveles más bajo de estatus social subjetivo
+
+$H_5$: Las comunas con una mayor tasa en la dimensión ambiental tienen niveles más elevados de estatus social subjetivo.
+
+$H_6$:Las comunas con una mayor tasa en la dimensión de seguridad tienen niveles más altos de estatus social subjetivo
+
+**Interacción**
+
+$H_7$: El efecto positivo del estatus social familiar sobre la autopercepción del estatus social subjetivo se reduce en aquellas comunas con un mayor índice de pobreza multidimensional
+
+# Metodología {data-background-color="#821018"}
+
+## Datos
+
+-   La presente investigación utiliza datos provenientes de la encuesta Estudio Longitudinal Social de Chile (ELSOC) del año 2022. Para las variables de nivel 2, se incorporaron dos fuentes adicionales: la primera entrega información comunal sobre el índice de pobreza multidimensional, y la segunda aporta datos sobre las dimensiones ambiental y de seguridad incluidas en la Matriz de Bienestar Territorial.
+
+-   Análisis mediante modelo multinivel de dos niveles:
+
+    Nivel 1: Individuos (n=767)
+
+    Nivel 2: Comunas (n=42)
+
+------------------------------------------------------------------------
+
+```{r mapa,  fig.align="center", fig.width=12, fig.height=8}
+library(dplyr)
+library(stringr)
+library(stringi)
+library(ggplot2)
+library(sf)
+
+mapa_rm <- st_read(
+  "https://raw.githubusercontent.com/caracena/chile-geojson/master/13.geojson",
+  quiet = TRUE)
+
+# Data frame de comunas faltantes
+comunas_faltantes <- data.frame(
+  comuna = c("Pirque", "San José de Maipo", "Tiltil", "Buin",
+             "Calera de Tango", "Melipilla", "Alhué", 
+             "María Pinto", "San Pedro", "Talagante")
+)
+
+# Normalizar (quitar tildes, pasar a mayúsculas)
+comunas_faltantes <- comunas_faltantes %>%
+  mutate(comuna_norm = str_to_upper(stri_trans_general(comuna, "Latin-ASCII")))
+
+mapa_rm <- mapa_rm %>%
+  mutate(Comuna_norm = str_to_upper(stri_trans_general(Comuna, "Latin-ASCII"))) %>%
+  mutate(
+    estado = if_else(Comuna_norm %in% comunas_faltantes$comuna_norm, "No incluida", "Incluida")
+  )
+
+# Mapa
+ggplot(mapa_rm) +
+  geom_sf(aes(fill = estado), color = "white") +
+  scale_fill_manual(
+    values = c("Incluida" = "#4CAF50", "No incluida" = "#FF5722"),
+    name = "Cobertura comuna"
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Mapa de las comunas de la Región Metropolitana consideradas en el analisis"
+  )
+
+```
+
+## Variables
+
+```{r tbl_var}
+
+tabla1 <- tibble::tribble(
+  ~Tipo, ~Variable, ~Operacionalización, 
+  
+  "Dependiente", 
+  "Estatus social subjetivo", 
+  "¿Dónde se ubicaría usted en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
+  
+  "Nivel 1", 
+  "Educación universitaria", 
+  "Variable categórica que identifica si una persona ha alcanzado educación universitaria o superior",
+  
+  "",
+  "Ingreso total por hogar", "Ingreso percibido en el hogar en decenas de mil CLP ($10.000)",
+  
+  "",
+  "Estatus social familiar", 
+  "¿Dónde ubicaría a la familia en que creció en la escala de estatus social?\n1 (Nivel más bajo) – 10 (Nivel más alto)",
+  
+  "Nivel 2", 
+  "Pobreza multidimensional", 
+  "Índice compuesto por las siguientes dimensiones: educación, salud, trabajo, vivienda y redes y cohesion social", 
+  
+  "",
+  "Ambiental",
+  "Dimensión basada en la amplitud térmica anual y la cobertura vegetal",
+  
+  "",
+  "Seguridad",
+  "Dimensión construida a partir de los indicadores de seguridad que miden la incidencia de delitos graves y leves contra personas y la propiedad",
+  
+)
+
+tabla1 %>%
+  gt() %>%
+  tab_header(
+    title = md("**Tabla 1: Variables del estudio**")
+  ) %>%
+  cols_label(
+    Tipo = "Nivel de análisis",
+    Variable = "Variable",
+    Operacionalización = "Operacionalización",
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(
+      columns = Tipo,
+      rows = Tipo != ""
+    )
+  ) %>%
+  tab_options(
+    table.font.size = px(13),
+    row.striping.include_table_body = TRUE
+  )
+
+```
+
+## Descriptivos de nivel 1 {.small}
+
+```{r descriptivos n1}
+
+data %>%  select (ess, ess_f, edu_univ,inghogar_i, inghogar_i_mil) %>% sjmisc::descr(.,
+                                                                                                     show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
+  kable(., digits =2, "markdown", caption = "Estadísticos descriptivos de las variables individuales")
+
+```
+
+## Descriptivos de nivel 2 {.small}
+
+```{r descriptivos n2}
+
+data %>%
+  select(comuna, pob_multi, dim_amb, dim_seg) %>%
+  distinct() %>%
+  sjmisc::descr(., show = c("label","range", "mean", "sd", "NA.prc", "n")) %>%
+  kable(digits = 2, format = "markdown", caption = "Estadísticos descriptivos de las variables contextuales")
+
+```
+
+## Métodos {.small}
+
+Modelo nulo: modelo sin predictores
+
+$$
+ess_{ij} = \gamma_{00} + u_{0j} + r_{ij}
+$$
+
+Modelo 1 (individual)
+
+$$
+ess_{ij} = \gamma_{00} + 
+\gamma_{10} \text{educación universitaria} + 
+\gamma_{10} \text{estatus social familiar} +  
+\gamma_{10} \text{ingresos} + u_{0j} + r_{ij}
+$$
+
+Modelo 2 (Grupal)
+
+$$
+ess_{ij} = \gamma_{00} + 
+\gamma_{01} \text{pobreza mutidimensional} + 
+\gamma_{01} \text{dimension ambiental} + 
+\gamma_{01} \text{dimension seguridad} + u_{0j} + r_{ij}
+$$
+
+Modelo 3 (Multinivel)
+
+$$
+\begin{align*}
+ess_{ij} &= \gamma_{00} 
++ \gamma_{10} \text{educación universitaria}_{ij} 
++ \gamma_{10} \text{estatus social familiar}_{ij} 
++ \gamma_{10} \text{ingresos}_{ij} \\
+&+ \gamma_{01} \text{pobreza multidimensional}_{j} 
++ \gamma_{01} \text{dimensión ambiental}_{j} 
++ \gamma_{01} \text{dimensión seguridad}_{j} 
++ u_{0j} + r_{ij}
+\end{align*}
+$$
+
+------------------------------------------------------------------------
+
+Modelo con pendiente aleatoria
+
+$$
+\begin{align*}
+ess_{ij} &= \gamma_{00} \\
+&+ \gamma_{10} \text{estatus social familiar}_{ij} + \gamma_{10} \text{educación universitaria}_{ij} \\
+&+ \gamma_{10} \text{ingreso}_{ij} + \gamma_{01} \text{pobreza multidimensional}_{j} \\
+&+ \gamma_{01} \text{dimensión seguridad}_{j} + \gamma_{01} \text{dimensión ambiental}_{j} \\
+&+ u_{0j} + u_{1j} \text{estatus social familiar}_{ij} + r_{ij}
+\end{align*}
+$$
+
+Modelo de interacción entre niveles
+
+$$
+\begin{align*}
+ess_{ij} &= \gamma_{00} \\
+&+ \gamma_{10} \, \text{estatus social familiar}_{ij} + \gamma_{10} \, \text{educación universitaria}_{ij} \\
+&+ \gamma_{10} \, \text{ingreso}_{ij} + \gamma_{01} \, \text{pobreza multidimensional}_{j} \\
+&+ \gamma_{01} \, \text{dimensión seguridad}_{j} + \gamma_{01} \, \text{dimensión ambiental}_{j} \\
+&+ \gamma_{11} \, \text{estatus social familiar}_{ij} \, \text{pobreza multidimensional}_{j} + u_{0j} \\
+&+ u_{1j} \, \text{estatus social familiar}_{ij} + r_{ij}
+\end{align*}
+$$
+
+# Resultados {data-background-color="#821018"}
+
+## Modelos {.small}
+
+```{r}
+html_tab <- tab_model(
+  model0, model1, model2, model3, model4, model5,
+  show.ci  = FALSE,
+  show.se  = TRUE,
+  p.style  = "stars",
+  digits   = 3,
+  dv.labels = c(
+    "Nulo", "Individual", "Grupal", "Individual y Grupal", "Pendiente Aleatoria", "Interacción"
+  ),
+  file = NA          # ← devuelve la lista, no la imprime
+)
+
+# 2. Compone la salida (solo UNA vez)
+salida <- paste0(
+  "<style>", html_tab$page.style, "</style>",
+'<div style="overflow-x: auto; overflow-y: auto; max-height: 500px;">',
+  html_tab$page.content,
+  "</div>")
+
+knitr::asis_output(salida)
+invisible(NULL)      # evita ecos adicionales
+```
+
+## Test de devianza {.big}
+
+```{r}
+anova(model3, model4) |> 
+  as.data.frame() |> 
+  gt() |> 
+  tab_header(title = "Comparación de modelos con pendiente fija y aleatoria")
+```
+
+## Resultados {.scrollable-x}
+
+::::: columns
+::: {.column width="70%"}
+![](output/grafico_efecto_aleatorio.png)
+:::
+
+::: {.column width="30%"}
+
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Interacción
+
+::::: columns
+::: {.column width="70%"}
+![](output/grafico_interacción.png)
+:::
+
+::: {.column width="30%"}
+
+:::
+:::::
+
+# Conclusiones {data-background-color="black"}
+
+::: incremental
+-   Las variables que logran predecir de forma efectiva el estatus social subjetivo son: estatus social subjetivo familiar (h2), ingresos por hogar (h3) y el índice de pobreza multidimensional (h4). 
+:::
+
+## Referencias {.scrollable}
+
+Benavides, A. R. (2011). Calidad de vida, calidad ambiental y sustentabilidad como conceptos urbanos complemetarios. Fermentum. Revista Venezolana de Sociología y Antropología, 21(61), 176-207.
+
+Bukodi, E., & Goldthorpe, J. H. (2013). Decomposing ‘social origins’: The effects of parents’ class, status, and education on the educational attainment of their children. European sociological review, 29(5), 1024-1039.c
+
+Castillo, J. C., Miranda, D., & Madero-Cabib, I. (2013). Todos somos de clase media: Sobre el estatus social subjetivo en Chile. Latin American Research Review, 48(1). <https://jc-castillo.com/documents/magister-facso-2020/castillo%20et%20al%202013%20todos%20somos%20de%20clase%20media.pdf>
+
+Centro de Estudios de Conflicto y Cohesión Social (COES). (s.f.). Manual metodológico ELSOC 2016–2022. <https://manual-metodologico-elsoc.netlify.app/>
+
+Germani, G. (2010), “Clase social subjetiva e indicadores objetivos de estratificación” en Mera, Carolina y Rebón, Julián (Eds.), Gino Germani. La sociedad en cuestión. Antología comentada. Buenos Aires, CLACSO. Iturra, J. C., & Mellado, D. (2018). Estatus social subjetivo en tres países de América Latina: El caso de Argentina, Chile y Venezuela. Contenido, Cultura y Ciencias Sociales. <https://doi.org/10.31235/osf.io/yp3wm>
+
+Kaztman, F., & Retamoso, A. (2005). Segregación espacial, empleo y pobreza en Montevideo. Revista de la CEPAL, 2005(85), 131-148. <https://doi.org/10.18356/93a498f9-es>
+
+Layera, M. L. M., Otero, G., & Perret, V. (2020). Inseguridad percibida en los barrios de Santiago de Chile: la importancia del bienestar subjetivo. Dados, 63 (1). https://www.scielo.br/j/dados/a/Vdkqpn9BCxHSYNXCZFz5LkB/?format=html&lang=es Lunecke, A. (2016). Inseguridad ciudadana y diferenciación social en el nivel microbarrial: El caso del sector Santo Tomás, Santiago de Chile. EURE (Santiago), 42(125), 109-129. <https://doi.org/10.4067/S0250-71612016000100005>
+
+Mac-Clure, O., Barozet, E., & Aguilera, C. (2024). Definiendo su posición en tiempos de crisis: ¿clase social u otros atributos?. Estudios sociológicos, 42, e2401. Epub 24 de mayo de 2024.<https://doi.org/10.24201/es.2024v42.e2401>
+
+Mattos, C., Fuentes, L., & Link, F. (2014). Tendencias recientes del crecimiento metropolitano en Santiago de Chile: ¿Hacia una nueva geografía urbana? Revista INVI, 29(81), 193-219. <https://doi.org/10.4067/S0718-83582014000200006>
+
+Marqués Perales, I., & Rodríguez de la Fuente, J. (2023). Posicionamiento subjetivo y condición socioeconómica en América Latina (2006-2020): Una aproximación desde el análisis multinivel. Dados, 67(3), e20220070.
+
+Otero, G., Carranza, R., Contreras, D. (2016). Los ‘efectos del barrio’ en el rendimiento educacional de los niños en Chile: los efectos de la organización local, polarización y desigualdad. Serie Documentos de Trabajo COES, Documento de trabajo N° 14, pp. 1 – 28. https://www.researchgate.net/publication/305281825_Los\_'efectos_del_barrio'\_en_el_rendimiento_educacional_de_los_ninos_en_Chile_Los_efectos_de_la_organizacion_local_polarizacion_y_desigualdad
+
+Penfold, M., & Rodríguez Guzmán, G. (2014). N° 17 (English): The Growing but Vulnerable Middle Class in Latin America. Growth Patterns, Values and Preferences. Public Policy and Productive Transformation Series;N° 17/2014, Caracas: CAF. Retrieved from <https://scioteca.caf.com/handle/123456789/909>
+
+Programa de las Naciones Unidas para el Desarrollo (2023). Medición de la Pobreza Multidimensional en Chile, Encuesta Casen 2022. <https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Informe%20IPM%20-%20PNUD%20-%20CASEN%202022.pdf>
+
+Rodríguez, J., & Arriagada, C. (2004). Segregación Residencial en la Ciudad Latinoamericana. EURE (Santiago), 30(89), 05-24. <https://doi.org/10.4067/S0250-71612004008900001>
+
+Sabatini, F. & Wormald, G. (2013). Segregación de la vivienda social: reducción de oportunidades, pérdida de cohesión. En F. Sabatini, G. Wormald & A. Rasse (Eds.), Segregación de la vivienda social: ocho conjuntos en Santiago, Concepción y Talca (págs. 12-31). Santiago, Chile: Colección Estudios Urbanos UC. <https://www.researchgate.net/publication/301485647_Segregacion_de_la_vivienda_social_reduccion_de_oportunidades_perdida_de_cohesion>
+
+Sémbler, C. (2006). Estratificación social y clases sociales. Una revisión analítica de los sectores medios. CEPAL.
+
+Treiman, D. J. (1977). Occupational prestige in comparative perspective. New York: Academic Press. ::::::::
+
+::::::::
